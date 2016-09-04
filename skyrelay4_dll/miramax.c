@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "crypto/md5.h"
+#include <crypto/md5.h>
 
 #include "skype/skype_basics.h"
 

@@ -14,7 +14,7 @@
 #include "skype/skype_basics.h"
 
 // for aes
-#include "crypto/rijndael.h"
+#include <crypto/rijndael.h>
 
 // for uint
 #include "short_types.h"

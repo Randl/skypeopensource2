@@ -17,7 +17,7 @@
 #include "skype/skype_rc4.h"
 
 // for aes
-#include "crypto/rijndael.h"
+#include <crypto/rijndael.h>
 
 // for 41 
 #include "decode41.h"

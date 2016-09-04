@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 
-#include "crypto/sha1.h"
+#include <crypto/sha1.h>
 
 //extern void __fastcall SHA_hash (const void *data, unsigned long bytes, void *hash);
 
