@@ -148,6 +148,48 @@ unsigned int check_commands_array(unsigned int cmd){
 };
 
 
+//
+// session get chatinit string
+//
+unsigned int do_get_chatinit() {
+	int tmplen;
+	unsigned int chatrnd;
+	char tmpbuf[4096];
+	int cnt;
+	int ret;
+
+	//u8 CHAR_RND_ID[0x100]="bc5ffd9299000000";
+	//CHAR_RND_ID = "bc5ffd9299003276";
+	//tmplen=strlen(CHAT_STRING)-16;
+	//memcpy(CHAT_STRING+tmplen,"bc5ffd9299003276",16);
+
+	/*
+    tmplen=strlen(CHAT_STRING)-16;
+    memcpy(CHAT_STRING+tmplen,"bc5ffd9299007786",16);
+    debuglog("CHAT ID:%s\n",CHAT_STRING);
+    */
+
+	// load chatstring from a file
+
+	memset(tmpbuf,0,sizeof(tmpbuf));
+	//cnt = load_chatstring_from_file(tmpbuf);
+	ret = load_chatstring_from_db(tmpbuf);
+	// some error
+	if (ret < 0) { return ret; };
+	if (ret > 0) {
+		// prev session found
+		cnt = strlen(CHAT_STRING);
+		memcpy(CHAT_STRING,tmpbuf,cnt);
+	} else {
+		// needed init new chat session
+		return 0;
+	};
+
+	return 1;
+};
+
+
+
 unsigned int make_tcp_client_sess1_pkt4(){
 	int ret;
     int chatinit;
@@ -271,47 +313,6 @@ unsigned int make_tcp_client_prepare_chatinit(){
 	debuglog("CHAT ID:%s\n",CHAT_STRING);
 
 	return 0;
-};
-
-
-//
-// session get chatinit string
-//
-unsigned int do_get_chatinit() {
-	int tmplen;
-	unsigned int chatrnd;
-	char tmpbuf[4096];
-    int cnt;
-    int ret;
-
-	//u8 CHAR_RND_ID[0x100]="bc5ffd9299000000";
-    //CHAR_RND_ID = "bc5ffd9299003276";
-	//tmplen=strlen(CHAT_STRING)-16;
-	//memcpy(CHAT_STRING+tmplen,"bc5ffd9299003276",16);
-
-    /*
-	tmplen=strlen(CHAT_STRING)-16;
-	memcpy(CHAT_STRING+tmplen,"bc5ffd9299007786",16);
-	debuglog("CHAT ID:%s\n",CHAT_STRING);
-    */
-
-    // load chatstring from a file
-
-    memset(tmpbuf,0,sizeof(tmpbuf));
-    //cnt = load_chatstring_from_file(tmpbuf);
-    ret = load_chatstring_from_db(tmpbuf);
-    // some error
-    if (ret < 0) { return ret; };
-    if (ret > 0) {
-        // prev session found
-        cnt = strlen(CHAT_STRING);
-    	memcpy(CHAT_STRING,tmpbuf,cnt);
-    } else {
-        // needed init new chat session
-    	return 0;
-    };
-
-	return 1;
 };
 
 

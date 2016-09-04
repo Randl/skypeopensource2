@@ -124,6 +124,37 @@ extern int blkseq;
 extern u8 CHAT_PEERS_REVERSED[0x100];
 
 
+//
+// session get chatinit string
+//
+unsigned int make_tcp_client_get_chatinit() {
+	int tmplen;
+	unsigned int chatrnd;
+	char tmpbuf[4096];
+	int cnt;
+	int ret;
+
+	// load chatstring from a file
+
+	memset(tmpbuf,0,sizeof(tmpbuf));
+	//ret = load_chatstring_from_file(tmpbuf);
+	ret = load_chatstring_from_db(tmpbuf);
+	// some error
+	if (ret < 0) {
+		return ret;
+	};
+	if (ret > 0) {
+		// prev session found
+		cnt = strlen(CHAT_STRING);
+		memcpy(CHAT_STRING,tmpbuf,cnt);
+	} else {
+		// needed init new chat session
+		return 0;
+	};
+
+	return 1;
+};
+
 unsigned int make_tcp_client_sess1_pkt4(char *ip,unsigned short port){
     int ret;
 
@@ -157,37 +188,6 @@ int make_tcp_client_set_chatinit(char *tmpbuf, int cnt) {
     return 0;
 };
 
-
-//
-// session get chatinit string
-//
-unsigned int make_tcp_client_get_chatinit() {
-	int tmplen;
-	unsigned int chatrnd;
-	char tmpbuf[4096];
-    int cnt;
-	int ret;
-
-    // load chatstring from a file
-
-    memset(tmpbuf,0,sizeof(tmpbuf));
-    //ret = load_chatstring_from_file(tmpbuf);
-    ret = load_chatstring_from_db(tmpbuf);
-    // some error
-    if (ret < 0) { 
-        return ret; 
-    };
-    if (ret > 0) {
-        // prev session found
-        cnt = strlen(CHAT_STRING);
-    	memcpy(CHAT_STRING,tmpbuf,cnt);
-    } else {
-        // needed init new chat session
-    	return 0;
-    };
-
-	return 1;
-};
 
 
 unsigned int make_tcp_client_sess1_send_A6_ack(int A6_sessid){

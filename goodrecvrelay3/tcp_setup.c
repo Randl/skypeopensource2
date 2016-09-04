@@ -676,6 +676,123 @@ unsigned int make_setup_global_init() {
 };
 
 
+unsigned int make_credentials188_block()
+{
+
+  memcpy(CREDENTIALS188+0x04,CREDENTIALS,CREDENTIALS_LEN);
+
+  /////////////////////
+  // SHA1 hash
+  /////////////////////
+  //make hash of CREDENTIALS 0x104 bytes.
+  //save to CREDENTIALS_HASH
+  if (1) {
+    char *buf;
+    char *outbuf;
+
+    buf=malloc(0x1000);
+    outbuf=malloc(0x1000);
+
+    memset(buf,0,0x200);
+    memset(outbuf,0,0x200);
+
+    //prepare data for hashing
+    memcpy(buf,CREDENTIALS,CREDENTIALS_LEN);
+
+    //print it
+    show_memory(buf, CREDENTIALS_LEN, "SHA1 input");
+
+    //make sha1 hash
+    _get_sha1_data(buf, CREDENTIALS_LEN, outbuf, 1);
+
+    //print it
+    show_memory(outbuf, 0x14, "SHA1 output(hash)");
+
+    //copy hash
+    memcpy(CREDENTIALS_HASH,outbuf,0x14);
+
+  };
+
+
+
+  // modify hash
+  memcpy(AFTER_CRED+0x0E,CREDENTIALS_HASH, 0x14);
+  //modify init_unk
+  memcpy(AFTER_CRED+0x60,LOCALNODE_VCARD, 0x1B);
+
+
+  /////////////////////
+  // SHA1 hash
+  /////////////////////
+  //make hash of AFTER_CRED 0x80 bytes.
+  //save to CREDENTIALS_HASH
+  if (1) {
+    char *buf;
+    char *outbuf;
+
+    buf=malloc(0x1000);
+    outbuf=malloc(0x1000);
+
+    memset(buf,0,0x200);
+    memset(outbuf,0,0x200);
+
+    //prepare data for hashing
+    memcpy(buf,AFTER_CRED+0x0E,0x80-0x14-1-0x0E);
+
+    //print it
+    show_memory(buf, 0x80-0x14-1-0x0E, "SHA1 input");
+
+    //make sha1 hash
+    _get_sha1_data(buf, 0x80-0x14-1-0x0E, outbuf, 1);
+
+    //print it
+    show_memory(outbuf, 0x14, "SHA1 output(hash)");
+
+    //copy hash
+    memcpy(AFTER_CRED+0x80-0x14-1,outbuf,0x14);
+
+  };
+
+
+
+
+  ///////////////////////
+  //RSA sign
+  ///////////////////////
+  //for sign 0x80 byte after credentials
+  if (1) {
+    char *buf;
+    char *outbuf;
+
+
+    buf=malloc(0x1000);
+    outbuf=malloc(0x1000);
+
+    memset(buf,0,0x200);
+    memset(outbuf,0,0x200);
+
+
+    //copy
+    memcpy(buf,AFTER_CRED,0x80);
+
+    //before RSA sign-ing
+    show_memory(buf, 0x80, "RSA SIGN input");
+
+    //make rsa sign
+    _get_sign_data(buf, 0x80, outbuf);
+
+    //copy rsa sign to credentials188 buffer
+    memcpy(CREDENTIALS188+0x100+0x08,outbuf,0x80);
+
+    //print credentials 0x188
+    show_memory(CREDENTIALS188, CREDENTIALS188_LEN, "RSA SIGN cred188");
+
+  };
+
+  return 0;
+};
+
+
 unsigned int make_setup_prepare() {
 
     memset(RECV_CHAT_COMMANDS, 0x00, sizeof(RECV_CHAT_COMMANDS));
@@ -712,122 +829,6 @@ unsigned int make_setup_prepare() {
     return 0;
 };
 
-
-unsigned int make_credentials188_block()
-{
-
-	memcpy(CREDENTIALS188+0x04,CREDENTIALS,CREDENTIALS_LEN);
-
-	/////////////////////
-	// SHA1 hash
-	/////////////////////
-	//make hash of CREDENTIALS 0x104 bytes.
-	//save to CREDENTIALS_HASH
-	if (1) {
-		char *buf;
-		char *outbuf;
-
-		buf=malloc(0x1000);
-		outbuf=malloc(0x1000);
-
-		memset(buf,0,0x200);
-		memset(outbuf,0,0x200);
-
-		//prepare data for hashing
-		memcpy(buf,CREDENTIALS,CREDENTIALS_LEN);
-
-		//print it
-		show_memory(buf, CREDENTIALS_LEN, "SHA1 input");
-
-		//make sha1 hash
-		_get_sha1_data(buf, CREDENTIALS_LEN, outbuf, 1);
-
-		//print it
-		show_memory(outbuf, 0x14, "SHA1 output(hash)");
-
-		//copy hash
-		memcpy(CREDENTIALS_HASH,outbuf,0x14);
-
-	};
-
-
-
-	// modify hash
-	memcpy(AFTER_CRED+0x0E,CREDENTIALS_HASH, 0x14);
-	//modify init_unk
-	memcpy(AFTER_CRED+0x60,LOCALNODE_VCARD, 0x1B);
-
-	
-	/////////////////////
-	// SHA1 hash
-	/////////////////////
-	//make hash of AFTER_CRED 0x80 bytes.
-	//save to CREDENTIALS_HASH
-	if (1) {
-		char *buf;
-		char *outbuf;
-
-		buf=malloc(0x1000);
-		outbuf=malloc(0x1000);
-
-		memset(buf,0,0x200);
-		memset(outbuf,0,0x200);
-
-		//prepare data for hashing
-		memcpy(buf,AFTER_CRED+0x0E,0x80-0x14-1-0x0E);
-
-		//print it
-		show_memory(buf, 0x80-0x14-1-0x0E, "SHA1 input");
-
-		//make sha1 hash
-		_get_sha1_data(buf, 0x80-0x14-1-0x0E, outbuf, 1);
-
-		//print it
-		show_memory(outbuf, 0x14, "SHA1 output(hash)");
-
-		//copy hash
-		memcpy(AFTER_CRED+0x80-0x14-1,outbuf,0x14);
-
-	};
-
-
-
-
-	///////////////////////
-	//RSA sign
-	///////////////////////
-	//for sign 0x80 byte after credentials
-	if (1) {
-		char *buf;
-		char *outbuf;
-
-
-		buf=malloc(0x1000);
-		outbuf=malloc(0x1000);
-
-		memset(buf,0,0x200);
-		memset(outbuf,0,0x200);
-
-
-		//copy
-		memcpy(buf,AFTER_CRED,0x80);
-		
-		//before RSA sign-ing
-		show_memory(buf, 0x80, "RSA SIGN input");
-
-		//make rsa sign
-		_get_sign_data(buf, 0x80, outbuf);
-
-		//copy rsa sign to credentials188 buffer
-		memcpy(CREDENTIALS188+0x100+0x08,outbuf,0x80);
-
-		//print credentials 0x188
-		show_memory(CREDENTIALS188, CREDENTIALS188_LEN, "RSA SIGN cred188");
-
-	};
-
-	return 0;
-};
 
 
 //////////////////////
