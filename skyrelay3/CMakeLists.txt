@@ -6,3 +6,6 @@ set(HEADER_FILES decode41.h defs.h relays_util.h short_types.h)
 
 add_executable(skyrelay3 ${SOURCE_FILES})
 target_link_libraries(skyrelay3 crypto miracl skype)
+if (WIN32)
+    target_link_libraries(skyrelay3 ws2_32)
+endif ()

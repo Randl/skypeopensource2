@@ -45,6 +45,7 @@ int show_memory(char *mem, int len, char *text){
 };
 */
 
+extern int show_memory(char *mem, int len, char *text);
 //
 // parse argv2
 //

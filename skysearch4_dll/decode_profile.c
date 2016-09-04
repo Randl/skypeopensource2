@@ -2,6 +2,7 @@
 // de-cipher signed profiles data
 //
 
+#include <stdio.h>
 #include "short_types.h"
 
 
@@ -69,10 +70,8 @@ int get_profiles(u8 *buf, u32 len) {
             i = i + 0x187;
             continue;
           };
-          main_unpack_profile(profile + p + 0x15, 0x80-p-0
-          x15);
-          main_unpack_get(profile + p + 0x15, 0x80-p-0
-          x15, ipinfo, &ipinfo_len);
+          main_unpack_profile(profile + p + 0x15, 0x80 - p - 0x15);
+          main_unpack_get(profile + p + 0x15, 0x80 - p - 0x15, ipinfo, &ipinfo_len);
         };
         if (profile[0] == 0x6A) {
           main_unpack_profile(profile + 0x15, 0x80 - 0x15);

@@ -9,6 +9,7 @@ extern RC4_context rc4_send;
 extern RC4_context rc4_recv;
 
 
+extern int show_memory(char *mem, int len, char *text);
 
 // from defs.h of hexrays
 #define _BYTE  char

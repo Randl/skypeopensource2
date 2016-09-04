@@ -6,3 +6,6 @@ set(HEADER_FILES decode41.h short_types.h skycontact4_dll.h)
 
 add_library(skycontact4 SHARED ${SOURCE_FILES})
 target_link_libraries(skycontact4 crypto miracl skype)
+if (WIN32)
+    target_link_libraries(skycontact4 ws2_32)
+endif ()

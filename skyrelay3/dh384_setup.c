@@ -19,6 +19,8 @@
 RC4_context rc4_send;
 RC4_context rc4_recv;
 
+extern int show_memory(char *mem, int len, char *text);
+
 char xoteg_pub[0x80 + 1];
 char xoteg_sec[0x80 + 1];
 char skype_pub[0x100 + 1];

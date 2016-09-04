@@ -13,6 +13,7 @@
 // for 41 
 #include "decode41.h"
 
+extern int show_memory(char *mem, int len, char *text);
 extern char REMOTE_VERSION[0x100];
 extern int REMOTE_VERSION_LEN;
 

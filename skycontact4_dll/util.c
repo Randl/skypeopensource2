@@ -23,6 +23,7 @@
 extern unsigned int Calculate_CRC32(char *crc32, int bytes);
 extern int Calculate_CRC32_For41(char *a2, int a3);
 extern int encode_to_7bit(char *buf, uint word, int limit);
+extern int show_memory(char *mem, int len, char *text);
 
 extern u8 aes_key[0x20];
 extern unsigned int blkseq;

@@ -11,6 +11,7 @@ extern int flag_commands_remain;
 extern char REMOTE_INDEXBUF[0x1000];
 extern int REMOTE_INDEXBUF_LEN;
 
+extern int show_memory(char *mem, int len, char *text);
 
 //
 // 03-34 contact entry name blob

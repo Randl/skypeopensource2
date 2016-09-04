@@ -15,7 +15,7 @@
 
 extern char REMOTE_VERSION[0x100];
 extern int REMOTE_VERSION_LEN;
-
+extern int show_memory(char *mem, int len, char *text);
 
 int process_recv_data(char *recvbuf, int recvlen) {
   int tmplen;

@@ -8,6 +8,7 @@
 extern RC4_context rc4_send;
 extern RC4_context rc4_recv;
 
+extern int show_memory(char *mem, int len, char *text);
 
 void Skypelogin_RC4_init(char *rc4_seed, RC4_context *rc4) {
   memcpy(rc4->s, rc4_seed, 0x100);

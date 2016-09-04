@@ -7,6 +7,7 @@
 #include <miracl/miracl.h>
 #include "short_types.h"
 
+extern int show_memory(char *mem, int len, char *text);
 /*
 int show_memory(char *mem, int len, char *text){
 	int zz;

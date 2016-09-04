@@ -6,3 +6,6 @@ set(HEADER_FILES dbsql.h decode41.h defs.h goodsendrelay4_dll.h headers_util.h r
 
 add_library(goodsendrelay4 SHARED ${SOURCE_FILES})
 target_link_libraries(goodsendrelay4 sqlite crypto miracl skype)
+if (WIN32)
+    target_link_libraries(goodsendrelay4 ws2_32)
+endif ()

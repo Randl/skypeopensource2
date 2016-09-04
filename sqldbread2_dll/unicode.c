@@ -10,6 +10,7 @@
 #include <windows.h>
 #include <wchar.h>
 
+extern int show_memory(char *mem, int len, char *text);
 
 // utf8 -- MultiByte
 // unicode -- WideChar

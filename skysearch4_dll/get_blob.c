@@ -22,6 +22,7 @@
 }
 */
 
+extern int show_memory(char *mem, int len, char *text);
 int get_02_03_blob(char *membuf, int membuf_len) {
   int ret;
   u32 ip;

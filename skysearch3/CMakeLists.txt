@@ -6,3 +6,6 @@ set(HEADER_FILES short_types.h slots_util.h)
 
 add_executable(skysearch3 ${SOURCE_FILES})
 target_link_libraries(skysearch3 crypto miracl skype)
+if (WIN32)
+    target_link_libraries(skysearch3 ws2_32)
+endif ()

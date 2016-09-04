@@ -103,6 +103,7 @@ static u32 decode32(u32 *const to, const u8 *const from, const u32 bytes) {
 #define qword1(x, n)         (*(u64*)(((u8*)(x))+(n)))
 
 
+extern int show_memory(char *mem, int len, char *text);
 unsigned int make_tcp_client_sess1_pkt0_handshake1(char *ip, unsigned short port) {
   u8 result[0x1000];
   u8 result2[0x1000];

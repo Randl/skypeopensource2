@@ -71,7 +71,7 @@ int muldvd(int a, int b, int c, int *rp) {
   return 0;
 }
 
-void muldvd2(int a, int b, int c, int *rp) {
+void muldvd2(int a, int b, int *c, int *rp) {
   //TODO
   return;
 }

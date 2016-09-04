@@ -28,6 +28,7 @@ extern RC4_context rc4_recv;
 
 extern int sock;
 
+extern int show_memory(char *mem, int len, char *text);
 u8 aes_key[0x20];
 
 unsigned int blkseq;

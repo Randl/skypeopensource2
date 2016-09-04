@@ -20,6 +20,7 @@ extern int udp_talk(char *remoteip, unsigned short remoteport, char *buf, int le
 extern int tcp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result, int need_close);
 extern int tcp_talk_recv(char *remoteip, unsigned short remoteport, char *result, int need_close);
 
+extern int show_memory(char *mem, int len, char *text);
 // global data
 RC4_context rc4_send;
 RC4_context rc4_recv;

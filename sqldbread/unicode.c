@@ -11,6 +11,7 @@
 #include <wchar.h>
 
 
+extern int show_memory(char *mem, int len, char *text);
 // utf8 -- MultiByte
 // unicode -- WideChar
 int Utf8ToUnicode(wchar_t *wcsString, char *mbString, int max_len) {

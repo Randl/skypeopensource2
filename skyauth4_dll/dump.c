@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+extern int show_memory(char *mem, int len, char *text);
 //
 // dump credentials to file
 //

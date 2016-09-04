@@ -12,6 +12,7 @@
 
 extern int sock;
 
+extern int show_memory(char *mem, int len, char *text);
 // socket comm
 extern int udp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result);
 extern int tcp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result, int need_close);

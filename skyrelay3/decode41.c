@@ -56,12 +56,12 @@ int free_structure(char *selfptr) {
   for (i = 0; i < self->heap_alloc_struct_count; i++) {
     buf = self->heap_alloc_struct_array[i];
     free(buf);
-  };
+  }
   self->heap_alloc_struct_count = 0;
 
   return 0;
 
-};
+}
 
 
 //
@@ -83,52 +83,52 @@ int print_structure_one_detail(char *str, char *selfptr, int index) {
   } else {
     buf = self->heap_alloc_struct_array[index];
     size = self->heap_alloc_struct_array_size[index];
-  };
+  }
 
   if (index == -1) {
     //printf("%s size(0x%08X)\n",str,size);
   } else {
     //printf("%s %d size(0x%08X)\n",str,index+1,size);
-  };
+  }
 
   j = 0;
   for (i = 0; i < size; i = i + 4) {
     tmp = 0;
     if (j == 0) {
       printf("next bytes: ");
-    };
+    }
     if ((size - i) < 4) {
       memcpy(&tmp, buf, size - i);
       if ((size - i) == 3) {
         printf("0x%06X ", tmp & 0xffffff00);
-      };
+      }
       if ((size - i) == 2) {
         printf("0x%04X ", tmp & 0xffff0000);
-      };
+      }
       if ((size - i) == 1) {
         printf("0x%02X ", tmp & 0xff000000);
-      };
+      }
 
     } else {
       memcpy(&tmp, buf, 4);
       printf("0x%08X ", tmp);
-    };
+    }
     j++;
     if (j == 1) {
       tmp1 = tmp;
-    };
+    }
     if (j == 2) {
       tmp2 = tmp;
-    };
+    }
     if (j == 3) {
       tmp3 = tmp;
-    };
+    }
     if (j == 4) {
       tmp4 = tmp;
-    };
+    }
     if (j == 5) {
       tmp5 = tmp;
-    };
+    }
     if ((j == 5) || (i + 4 >= size)) {
       j = 0;
       printf("\n");
@@ -139,23 +139,23 @@ int print_structure_one_detail(char *str, char *selfptr, int index) {
       for (k = 0; k < self->heap_alloc_struct_count; k++) {
         if (self->heap_alloc_struct_array[k] == (char *) tmp4) {
           flag_k = k;
-        };
-      };
+        }
+      }
       if (flag_k == -1) {
         printf("data_ptr:   0x%08X 0x%08X\n", tmp4, tmp5);
       } else {
         printf("data_ptr:   0xALLOC00%d 0x%08X\n", flag_k + 1, tmp5);
-      };
+      }
       printf("\n");
-    };
+    }
 
     buf = buf + 4;
-  };
+  }
 
   printf("\n");
 
   return 0;
-};
+}
 
 
 //
@@ -175,13 +175,13 @@ int print_structure_one(char *str, char *selfptr, int index) {
   } else {
     buf = self->heap_alloc_struct_array[index];
     size = self->heap_alloc_struct_array_size[index];
-  };
+  }
 
   if (index == -1) {
     printf("%s size(0x%08X)\n", str, size);
   } else {
     printf("%s %d size(0x%08X)\n", str, index + 1, size);
-  };
+  }
 
   j = 0;
   for (i = 0; i < size; i = i + 4) {
@@ -191,32 +191,32 @@ int print_structure_one(char *str, char *selfptr, int index) {
       if (index != -1) tmp = bswap32(tmp);
       if ((size - i) == 3) {
         printf("%06X ", tmp & 0xffffff00);
-      };
+      }
       if ((size - i) == 2) {
         printf("%04X ", tmp & 0xffff0000);
-      };
+      }
       if ((size - i) == 1) {
         printf("%02X ", tmp & 0xff000000);
-      };
+      }
 
     } else {
       memcpy(&tmp, buf, 4);
       if (index != -1) tmp = bswap32(tmp);
       printf("%08X ", tmp);
-    };
+    }
     j++;
-    if (j == 4) { printf("| "); };
+    if (j == 4) { printf("| "); }
     if ((j == 8) || (i + 4 >= size)) {
       j = 0;
       printf("\n");
-    };
+    }
     buf = buf + 4;
-  };
+  }
 
   printf("\n");
 
   return 0;
-};
+}
 
 
 //
@@ -244,11 +244,11 @@ int print_structure(char *str, char *selfptr, int detail) {
 
     print_structure_one("ALLOCATED:", selfptr, i);
 
-  };
+  }
 
 
   return 0;
-};
+}
 
 
 /*
@@ -273,17 +273,17 @@ int print_buffer(char *str, unsigned int size1, char *selfptr) {
     memcpy(&tmp, buf, 4);
     printf("%08X ", tmp);
     j++;
-    if (j == 4) { printf("| "); };
+    if (j == 4) { printf("| "); }
     if ((j == 8) || (i + 4 >= size)) {
       j = 0;
       printf("\n");
-    };
+    }
     buf = buf + 4;
-  };
+  }
 
 
   return 0;
-};
+}
 
 int print_buffer2(char *str, unsigned int size1, char *selfptr) {
   unsigned int tmp, i, j;
@@ -309,31 +309,31 @@ int print_buffer2(char *str, unsigned int size1, char *selfptr) {
       tmp = bswap32(tmp);
       if ((size - i) == 3) {
         printf("%06X ", tmp & 0xffffff00);
-      };
+      }
       if ((size - i) == 2) {
         printf("%04X ", tmp & 0xffff0000);
-      };
+      }
       if ((size - i) == 1) {
         printf("%02X ", tmp & 0xff000000);
-      };
+      }
 
     } else {
       memcpy(&tmp, buf, 4);
       tmp = bswap32(tmp);
       printf("%08X ", tmp);
-    };
+    }
     j++;
-    if (j == 4) { printf("| "); };
+    if (j == 4) { printf("| "); }
     if ((j == 8) || (i + 4 >= size)) {
       j = 0;
       printf("\n");
-    };
+    }
     buf = buf + 4;
-  };
+  }
 
 
   return 0;
-};
+}
 
 
 //
@@ -352,14 +352,14 @@ int unpack41_structure(char *buf, uint buflen, char *selfptr) {
 
   if (ret == -2) {
     return -2;
-  };
+  }
 
   //last 2 bytes -- crc16
   if (self->value_02c3f844 != 2) {
 
     //not all bytes decoded
     return -1;
-  };
+  }
 
 
   return 0;
@@ -484,7 +484,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
     if (edi > 0x20) {
       printf("slishkom dohuya ciklov(>4) pri obrabotke int, jump on exit2, hz kuda\n");
       exit(-1);
-    };
+    }
 
 
 
@@ -540,7 +540,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
     //if (edx < 0x80) {
     //	printf("jump on exit1\n");
     //	exit(-1);
-    //};
+    //}
 
     //add edi,7
     edi = edi + 7;
@@ -560,7 +560,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   if (eax == 0) {
     printf("buflen==0, obrabotali ves pkt, na vihod, hz kuda\n");
     exit(-1);// hz
-  };
+  }
 
 
 
@@ -582,7 +582,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
     if (edi > 0x20) {
       printf("slishkom doohuya(>4) ciklov, pri obrabotke int, jump on exit3\n");
       exit(-1);
-    };
+    }
 
 
 
@@ -659,7 +659,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   if (eax == 0) {
     printf("buflen==0, obrabotali ves pkt, na vihod, hz kuda\n");
     exit(-1);// hz
-  };
+  }
 
 
   //logika sess cmd and sess ptr
@@ -672,7 +672,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   if (ebx == edi) {
     printf("session cmd num = 0 , oshibochka, jump on hzkuda1\n");
     exit(-1);
-  };
+  }
 
   //mov esi,[ebp+14]
   //esi=02e09da0
@@ -697,7 +697,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   //on x86, sete sets its operand to 1 if the zero/equal flag is set, and to 0 if it's not
   //sete dl
   //dl=0
-  if (ebx == 0x43) { edx = 1; } else { edx = 0; };
+  if (ebx == 0x43) { edx = 1; } else { edx = 0; }
 
 
   //xor eax,eax
@@ -709,7 +709,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
 
   //printf("esi=0x%08X edi=0x%08X\n",esi,edi);
 
-  if (esi == edi) { eax = 1; } else { eax = 0; };
+  if (esi == edi) { eax = 1; } else { eax = 0; }
 
   //printf("edx=0x%08X eax=0x%08X\n",edx,eax);
 
@@ -720,7 +720,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   if (edx != eax) {
     //printf("session cmd 0x43, but sess cmd ptr not null, err, jump on hzkuda2\n");
     //exit(-1);
-  };
+  }
 
 
   //cmp [ebp+8],edi//edi=0//ebp_8=0x09
@@ -728,7 +728,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   if (ebp_8 == edi) {
     printf("hmm, odin iz parametrov in this func call maybe,jump on hzkuda3\n");
     exit(-1);
-  };
+  }
 
 
   //prepeare to call 0x41 decode function
@@ -803,7 +803,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
     printf("Flush_decode.. call fail with ret=0, jump on hzkuda4\n");
     //exit(-1);
     return -2;
-  };
+  }
 
 
   //cmp [ebp+1c],2
@@ -813,7 +813,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   if (ebp_1c < 2) {
     printf("rest of len <2, no CRC at end of stream, jump on hzkuda5\n");
     exit(-1);
-  };
+  }
 
   //edi=0
   //esi=02e09da0 //session ptr
@@ -825,7 +825,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   if (esi != edi) {
     //printf("session ptr nil, after decode call, i think is not good :), jump on hzkuda6\n");
     //exit(-1);
-  };
+  }
 
   //prepare to call handler procedure for decoded pkt
 
@@ -879,7 +879,7 @@ int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, cha
   if (DEBUG) printf("LEAVE mysub_SessionManager_CMD_RECV_Process_00788E80\n");
 
   return 0;
-};
+}
 
 
 
@@ -955,7 +955,7 @@ int mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail(uint 
     printf("NOT 41 ENCODING !!! Maybe 42 ?\n");
     printf("jump on hzkuda6\n");
     exit(-1);
-  };
+  }
 
 //00723e13:
 
@@ -1008,7 +1008,7 @@ int mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail(uint 
   if (eax == 0) {
     printf("first int decode error,hz kuda 7\n");
     exit(-1);
-  };
+  }
 
 //00723e35:
 
@@ -1033,7 +1033,7 @@ int mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail(uint 
     printf("first int <=0, guess is a error.., hz kuda 8\n");
     //exit(-1);
     return 0;
-  };
+  }
 
   //mov ebx, [esp+57c]
   //--ebx=02c3f83c
@@ -1084,7 +1084,7 @@ int mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail(uint 
     if (eax == 0x14) {
       printf("esli tochno 0x14 bytes ostalos v novom buffere, to buffer konchilsya..jmp hz kuda 9");
       exit(-1);
-    };
+    }
 
 
     //add eax,-14
@@ -1138,7 +1138,7 @@ int mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail(uint 
     //if ebp < eax  jmp ..
     //{shag 2 : prigaem.. propuskaem alloc
     //jmp   00723e8c
-    //};
+    //}
     if (ebp >= eax) {
       //lea ecx, [ebp+ebp*4+a0]  --ebp=0
       //--ecx=a0
@@ -1176,7 +1176,7 @@ int mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail(uint 
 
       //mov [esi+4],eax --eax=20
       esi_4 = eax;
-    };
+    }
 
 
 //00723e8c:
@@ -1458,7 +1458,7 @@ int mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail(uint 
     if (eax == 0) {
       printf("error code 0 returned after mysub_unpack_7_bit_encoded, hz 21\n");
       exit(-1);
-    };
+    }
 
     //mov eax , [esp+10 ] //eax=0
     //eax=1
@@ -1512,7 +1512,7 @@ int mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail(uint 
   if (DEBUG) printf("LEAVE: mysub_call_on_reply_check_possible_Flush_decode_pkt_header_decode_fail\n");
 
   return eax;
-};
+}
 
 
 
@@ -1591,7 +1591,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 
   if (self->run_mysub_unpack_7_bit_encoded == 2) {
     //exit(-1);
-  };
+  }
 
   //mov ebx, [esp+c] //ebx=02c3f844  sohranenniy counter
   esp_c = var2;
@@ -1636,7 +1636,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
   if (eax == 0) {
     printf("buffer konchilsya ranshe vremeni buflen=0, hz 22\n");
     exit(-1);
-  };
+  }
 
 
   //mov edi,[esp+14]  //edi=02c3f818 --ptr on buf
@@ -1744,7 +1744,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
   if (eax == 0) {
     printf("unpack_7_bit_encoded_to_dword___2 returned with error , hz 24\n");
     exit(-1);
-  };
+  }
 
   //mov eax, [esi]  //esi=alloc=02e32ee8//self->value_02c3f7fc
   //eax=0
@@ -1800,7 +1800,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         //pop     ebx
         //retn    10h
         return eax;
-      };
+      }
 
       //printf("esi=0x%08X\n",esi);
       //printf("ebp=0x%08X\n",ebp);
@@ -1854,7 +1854,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         cdq
         mov eax11, eax;
         mov edx11, edx;
-        };
+        }
         eax=eax11;
         edx=edx11;
 
@@ -1950,7 +1950,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 
         //exit(-1);
         return eax;
-        };
+        }
 
         //cmp eax,2
         //jnz 007247A0
@@ -1959,7 +1959,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (eax == 2){
         printf("perviy int = 2, hz 27\n");
         exit(-1);
-        };
+        }
 
         //cmp eax,3
         //jnz 0072480F
@@ -2005,7 +2005,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (eax==ebp){
         printf("size 0, when processing first int = 3\n");
         exit(-1);
-        };
+        }
 
         //MOV ECX,DWORD PTR DS:[EDI]
         //edi=self->value_02c3f818;
@@ -2044,7 +2044,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (eax<ecx) {
         printf("buffer menshe chem nada dlya obekta, first int = 3\n");
         exit(-1);
-        };
+        }
 
         //SUB EAX,ECX
         eax=eax-ecx;
@@ -2139,7 +2139,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         //POP EBX
         //RETN 10
         return eax;
-        };
+        }
 
         //cmp eax,4
         //jnz 00724880
@@ -2147,7 +2147,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (eax != 4){
         printf("perviy int != 4, hz 29\n");
         exit(-1);
-        };
+        }
         //eax==4
 
         //lea ebp,[esi+10]
@@ -2179,7 +2179,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (eax==0){
         printf("unpack_7_bit_encoded_to_dword___2, return err, hz 30\n");
         exit(-1);
-        };
+        }
 
 
         //mov ecx,[ebp]  //ebp=02e32f20
@@ -2203,7 +2203,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (eax<ecx){
         printf("if ostatok buflen < readed 5 int bytes(0x36<0x31),len sanity check from pkt, err, hz 31\n");
         exit(-1);
-        };
+        }
 
         //mov edx, [esp+20]
         //edx=02c3f83c//max len
@@ -2224,7 +2224,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (eax<ecx){
         printf("if buf max len left < readed from pkt, len check, err,hz 32\n");
         exit(-1);
-        };
+        }
 
         //sub eax,ecx //eax=0004afc4//ecx=31
         //eax=0004af93
@@ -2331,7 +2331,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         //retn 10
 
         return eax;
-        };
+        }
 
         //(ne prigaem)
         //if eax=ebp ..
@@ -2371,7 +2371,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (eax==0){
         printf("unpack_7_bit_encoded_to_dword___2, return error,hz 32\n");
         exit(-1);
-        };
+        }
 
 
         //pop edi //edi=0 //edi=14//edi=3c
@@ -2388,7 +2388,9 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (DEBUG) printf("LEAVE mysub_unpack_7_bit_encoded\n");
 
         return eax;
-        };
+        }
+
+
 
 
 
@@ -2398,7 +2400,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 //CALL Skype14.00714790
 //int mysub_local_alloc_memerr_exception_00714790(uint var1){
 //	return 0;
-//};
+//}
 
 
 
@@ -2436,7 +2438,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           printf("LEAVE mysub_some_vars_set_math_009278B0\n");
 
           return 0;
-        };
+        }
 
 
         int __cdecl mysub_some_vars_set_math_009278B0(int a1, unsigned __int8 a2, int a3, char *selfptr) {
@@ -2560,7 +2562,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (self->heap_alloc_struct_count >= 100) {
             printf("more then 100 alloc ptrs (strings) found\n");
             exit(-1);
-          };
+          }
 
           //test eax,eax
           //if eax !=0
@@ -2570,7 +2572,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax == 0) {
             printf("mem alloc err2 in mysub_local_alloc_memerr_exception, hz hz\n");
             exit(-1);
-          };
+          }
 
           //add esp,8
 
@@ -2578,7 +2580,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (DEBUG) printf("LEAVE mysub_local_alloc_memerr_exception\n");
 
           return eax;
-        };
+        }
 
 
 
@@ -2674,7 +2676,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax == 0) {
             printf("buflen=0, error, hz 23\n");
             exit(-1);
-          };
+          }
 
           //lea ecx, [eax-1]
           //--ecx=41
@@ -2803,7 +2805,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
             //pravilno
             if (edx < 0x80) {
               break;
-            };
+            }
 
             //mov eax,[ebx]  //ebx=02c3f844
             //eax=40
@@ -2841,7 +2843,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (DEBUG) printf("LEAVE unpack_7_bit_encoded_to_dword___2\n");
 
           return eax;
-        };
+        }
 
 
 /*
@@ -2872,14 +2874,14 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax == 3) {
             printf("memcorrupt, must be 0, hz 16\n");
             exit(-1);
-          };
+          }
 
           //cmp eax,4
           //if eax==4 jmp ..
           if (eax == 4) {
             printf("memcorrupt, must be 0,hz 17\n");
             exit(-1);
-          };
+          }
 
 
           //cmp eax,6
@@ -2887,7 +2889,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax == 6) {
             printf("memcorrupt, must be 0,hz 18\n");
             exit(-1);
-          };
+          }
 
           //cmp eax,5
           //if eax!=5 jmp
@@ -2895,13 +2897,13 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax == 5) {
             printf("memcorrupt, must be 0,hz 19\n");
             exit(-1);
-          };
+          }
 
           //ret
           if (DEBUG) printf("LEAVE mysub_call_eax__free()\n");
 
           return 0;
-        };
+        }
 
 
 /*
@@ -2956,7 +2958,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 		*/
 
           //ret
-//  };  // 16 byte zabili 0-yami
+//  }  // 16 byte zabili 0-yami
 
           // OTKUDA last 4 byte .. nu pust sdes budet kak init..
           //self->value_02c3ed80=eax;
@@ -2981,7 +2983,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax != 0) {
             printf("var3 !=0, hz 14\n");
             exit(-1);
-          };
+          }
 
           //mov edx, [esp+10]  //edx=0
           esp_10 = var4;
@@ -3002,7 +3004,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (DEBUG) printf("LEAVE mysub_no_call_00724060\n");
 
           return 0;
-        };
+        }
 
 
 /*
@@ -3076,7 +3078,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           //if (edi <= esi){
           //	printf("hz 15\n");
           //	exit(-1);
-          //};
+          //}
 
           //eax=02c3ed84
           //cmp edi,eax --edi=alloc
@@ -3087,7 +3089,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           //if (edi<eax){
           //	printf("hz 15\n");
           //	exit(-1);
-          //};
+          //}
 
 
           //edi=self->value_02c3f7fc;
@@ -3097,7 +3099,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (edi == 3) {
             printf("allocated ptr on buffer = 3, error, hz 16\n");
             exit(-1);
-          };
+          }
 
 
           //ecx=14
@@ -3132,7 +3134,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 
             if (DEBUG) printf("LEAVE copy_memory2\n");
             return 0;
-          };
+          }
 
 
           //ecx=0//ecx=5
@@ -3162,7 +3164,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           for (i = 0; i < ecx; i++) {
             memcpy(&eax, (char *) esi + i * 4, 4);
             memcpy((char *) edi + i * 4, &eax, 4);
-          };
+          }
 
 
 
@@ -3233,8 +3235,8 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
             for (i = 0; i < edx; i++) {
               memcpy(&eax, (char *) esi + i, 1);
               memcpy((char *) edi + i, &eax, 1);
-            };
-          };
+            }
+          }
 
 
           //edx=0
@@ -3250,7 +3252,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (DEBUG) printf("LEAVE copy_memory2\n");
 
           return 0;
-        };
+        }
 
 
 
@@ -3308,7 +3310,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (edi <= esi) {
             printf("ptr var1 menshe ptr var2.. hz 10\n");
             exit(-1);
-          };
+          }
           //ne prigaem
 
 
@@ -3318,7 +3320,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (edi <= eax) {    //negative ptr
             printf("ptr var1 menshe ptr var2 with offset.., hz 11\n");
             exit(-1);
-          };
+          }
 
           //test edi,3
           //if edi !=3  jmp
@@ -3326,7 +3328,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (edi == 3) {
             printf("ptr1==3 ? , hz 12\n");
             exit(-1);
-          };
+          }
 
           //shr ecx,2 --ecx=0
           ecx = ecx >> 2;
@@ -3343,7 +3345,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (ecx >= 8) {
             printf("ecx>8 , hz 13\n");
             exit(-1);
-          };
+          }
 
           //jmp [ecx*4+009270dc]  // jmp 0092713f
 
@@ -3371,7 +3373,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (DEBUG) printf("LEAVE copy_memory1\n");
 
           return 0;
-        };
+        }
 
 
 
@@ -3406,7 +3408,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax != 0) {
             printf("esli znachenie ptr ne 0, znachit on uje init-ze a eto err, hz kuda 10\n");
             exit(-1);
-          };
+          }
 
 
           //mov edx,[esp+14] --edx=0x0280
@@ -3437,7 +3439,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax = 0) {
             printf("memory alloc error,ptr null after malloc, jmp on getlast error\n");
             exit(-1);
-          };
+          }
 
           //add esp,8
           //ret
@@ -3446,7 +3448,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 
           return 0;
 
-        };
+        }
 
 
 /*
@@ -3508,7 +3510,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           if (eax == 0) {
             printf("konchilsya buffer,smth like terra nova here, jmp hz kuda\n");
             exit(-1);
-          };
+          }
 
 
           //lea ecx, [eax-1]
@@ -3583,7 +3585,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
             //test dl, 80 --dl=04
             //if (edx < 0x80){
             //na vihod
-            //};
+            //}
           } while (edx >= 0x80);  //if byte reaed from buf...
 
 //vihod;
@@ -3601,7 +3603,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 
           return eax;
 
-        };
+        }
 
 
 //
@@ -3630,7 +3632,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
             *eax11 = eax;
             *ecx11 = ecx;
             return eax;
-          };
+          }
 
           //cmp     cl, 20h
           //jnb     short loc_928000
@@ -3652,7 +3654,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
             *eax11 = eax;
             *ecx11 = ecx;
             return eax;
-          };
+          }
 
 
           edx1 = edx;
@@ -3667,7 +3669,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           mov edx1, edx;
           mov eax1, eax;
           mov ecx1, ecx;
-          };
+          }
           edx=edx1;
           eax=eax1;
           ecx=ecx1;
@@ -3683,7 +3685,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 
           //retn
           return eax;
-          };
+          }
 
 
 

@@ -6,3 +6,6 @@ set(HEADER_FILES short_types.h skysearch4_dll.h slots_util.h stdafx.h targetver.
 
 add_library(skysearch4 SHARED ${SOURCE_FILES})
 target_link_libraries(skysearch4 crypto miracl skype)
+if (WIN32)
+    target_link_libraries(skysearch4 ws2_32)
+endif ()

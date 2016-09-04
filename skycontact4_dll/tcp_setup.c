@@ -10,6 +10,7 @@
 
 
 extern int sock;
+extern int show_memory(char *mem, int len, char *text);
 
 // rc4 obfuscation
 //extern void Skype_RC4_Expand_IV (RC4_context * const rc4, const u32 iv, const u32 flags);

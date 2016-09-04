@@ -25,6 +25,7 @@ extern u32 Skype_Handshake2_powmod(char *input, int len, char *output, char *out
 
 extern u32 supernode_iv2[13];
 
+extern int show_memory(char *mem, int len, char *text);
 //
 // I/O IVs, probably no need to save
 //

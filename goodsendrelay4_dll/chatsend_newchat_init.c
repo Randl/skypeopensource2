@@ -58,6 +58,7 @@ extern uint HEADER_SLOT_CRC3;
 
 extern int relay_connect_mode;
 
+extern int show_memory(char *mem, int len, char *text);
 // end of init params
 
 

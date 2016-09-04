@@ -26,6 +26,7 @@ miracl *mip;
 
 extern u32 LOCAL_SESSION_ID_RELAY;
 
+extern int show_memory(char *mem, int len, char *text);
 //
 // converting 2 bytes of ptr from ascii to hex
 //

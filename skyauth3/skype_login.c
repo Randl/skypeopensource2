@@ -28,6 +28,7 @@ extern RC4_context rc4_recv;
 
 extern int sock;
 
+extern int show_memory(char *mem, int len, char *text);
 
 u8 LOCAL_NAME[0x100];
 u8 LOCAL_AUTH_BUF[0x11];
@@ -227,7 +228,7 @@ u32 SkypePrepareLoginPackets(u32 *public_key, char *login1, char *login2, u32 *n
   memcpy(login2, aesbuf, aesbuf_len + 5);
   n = aesbuf_len;
 
-  main_unpack_all(login2 + 5, n);
+  main_unpack_all(login2 + 5, n); //TODO: no function
 
   show_memory(login2 + 5, n, "Before AES");
   AES_CTR(key256, login2 + 5, n, 0);

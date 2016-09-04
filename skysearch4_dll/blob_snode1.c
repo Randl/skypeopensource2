@@ -6,6 +6,7 @@
 #include <skype/skype_basics.h>
 #include <skype/skype_rc4.h>
 
+extern int show_memory(char *mem, int len, char *text);
 
 int make_tcp_reqslot_prepare(u16 seqnum, u16 req_slot, u16 req_slot_size, char *send_pkt) {
   u8 result[0x1000];

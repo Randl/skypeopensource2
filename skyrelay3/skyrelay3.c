@@ -20,6 +20,7 @@
 
 #include "relays_util.h"
 
+extern int show_memory(char *mem, int len, char *text);
 struct _relays relays;
 
 miracl *mip;

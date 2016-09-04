@@ -28,6 +28,7 @@ extern RC4_context rc4_recv;
 
 extern int sock;
 
+extern int show_memory(char *mem, int len, char *text);
 
 u8 LOCAL_NAME[0x100];
 u8 LOCAL_AUTH_BUF[0x11];

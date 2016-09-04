@@ -6,6 +6,7 @@
 
 #include "short_types.h"
 
+extern int show_memory(char *mem, int len, char *text);
 
 //
 // forming nodeid vcard and ip:port pairs

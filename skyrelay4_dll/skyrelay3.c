@@ -24,6 +24,7 @@ struct _relays relays;
 
 miracl *mip;
 
+extern int show_memory(char *mem, int len, char *text);
 
 char REMOTE_VERSION[0x100];
 int REMOTE_VERSION_LEN;

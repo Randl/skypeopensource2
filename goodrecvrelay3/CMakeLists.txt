@@ -6,3 +6,6 @@ set(HEADER_FILES dbsql.h decode41.h defs.h headers_util.h relays_util.h short_ty
 
 add_executable(goodrecvrelay3 ${SOURCE_FILES})
 target_link_libraries(goodrecvrelay3 sqlite crypto miracl skype)
+if (WIN32)
+    target_link_libraries(goodrecvrelay3 ws2_32)
+endif ()

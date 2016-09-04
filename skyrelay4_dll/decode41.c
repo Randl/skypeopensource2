@@ -2388,7 +2388,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         if (DEBUG) printf("LEAVE mysub_unpack_7_bit_encoded\n");
 
         return eax;
-        };
+        }
 
 
 
