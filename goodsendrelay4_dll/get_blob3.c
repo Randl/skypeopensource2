@@ -10,7 +10,7 @@
 #include "relays_util.h"
 
 //#include "decode41.h"
-#include "skype/skype_rc4.h"
+#include <skype/skype_rc4.h>
 
 
 extern struct _relays relays;

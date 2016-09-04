@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 
-#include "skype/skype_basics.h"
+#include <skype/skype_basics.h>
 
 // for aes
 #include <crypto/rijndael.h>

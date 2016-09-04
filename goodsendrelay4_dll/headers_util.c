@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 
-#include "skype/skype_rc4.h"
+#include <skype/skype_rc4.h>
 
 #include "short_types.h"
 

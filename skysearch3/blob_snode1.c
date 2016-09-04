@@ -3,8 +3,8 @@
 
 //#include "short_types.h"
 
-#include "skype/skype_basics.h"
-#include "skype/skype_rc4.h"
+#include <skype/skype_basics.h>
+#include <skype/skype_rc4.h>
 
 
 int make_tcp_reqslot_prepare(u16 seqnum, u16 req_slot, u16 req_slot_size, char *send_pkt) {

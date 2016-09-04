@@ -7,8 +7,8 @@
 
 #include <windows.h>
 
-#include "skype/skype_basics.h"
-#include "skype/skype_rc4.h"
+#include <skype/skype_basics.h>
+#include <skype/skype_rc4.h>
 
 
 extern int main_unpack_once (u8 *indata, u32 inlen);

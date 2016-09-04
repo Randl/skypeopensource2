@@ -6,8 +6,8 @@
 
 #include <winsock.h>  
 
-#include "skype/skype_basics.h"
-#include "skype/skype_rc4.h"
+#include <skype/skype_basics.h>
+#include <skype/skype_rc4.h>
 
 
 extern unsigned int Calculate_CRC32(char *crc32, int bytes);

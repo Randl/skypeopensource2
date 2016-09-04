@@ -13,7 +13,7 @@
 // for rc4
 //#include "Expand_IV.h"
 
-#include "skype/skype_rc4.h"
+#include <skype/skype_rc4.h>
 
 // for aes
 #include <crypto/rijndael.h>

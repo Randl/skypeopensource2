@@ -1,7 +1,7 @@
 // dh-384 bit functions
 
 
-#include "skype/skype_rc4.h"
+#include <skype/skype_rc4.h>
 
 
 // global data

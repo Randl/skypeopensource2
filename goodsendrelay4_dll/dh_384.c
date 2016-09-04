@@ -1,4 +1,4 @@
-#include "skype/skype_rc4.h"
+#include <skype/skype_rc4.h>
 
 // for aes
 #include <crypto/rijndael.h>

@@ -6,7 +6,7 @@
 
 #include "short_types.h"
 
-#include "skype/skype_rc4.h"
+#include <skype/skype_rc4.h>
 
 #include "headers_util.h"
 
