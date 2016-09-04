@@ -27,7 +27,7 @@ Yes. It's a complete re-implementation of proprietary Skype Network protocol.
 
 > whether or not it includes disassembled code from the other Skype clients
 
-Well, maybe a little :) unpack-4142.c and pack-4142.c are HexRays decompiled code and should be rewritten but I don't have time for this now.
+Well, maybe a little :) ```unpack-4142.c``` and ```pack-4142.c``` are HexRays decompiled code and should be rewritten but I don't have time for this now.
 
 > whether or not it is a clean-room reverse-engineered code, like Wine/ReactOS
 
@@ -37,16 +37,16 @@ No. Not clean room, not Chinese wall.
 
 It's my own code, I write it, I am the author of most code and I hold all copyright rights.
 
-Well, except some login pieces (skyauth3/skype_login.c) which are copyrighted by Sean O'Neil from [VEST Corporation](https://en.wikipedia.org/wiki/VEST) in 2009 and RC4 reversing and implementation (skype_rc4.c/skype_rc4.h) also by Sean O'Neil.
+Well, except some login pieces (```skyauth3/skype_login.c```) which are copyrighted by Sean O'Neil from [VEST Corporation](https://en.wikipedia.org/wiki/VEST) in 2009 and RC4 reversing and implementation (```skype_rc4.c/skype_rc4.h```) also by Sean O'Neil.
 
 > what are the legal complications, if any, to developing the project and to using it personally or commercially
 
-1) The pack-4142.c/unpack41-42.c mentioned above. 
-2) Also, it contains MIRACL for RSA and big numbers multiply arithmetics. 
+1. The ```pack-4142.c/unpack41-42.c``` mentioned above. 
+2. Also, it contains MIRACL for RSA and big numbers multiply arithmetics. 
 
 > MIRACL Cryptographic SDK: Multiprecision Integer and Rational Arithmetic Cryptographic Library is a C software library that is widely regarded by developers as the gold standard open source SDK for elliptic curve cryptography (ECC). http://miracl.com https://github.com/miracl/MIRACL
 
-For commercial usage and license send me an e-mail to: skypeopensource@gmail.com
+For commercial usage and license send me an e-mail to skypeopensource@gmail.com
 
 ## Links
 
