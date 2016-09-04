@@ -10,7 +10,7 @@
 #include <time.h>
 #include <errno.h>  
 
-#include "miracl_lib/miracl.h"
+#include <miracl/miracl.h>
 
 #include "short_types.h"
 

@@ -12,7 +12,7 @@
 
 #include <stdio.h>
 
-#include "miracl_lib/miracl.h"
+#include <miracl/miracl.h>
 #include <stdlib.h>
 #include <string.h>
 

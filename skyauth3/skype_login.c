@@ -15,7 +15,7 @@
 #include "skype/skype_basics.h"
 #include "skype/skype_rc4.h"
 
-#include "miracl_lib/miracl.h"
+#include <miracl/miracl.h>
 
 #include <crypto/md5.h>
 #include <crypto/sha1.h>

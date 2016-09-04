@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-#include "miracl_lib/miracl.h"
+#include <miracl/miracl.h>
 #include "short_types.h"
 
 /*

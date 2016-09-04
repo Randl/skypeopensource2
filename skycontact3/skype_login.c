@@ -19,7 +19,7 @@
 #include <crypto/sha1.h>
 #include <crypto/rijndael.h>
 
-#include "miracl_lib/miracl.h"
+#include <miracl/miracl.h>
 
 
 // global data

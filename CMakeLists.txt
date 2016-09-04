@@ -16,6 +16,8 @@ endif()
 include_directories("include")
 
 add_subdirectory(sqlite)
+add_subdirectory(crypto)
+add_subdirectory(miracl)
 
 add_subdirectory(goodrecvrelay3)
 add_subdirectory(goodrecvrelay4_dll)

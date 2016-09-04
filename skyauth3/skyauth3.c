@@ -13,7 +13,7 @@
 #include <fcntl.h>
 #include <io.h>
 
-#include "miracl_lib/miracl.h"
+#include <miracl/miracl.h>
 #include "short_types.h"
 
 #include <winsock2.h>

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.3)
 project(skyrelay3)
 
-set(SOURCE_FILES crc32_util.c decode41.c dh384.c dh384_setup.c for_cmd.c get_blob.c miracl_lib/mraes.c miracl_lib/mralloc.c miracl_lib/mrarth0.c miracl_lib/mrarth1.c miracl_lib/mrarth2.c miracl_lib/mrarth3.c miracl_lib/mrbits.c miracl_lib/mrbrick.c miracl_lib/mrbuild.c miracl_lib/mrcore.c miracl_lib/mrcrt.c miracl_lib/mrcurve.c miracl_lib/mrdouble.c miracl_lib/mrebrick.c miracl_lib/mrec2m.c miracl_lib/mrecn2.c miracl_lib/mrfast.c miracl_lib/mrflash.c miracl_lib/mrflsh1.c miracl_lib/mrflsh2.c miracl_lib/mrflsh3.c miracl_lib/mrflsh4.c miracl_lib/mrfrnd.c miracl_lib/mrgcd.c miracl_lib/mrgcm.c miracl_lib/mrgf2m.c miracl_lib/mrio1.c miracl_lib/mrio2.c miracl_lib/mrjack.c miracl_lib/mrlucas.c miracl_lib/mrmonty.c miracl_lib/mrmuldv.c miracl_lib/mrpi.c miracl_lib/mrpower.c miracl_lib/mrprime.c miracl_lib/mrrand.c miracl_lib/mrround.c miracl_lib/mrscrt.c miracl_lib/mrshs.c miracl_lib/mrshs256.c miracl_lib/mrshs512.c miracl_lib/mrsmall.c miracl_lib/mrsroot.c miracl_lib/mrstrong.c miracl_lib/mrxgcd.c miracl_lib/mrzzn2.c miracl_lib/mrzzn2b.c miracl_lib/mrzzn3.c miramax.c relays_util.c skype/ext42.c skype/pack-4142.c skype/skype_rc4.c skype/unpack-4142.c skypush3.c skyrel3.c skyrelay3.c sock_comm.c sock_comm_udp.c tcp_pkt.c tcp_recv.c udp_pkt.c util.c)
-set(HEADER_FILES decode41.h defs.h miracl_lib/miracl.h miracl_lib/mirdef.h relays_util.h short_types.h skype/skype_basics.h skype/skype_rc4.h)
+set(SOURCE_FILES crc32_util.c decode41.c dh384.c dh384_setup.c for_cmd.c get_blob.c miramax.c relays_util.c skype/ext42.c skype/pack-4142.c skype/skype_rc4.c skype/unpack-4142.c skypush3.c skyrel3.c skyrelay3.c sock_comm.c sock_comm_udp.c tcp_pkt.c tcp_recv.c udp_pkt.c util.c)
+set(HEADER_FILES decode41.h defs.h relays_util.h short_types.h skype/skype_basics.h skype/skype_rc4.h)
 
 add_executable(skyrelay3 ${SOURCE_FILES})
-target_link_libraries(skyrelay3 crypto)
+target_link_libraries(skyrelay3 crypto miracl)
