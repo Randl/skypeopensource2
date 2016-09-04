@@ -4,6 +4,7 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // SKYSEARCH4_DLL_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
+#if defined(_MSC_VER)
 #ifdef SKYSEARCH4_DLL_EXPORTS
 #define SKYSEARCH4_DLL_API __declspec(dllexport)
 #else
