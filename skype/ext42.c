@@ -989,3 +989,56 @@ int main_pack_into(skype_list *list, u8 *outdata, u32 maxlen) {
   return packed_bytes;
 };
 
+
+int main_unpack_all(u8 *indata, u32 inlen) {
+  u32 list_size;
+  u8 *blob_pos = indata;
+  skype_list new_list = {&new_list, 0, 0, 0};
+  u32 packed_bytes;
+  int ret;
+
+  // stack mess
+  int myvar1 = 1;
+  int myvar2 = 1;
+  int myvar3 = 1;
+  int myvar4 = 1;
+  int myvar5 = 1;
+  int myvar6 = 1;
+  int myvar7 = 1;
+  int myvar8 = 0;
+
+
+  packed_bytes = inlen;
+
+  list_size = 0x5000;
+
+  while ((packed_bytes > 0) && (blob_pos[0] != 0x41)) {
+    packed_bytes--;
+    blob_pos++;
+  };
+
+
+  ret = 1;
+  while ((packed_bytes > 0) && (ret == 1)) {
+
+    ret = unpack_4142((u32 *) &new_list, &blob_pos, &packed_bytes, 0, 8, &list_size);
+
+    dump_41_list(&new_list);
+    error("\n");
+
+    memset(&new_list, 0, sizeof(new_list));
+
+    //new_list.allocated_things = &new_list
+    //new_list.next = 0;
+    // 0, 0;
+
+    while ((packed_bytes > 0) && (blob_pos[0] != 0x41)) {
+      packed_bytes--;
+      blob_pos++;
+    };
+
+  };
+
+
+  return inlen - packed_bytes;
+};

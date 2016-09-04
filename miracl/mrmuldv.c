@@ -3,7 +3,7 @@
  *  Uses inline assembly feature. Suitable for Win32 Apps
  *  Also compatible with Microsoft Visual C++ 32-bit compiler
  */
-
+#include "miracl.h"
 #define ASM _asm
 #ifndef __GNUC__
 int muldiv(a,b,c,m,rp)
@@ -56,22 +56,22 @@ int a,b,*c,*rp;
 }
 #else
 
-int muldiv(int a, int b, int c, int m, int *rp) {
+mr_small muldiv(mr_small a, mr_small b, mr_small c, mr_small m, mr_small *rp) {
   //TODO
   return 0;
 }
 
-int muldvm(int a, int c, int m, int *rp) {
+mr_small muldvm(mr_small a, mr_small c, mr_small m, mr_small *rp) {
   //TODO
   return 0;
 }
 
-int muldvd(int a, int b, int c, int *rp) {
+mr_small muldvd(mr_small a, mr_small b, mr_small c, mr_small *rp) {
   //TODO
   return 0;
 }
 
-void muldvd2(int a, int b, int *c, int *rp) {
+void muldvd2(mr_small a, mr_small b, mr_small *c, mr_small *rp) {
   //TODO
   return;
 }
