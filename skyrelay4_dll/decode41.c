@@ -1848,13 +1848,17 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 
         eax11 = eax;
         edx11 = edx;
-        __asm { //TODO: gcc
+#ifndef __GNUC__
+        __asm {
         mov eax, eax11;
         mov edx, edx11;
         cdq
         mov eax11, eax;
         mov edx11, edx;
         };
+#else
+        //TODO: GCC
+#endif
         eax=eax11;
         edx=edx11;
 
@@ -3659,6 +3663,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           eax1 = eax;
           ecx1 = ecx;
           //shld    edx, eax, cl
+#ifndef __GNUC__
           __asm {
           mov edx, edx1;
           mov eax, eax1;
@@ -3668,6 +3673,9 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           mov eax1, eax;
           mov ecx1, ecx;
           };
+#else
+  //TODO: GCC
+#endif
           edx=edx1;
           eax=eax1;
           ecx=ecx1;

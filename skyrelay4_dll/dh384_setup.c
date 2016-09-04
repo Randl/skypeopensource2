@@ -70,7 +70,7 @@ extern char MY_ADDR[0x100];
 extern u32 Skype_Handshake(char *out, int *n);
 extern u32 Skype_Handshake2_powmod(char *input, int len, char *output, char *output2);
 
-extern u32 supernode_iv2[13];
+extern u32 supernode_iv2[24 + 1];
 
 
 unsigned int showme_rc4(char *result, int len);
