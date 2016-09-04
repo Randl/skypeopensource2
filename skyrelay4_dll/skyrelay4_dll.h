@@ -9,7 +9,18 @@
 #else
 #define SKYRELAY4_DLL_API __declspec(dllimport)
 #endif
-
+#elif defined(__GNUC__)
+//  GCC
+#ifdef SKYRELAY4_DLL_EXPORTS
+#define SKYRELAY4_DLL_API __attribute__((visibility("default")))
+#else
+#define SKYRELAY4_DLL_API
+#endif
+#else
+//  do nothing and hope for the best?
+#define SKYRELAY4_DLL_API
+#pragma warning Unknown dynamic link import/export semantics.
+#endif
 // This class is exported from the skyrelay4_dll.dll
 class SKYRELAY4_DLL_API Cskyrelay4_dll {
  public:

@@ -14,7 +14,6 @@
 #endif
 #elif defined(__GNUC__)
 //  GCC
-
 #ifdef SKYCONTACT4_DLL_EXPORTS
 #define SKYCONTACT4_DLL_API __attribute__((visibility("default")))
 #else

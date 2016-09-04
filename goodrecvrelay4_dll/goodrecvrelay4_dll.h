@@ -4,12 +4,25 @@
 // that uses this DLL. This way any other project whose source files include this file see 
 // GOODRECVRELAY4_DLL_API functions as being imported from a DLL, whereas this DLL sees symbols
 // defined with this macro as being exported.
+#if defined(_MSC_VER)
+//  Microsoft
 #ifdef GOODRECVRELAY4_DLL_EXPORTS
 #define GOODRECVRELAY4_DLL_API __declspec(dllexport)
 #else
 #define GOODRECVRELAY4_DLL_API __declspec(dllimport)
 #endif
-
+#elif defined(__GNUC__)
+//  GCC
+#ifdef GOODRECVRELAY4_DLL_EXPORTS
+#define GOODRECVRELAY4_DLL_API __attribute__((visibility("default")))
+#else
+#define GOODRECVRELAY4_DLL_API
+#endif
+#else
+//  do nothing and hope for the best?
+#define GOODRECVRELAY4_DLL_API
+#pragma warning Unknown dynamic link import/export semantics.
+#endif
 // This class is exported from the goodrecvrelay4_dll.dll
 class GOODRECVRELAY4_DLL_API Cgoodrecvrelay4_dll {
   public:

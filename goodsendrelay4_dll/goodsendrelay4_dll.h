@@ -9,7 +9,18 @@
 #else
 #define GOODSENDRELAY4_DLL_API __declspec(dllimport)
 #endif
-
+#elif defined(__GNUC__)
+//  GCC
+#ifdef GOODSENDRELAY4_DLL_EXPORTS
+#define GOODSENDRELAY4_DLL_API __attribute__((visibility("default")))
+#else
+#define GOODSENDRELAY4_DLL_API
+#endif
+#else
+//  do nothing and hope for the best?
+#define GOODSENDRELAY4_DLL_API
+#pragma warning Unknown dynamic link import/export semantics.
+#endif
 // This class is exported from the goodsendrelay4_dll.dll
 class GOODSENDRELAY4_DLL_API Cgoodsendrelay4_dll {
   public:

@@ -1848,7 +1848,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
 
         eax11 = eax;
         edx11 = edx;
-        __asm {
+        __asm { //TODO: GCC
         mov eax, eax11;
         mov edx, edx11;
         cdq

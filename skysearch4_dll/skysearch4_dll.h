@@ -9,7 +9,18 @@
 #else
 #define SKYSEARCH4_DLL_API __declspec(dllimport)
 #endif
-
+#elif defined(__GNUC__)
+//  GCC
+#ifdef SKYSEARCH4_DLL_EXPORTS
+#define SKYSEARCH4_DLL_API __attribute__((visibility("default")))
+#else
+#define SKYSEARCH4_DLL_API
+#endif
+#else
+//  do nothing and hope for the best?
+#define SKYSEARCH4_DLL_API
+#pragma warning Unknown dynamic link import/export semantics.
+#endif
 // This class is exported from the skysearch4_dll.dll
 class SKYSEARCH4_DLL_API Cskysearch4_dll {
  public:
