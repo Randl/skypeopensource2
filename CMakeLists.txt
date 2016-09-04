@@ -6,7 +6,7 @@ if (MSVC)
 else()
 set(CMAKE_CXX_FLAGS_RELEASE "-std=c++14")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -fstrict-aliasing -flto -fno-fat-lto-objects")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fomit-frame-pointer -march=native")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fomit-frame-pointer -march=native -w")
 set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-O1 -flto -s")
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g -pg -std=c++14 -O0 -DDEBUG")

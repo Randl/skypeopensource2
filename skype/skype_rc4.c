@@ -2891,7 +2891,7 @@ void Skype_RC4_Expand_IV (const u32 iv, const void *iv2, RC4_context * const rc4
 	if (flags & 2)
 	{
 		#if defined(_MSC_VER) && defined(_DEBUG)
-		__asm int 3;
+		DEBUG_BREAK;
 		#endif
 	//	Expand_IVb (key, iv);	// we only have this function in x86 binary form so far
 	}
@@ -2917,7 +2917,7 @@ void Skype_RC4_Expand_IV_udp (RC4_context * const rc4, const u32 iv, const u32 f
 	}
 	if (flags & 2)
 	{
-	//	__asm int 3;
+	//	DEBUG_BREAK;
 	//	Expand_IVb (key, iv);	// not implemented yet
 		debuglog("not implemented yet\n");
 		return -1;

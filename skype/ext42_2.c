@@ -49,7 +49,7 @@ int dump_blob_log (char *header, u32 type, u32 m, u32 n, char *str, int *slen) {
 		(*slen)+=sprintf(str+(*slen),"%s: %u.%u.%u.%u:%u\n", header, m>>24, (m>>16)&0xFF, (m>>8)&0xFF, m&0xFF, n);
 		break;
 	case 3:	// ASCIIZ
-		if (byte(m,n-1) != 0) __asm int 3;	// just in case
+		if (byte(m,n-1) != 0) DEBUG_BREAK;	// just in case
 		(*slen)+=sprintf(str+(*slen),"%s: \"%s\"\n", header, m);
 		break;
 	case 4:	// BINARY
@@ -57,7 +57,7 @@ int dump_blob_log (char *header, u32 type, u32 m, u32 n, char *str, int *slen) {
 	    errdump_log ((void*)m, n, str, slen);
 		break;
 	case 5:	// recursion, gotta handle it upstairs
-		__asm int 3;
+		DEBUG_BREAK;
 		break;
 	case 6:	// 32-bit words
 		s += sprintf (s = out, "%s: ", header);
@@ -65,7 +65,7 @@ int dump_blob_log (char *header, u32 type, u32 m, u32 n, char *str, int *slen) {
 		(*slen)+=sprintf(str+(*slen),"%s\n", out);
 		break;
 	default:
-		//__asm int 3;
+		//DEBUG_BREAK;
         ;
 	}
 

@@ -5,7 +5,7 @@
  */
 
 #define ASM _asm
-
+#ifndef __GNUC__
 int muldiv(a,b,c,m,rp)
 int a,b,c,m,*rp;
 {
@@ -54,4 +54,5 @@ int a,b,*c,*rp;
         ASM mov   [esi],eax              
         ASM mov   [ebx],edx
 }
-
+#else
+#endif

@@ -89,7 +89,7 @@ void * malloc_719490(void * *the_ptr, u32 bytes)
   void * result = *the_ptr ? realloc(*the_ptr, bytes) : malloc(bytes); // eax@2
 
   *the_ptr = result;
-  if ( !result ) __asm int 3;
+  if ( !result ) DEBUG_BREAK;
   return result;
 }
 
@@ -516,7 +516,7 @@ void pack_41_copy_thing_715460(u8 *pos, u32 *thing)
       for (i = 0; i < thing[3] >> 2; i++) pack_41_dword_7148A0(((u32 *)thing[2])[i], &pos_ptr);
       break;
     default:
-      __asm int 3;
+      DEBUG_BREAK;
   }
 }
 
@@ -640,7 +640,7 @@ u32 pack_42_find_code_76A070(u32 *code_array, u32 look_for)
   i = 0;
   while ( 1 )
   {
-    if ( i > 6 ) __asm int 3;
+    if ( i > 6 ) DEBUG_BREAK;
     if ( code_array[i] == look_for ) break;
     ++i;
   }
@@ -931,7 +931,7 @@ LABEL_40:
             *(u32 *)(v45 + 12) = 0;
             v46 = v45;
           }
-          if ( (u32)bytes_to_pack > 8 ) __asm int 3;
+          if ( (u32)bytes_to_pack > 8 ) DEBUG_BREAK;
           *(u32 *)(v46 + 4) = 0;
           *(u32 *)v46 = bytes_to_pack;
           v47 = v46 + 8;

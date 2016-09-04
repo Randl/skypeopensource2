@@ -30,6 +30,7 @@
 #include <string.h>
 
 #ifdef __GNUC__
+#ifndef __MINGW32__
 	#define __FAVOR_BSD
 	#include <stdint.h>
 	#include <unistd.h>
@@ -43,6 +44,11 @@
 	#include <netinet/udp.h>
 	#include <arpa/inet.h>
 	typedef int				SOCKET;
+#else
+    #include <intrin.h>
+	#include <time.h>
+	#include <winsock.h>
+#endif
 	#ifndef __fastcall
 		#define __fastcall	__attribute__((fastcall))
 	#endif
@@ -97,7 +103,11 @@
 	#error Sorry!
 #endif
 
-
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
+#define DEBUG_BREAK __debugbreak()
+#else
+#define DEBUG_BREAK raise(SIGTRAP)
+#endif
 
 #define byte(x,n)			(*(u8*)(((u8*)(x))+(n)))
 #define word(x,n)			(*(u16*)(((u8*)(x))+(n)))

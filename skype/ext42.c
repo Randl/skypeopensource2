@@ -47,7 +47,7 @@ static void dump_blob (const char *header, const u32 type, const u32 m, const u3
 		error ("%s: %u.%u.%u.%u:%u\n", header, m>>24, (m>>16)&0xFF, (m>>8)&0xFF, m&0xFF, n);
 		break;
 	case 3:	// ASCIIZ
-		if (byte(m,n-1) != 0) __asm int 3;	// just in case
+		if (byte(m,n-1) != 0) DEBUG_BREAK;	// just in case
 		error ("%s: \"%s\"\n", header, m);
 		break;
 	case 4:	// BINARY
@@ -55,7 +55,7 @@ static void dump_blob (const char *header, const u32 type, const u32 m, const u3
 		errdump ((void*)m, n);
 		break;
 	case 5:	// recursion, gotta handle it upstairs
-		__asm int 3;
+		DEBUG_BREAK;
 		break;
 	case 6:	// 32-bit words
 		s += sprintf (s = out, "%s: ", header);
@@ -63,7 +63,7 @@ static void dump_blob (const char *header, const u32 type, const u32 m, const u3
 		error ("%s\n", out);
 		break;
 	default:
-		//__asm int 3;
+		//DEBUG_BREAK;
         ;
 	}
 }

@@ -375,7 +375,7 @@ void unpack_42_6_7393A0(u32 *context, u32 a2)
   {
     if ( (u32)a2 > 32 )
     {
-      if ( (u32)a2 > 0x3FFFFFFF ) __asm int 3;
+      if ( (u32)a2 > 0x3FFFFFFF ) DEBUG_BREAK;
       *(context + 34) = a2;
       if ( *(context + 32) == (u32)context ) *(context + 32) = 0;
       v13 = (void *)*(context + 32);
@@ -425,7 +425,7 @@ u32 *unpack_42_6_714690(u32 *a1, u32 dwords, u32 skype_id, u32 a4)
   u32 v13; // qax@1
 
   v13 = 4 * dwords;
-  if (v13 < dwords) __asm int 3;
+  if (v13 < dwords) DEBUG_BREAK;
   v8 = unpack_41_dword_715D70(a1 + 1, *(a1 + 3));
   v8[0] = 6;
   v8[1] = skype_id;
@@ -809,7 +809,7 @@ u32 unpack_42_76AEC0(u32 *list_size, u32 ctx, u32 *into_list)
 LABEL_33:
           goto LABEL_34;
         }
-		__asm int 3;
+		DEBUG_BREAK;
       }
 LABEL_34:
       **(u32 **)(ctx + 0x1F6) += t2;
