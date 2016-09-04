@@ -21,9 +21,13 @@ I try to login using latests 7.27.66.101 skype version for windows with empty pr
 But, anyway, its okay. This is format for contact-list file used in my app, just put it in same dir and add yours skypeusers manually:
 
 u/skypeuser1
+
 u/skypeuser2
+
 u/skypeuser3
+
 u/skypeuser4
+
 u/skypeuser5
 
 And so one.
