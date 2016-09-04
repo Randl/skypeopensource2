@@ -11,6 +11,24 @@ LGPL 3.0
 
 A commercial license is also avaiable on request.
 
+## Known problems (added 2016-09-05)
+
+* Load contact list function stop working
+
+Microsoft-Skype do something very weird with contact-list event servers. 
+Like disable it for all users.
+I try to login using latests 7.27.66.101 skype version for windows with empty profile and dont get back my contact list at all. Hm...
+But, anyway, its okay. This is format for contact-list file used in my app, just put it in same dir and add yours skypeusers manually:
+
+u/skypeuser1
+u/skypeuser2
+u/skypeuser3
+u/skypeuser4
+u/skypeuser5
+
+And so one.
+
+
 ## Issue Statements (added 2016-09-04)
 The README should clearly state:
 * whether or not this client is a complete **re-implementation**
