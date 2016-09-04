@@ -2,17 +2,17 @@ cmake_minimum_required(VERSION 3.3)
 project(skypeopensource2)
 
 if (MSVC)
-#TODO: flags
-else()
-set(CMAKE_C_FLAGS_RELEASE "-std=c11")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -fstrict-aliasing -flto -fno-fat-lto-objects")
-set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fomit-frame-pointer -march=native -w")
-set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-O1 -flto -s")
+    #TODO: flags
+else ()
+    set(CMAKE_C_FLAGS_RELEASE "-std=c11")
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -fstrict-aliasing -flto -fno-fat-lto-objects")
+    set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -fomit-frame-pointer -march=native -w")
+    set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-O1 -flto -s")
 
-set(CMAKE_C_FLAGS_DEBUG "-g -pg -std=c++14 -O0 -DDEBUG")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -Wshadow -Wstrict-aliasing -Weffc++")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-inline-small-functions -fno-inline")
-endif()
+    set(CMAKE_C_FLAGS_DEBUG "-g -pg -std=c++14 -O0 -DDEBUG")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -Wshadow -Wstrict-aliasing -Weffc++")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-inline-small-functions -fno-inline")
+endif ()
 include_directories("include")
 
 add_subdirectory(sqlite)

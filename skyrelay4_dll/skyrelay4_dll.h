@@ -12,9 +12,9 @@
 
 // This class is exported from the skyrelay4_dll.dll
 class SKYRELAY4_DLL_API Cskyrelay4_dll {
-public:
-	Cskyrelay4_dll(void);
-	// TODO: add your methods here.
+ public:
+  Cskyrelay4_dll(void);
+  // TODO: add your methods here.
 };
 
 extern SKYRELAY4_DLL_API int nskyrelay4_dll;

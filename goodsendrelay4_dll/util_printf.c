@@ -11,155 +11,155 @@
 
 
 int debuglog(const char *afmt, ...) {
-    FILE *log;
-	va_list args;
-    
-    //return 0;
+  FILE *log;
+  va_list args;
 
-    log=fopen("_mylog.txt","a");
-    if (log == NULL){
-        printf("logfile creation error\n");
-        return -10;
-    };
+  //return 0;
 
-	va_start(args, afmt);
+  log = fopen("_mylog.txt", "a");
+  if (log == NULL) {
+    printf("logfile creation error\n");
+    return -10;
+  };
 
-	vfprintf(log, afmt, args);
-	//fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
-	fclose(log);
+  va_start(args, afmt);
 
-    // to stdout
-	vprintf(afmt, args);
+  vfprintf(log, afmt, args);
+  //fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
+  fclose(log);
 
-	va_end(args);
+  // to stdout
+  vprintf(afmt, args);
 
-    return 0;
+  va_end(args);
+
+  return 0;
 };
 
 
 int debuglog_info(const char *afmt, ...) {
-    FILE *log;
-	va_list args;
-    
+  FILE *log;
+  va_list args;
 
-    log=fopen("_mylog.txt","a");
-    if (log == NULL){
-        printf("logfile creation error\n");
-        return -10;
-    };
 
-	va_start(args, afmt);
+  log = fopen("_mylog.txt", "a");
+  if (log == NULL) {
+    printf("logfile creation error\n");
+    return -10;
+  };
 
-	vfprintf(log, afmt, args);
-	//fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
-	fclose(log);
+  va_start(args, afmt);
 
-    // to stdout
-	//vprintf(afmt, args);
+  vfprintf(log, afmt, args);
+  //fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
+  fclose(log);
 
-	va_end(args);
+  // to stdout
+  //vprintf(afmt, args);
 
-    return 0;
+  va_end(args);
+
+  return 0;
 };
 
 
 int debuglog_err(const char *afmt, ...) {
-    FILE *log;
-	va_list args;
-    
+  FILE *log;
+  va_list args;
 
-    log=fopen("_mylog.txt","a");
-    if (log == NULL){
-        printf("logfile creation error\n");
-        return -10;
-    };
 
-	va_start(args, afmt);
+  log = fopen("_mylog.txt", "a");
+  if (log == NULL) {
+    printf("logfile creation error\n");
+    return -10;
+  };
 
-	vfprintf(log, afmt, args);
-	//fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
-	fclose(log);
+  va_start(args, afmt);
 
-    // to stdout
-	//vprintf(afmt, args);
+  vfprintf(log, afmt, args);
+  //fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
+  fclose(log);
 
-	va_end(args);
+  // to stdout
+  //vprintf(afmt, args);
 
-    return 0;
+  va_end(args);
+
+  return 0;
 };
 
 
 int debuglog_time(const char *afmt, ...) {
-    FILE *log;
-	va_list args;
-    time_t timer;
-    struct tm* tm_info;
-    char timebuf[256];
+  FILE *log;
+  va_list args;
+  time_t timer;
+  struct tm *tm_info;
+  char timebuf[256];
 
-	// windows specific
-	DWORD dwStart;
+  // windows specific
+  DWORD dwStart;
 
-	dwStart = GetTickCount();
+  dwStart = GetTickCount();
 
-    // for linux
-	//struct timeval tv;
-    // for microseconds
-    //gettimeofday(&tv,NULL);
-    
-	memset(timebuf, 0, sizeof(timebuf));
+  // for linux
+  //struct timeval tv;
+  // for microseconds
+  //gettimeofday(&tv,NULL);
 
-    //get current time
-    time(&timer);
-    tm_info = localtime(&timer);
-    strftime(timebuf, 26, "%Y-%m-%d %H:%M:%S", tm_info);
-    //sprintf(timebuf, ".%d", tv.tv_user);
-	sprintf(timebuf+strlen(timebuf), ".%d", dwStart/10000);
+  memset(timebuf, 0, sizeof(timebuf));
 
-    log=fopen("_mylog.txt","a");
-    if (log == NULL){
-        printf("logfile creation error\n");
-        return -10;
-    };
+  //get current time
+  time(&timer);
+  tm_info = localtime(&timer);
+  strftime(timebuf, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+  //sprintf(timebuf, ".%d", tv.tv_user);
+  sprintf(timebuf + strlen(timebuf), ".%d", dwStart / 10000);
 
-	va_start(args, afmt);
+  log = fopen("_mylog.txt", "a");
+  if (log == NULL) {
+    printf("logfile creation error\n");
+    return -10;
+  };
 
-	fprintf(log, "%s ", timebuf);
-	vfprintf(log, afmt, args);
-	//fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
-	fclose(log);
+  va_start(args, afmt);
 
-    // to stdout
-	//printf("%s ", timebuf);
-	vprintf(afmt, args);
+  fprintf(log, "%s ", timebuf);
+  vfprintf(log, afmt, args);
+  //fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
+  fclose(log);
 
-	va_end(args);
+  // to stdout
+  //printf("%s ", timebuf);
+  vprintf(afmt, args);
 
-    return 0;
+  va_end(args);
+
+  return 0;
 };
 
 
 int debuglog_notime(const char *afmt, ...) {
-    FILE *log;
-	va_list args;
-    
-    return 0;
+  FILE *log;
+  va_list args;
 
-    log=fopen("_mylog.txt","a");
-    if (log == NULL){
-        printf("logfile creation error\n");
-        return -10;
-    };
+  return 0;
 
-	va_start(args, afmt);
+  log = fopen("_mylog.txt", "a");
+  if (log == NULL) {
+    printf("logfile creation error\n");
+    return -10;
+  };
 
-	vfprintf(log, afmt, args);
-	//fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
-	fclose(log);
+  va_start(args, afmt);
 
-    // to stdout
-	vprintf(afmt, args);
+  vfprintf(log, afmt, args);
+  //fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
+  fclose(log);
 
-	va_end(args);
+  // to stdout
+  vprintf(afmt, args);
 
-    return 0;
+  va_end(args);
+
+  return 0;
 };

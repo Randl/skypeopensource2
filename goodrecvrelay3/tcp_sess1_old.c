@@ -36,7 +36,7 @@ extern unsigned int Calculate_CRC32(char *crc32, int bytes);
 
 // socket comm
 extern int udp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result);
-extern int tcp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result,int need_close);
+extern int tcp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result, int need_close);
 extern int tcp_talk_recv(char *remoteip, unsigned short remoteport, char *result, int need_close);
 extern int tcp_talk_send(char *buf, int len);
 
@@ -49,7 +49,7 @@ extern int _get_sign_data(char *buf, int len, char *outbuf);
 // utils
 extern int get_blkseq(char *data, int datalen);
 extern int show_memory(char *mem, int len, char *text);
-extern int get_packet_size(char *data,int len);
+extern int get_packet_size(char *data, int len);
 extern int decode41(char *data, int len, char *text);
 extern int set_packet_size(char *a1, int c);
 extern int process_aes(char *buf, int buf_len, int usekey, int blkseq, int need_xor);
@@ -125,475 +125,474 @@ extern u8 CHAT_PEERS_REVERSED[0x100];
 
 
 unsigned int make_tcp_client_cmd13r_sendheaders() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd13r(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd13r");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd13r_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd13r(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd13r");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd13r_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
 unsigned int make_tcp_client_sess1_send_sendheaders() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	debuglog("\n\n\n");
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd13one(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd13one");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd13one_header");
+  debuglog("\n\n\n");
+
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd13one(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd13one");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd13one_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
+unsigned int make_tcp_client_sess1_send_sendheaders2() {
+  int len;
+  char *pkt;
 
-unsigned int make_tcp_client_sess1_send_sendheaders2(){
-	int len;
-	char *pkt;
-
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	debuglog("\n\n\n");
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd13(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd13");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd13_header");
+  debuglog("\n\n\n");
+
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd13(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd13");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd13_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
-unsigned int make_tcp_client_sess1_send_msgbody(char *ip,unsigned short port){
-	int len;
-	char *pkt;
+unsigned int make_tcp_client_sess1_send_msgbody(char *ip, unsigned short port) {
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	debuglog("\n\n\n");
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd2B(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd2B");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd2B_header");
+  debuglog("\n\n\n");
+
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd2B(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd2B");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd2B_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
 unsigned int make_tcp_client_sess1_send_chatend() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd0C(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd0C_chatend");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd0C_chatend_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd0C(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd0C_chatend");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd0C_chatend_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
 unsigned int make_tcp_client_sess1_send_sendend() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd13end(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd13end");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd13end_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd13end(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd13end");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd13end_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
 unsigned int make_tcp_client_sess1_send_unkheader() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd10(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd10");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd10_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd10(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd10");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd10_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
-unsigned int make_tcp_client_cmd15(){
-	int len;
-	char *pkt;
+unsigned int make_tcp_client_cmd15() {
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	debuglog("\n\n\n");
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd15(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd15");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd15_header");
+  debuglog("\n\n\n");
+
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd15(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd15");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd15_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 /*
@@ -659,596 +658,588 @@ unsigned int make_tcp_client_cmd0F_chatok() {
 
 
 unsigned int make_tcp_client_cmd1D_request_uic() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd1D(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd1D");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd1D_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd1D(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd1D");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd1D_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
 unsigned int make_tcp_client_cmd27_finish() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd27(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd27");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd27_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd27(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd27");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd27_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
+unsigned int make_tcp_client_sess1_send_7B(char *ip, unsigned short port) {
+  int len;
+  char *pkt;
 
-unsigned int make_tcp_client_sess1_send_7B(char *ip,unsigned short port){
-	int len;
-	char *pkt;
-
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_7B(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_7B");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_7B(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_7B");
 
-	main_unpack(buf1, buf1_len);
+  main_unpack(buf1, buf1_len);
 
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
-
-
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_7B_header");
-
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
-
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
-
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
-
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
-
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	return 0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_7B_header");
+
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
+
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
+
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
+
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+
+  return 0;
 };
 
 
-unsigned int make_tcp_client_sess1_send_58(char *ip,unsigned short port) {
-	int len;
-	char *pkt;
+unsigned int make_tcp_client_sess1_send_58(char *ip, unsigned short port) {
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_58(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_58");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_58_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_58(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_58");
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  main_unpack(buf1, buf1_len);
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
-
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
-
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
-
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	return 0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_58_header");
+
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
+
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
+
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
+
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+
+  return 0;
 };
 
 
-unsigned int make_tcp_client_sess1_send_53(char *ip,unsigned short port){
-	int len;
-	char *pkt;
+unsigned int make_tcp_client_sess1_send_53(char *ip, unsigned short port) {
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_53(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_53");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_53_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_53(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_53");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
-
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
-
-	// RC4 encrypt pkt
-	if (DEBUG_RC4) { show_memory(pkt, len, "Before RC4 encrypt"); };
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	if (DEBUG_RC4) { show_memory(pkt, len, "After RC4 encrypt");	};
-
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
-
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_53_header");
 
 
-	return 0;
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
+
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
+
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
+
+
+  // RC4 encrypt pkt
+  if (DEBUG_RC4) { show_memory(pkt, len, "Before RC4 encrypt"); };
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  if (DEBUG_RC4) { show_memory(pkt, len, "After RC4 encrypt"); };
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+
+  return 0;
 };
 
 
 unsigned int make_tcp_client_sess1_send_chatinit() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd0D(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd0D_chatinit");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd0D_chatinit_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd0D(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd0D_chatinit");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd0D_chatinit_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
 unsigned int make_tcp_client_sess1_send_chatsign() {
-	int len;
-	char *pkt;
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd24(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd24chatsign");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd24chatsign_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd24(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd24chatsign");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd24chatsign_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
 //
 // Sending "headers with sign" packet, newblk2 
 // 
-unsigned int make_tcp_client_sess1_send_headsign(char *ip,unsigned short port){
-	int len;
-	char *pkt;
+unsigned int make_tcp_client_sess1_send_headsign(char *ip, unsigned short port) {
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_cmd2A(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_cmd2Achatsign");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_cmd2Aheadsign_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_cmd2A(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_cmd2Achatsign");
+
+  main_unpack(buf1, buf1_len);
+
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_cmd2Aheadsign_header");
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
 
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
 
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
 
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
 
-	return 0;
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+  return 0;
 };
 
 
-unsigned int make_tcp_client_sess1_send_7D(){
-	int len;
-	char *pkt;
+unsigned int make_tcp_client_sess1_send_7D() {
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_7D(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_7D");
-
-	main_unpack(buf1, buf1_len);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_7D(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_7D");
+
+  main_unpack(buf1, buf1_len);
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_7D_header");
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
-
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
-
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
-
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
-
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_7D_header");
 
 
-	return 0;
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
+
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
+
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
+
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+
+  return 0;
 };
 
 
-unsigned int make_tcp_client_sess1_send_7A(){
-	int len;
-	char *pkt;
+unsigned int make_tcp_client_sess1_send_7A() {
+  int len;
+  char *pkt;
 
-	u8 buf1[0x1000];
-	int buf1_len;
-	u8 buf1header[0x10];
-	int buf1header_len;
-
-
-
-	memset(buf1,0,sizeof(buf1));
-  	buf1_len=encode41_sess1pkt_7A(buf1, sizeof(buf1));
-	show_memory(buf1, buf1_len, "sess1pkt_7A");
-
-	main_unpack(buf1, buf1_len);
-
-	//aes encrypt block 1
-	blkseq=blkseq+1;
-	buf1_len=process_aes(buf1, buf1_len, 1, blkseq, 0);
+  u8 buf1[0x1000];
+  int buf1_len;
+  u8 buf1header[0x10];
+  int buf1header_len;
 
 
-	// first bytes correction
-	// calculate for 4 and 5 byte fixing
-	buf1header_len=first_bytes_correction(buf1header, sizeof(buf1header)-1, buf1, buf1_len);
-	show_memory(buf1header, buf1header_len, "sess1pkt_7A_header");
+  memset(buf1, 0, sizeof(buf1));
+  buf1_len = encode41_sess1pkt_7A(buf1, sizeof(buf1));
+  show_memory(buf1, buf1_len, "sess1pkt_7A");
 
-	// assembling pkt for sending
-	pkt=(char *)malloc(0x1000);
-	memset(pkt,0,0x1000);
-	len=0;
+  main_unpack(buf1, buf1_len);
 
-	memcpy(pkt,buf1header,buf1header_len);
-	len=len+buf1header_len;
-	
-	memcpy(pkt+len,buf1,buf1_len);
-	len=len+buf1_len;
-	
-
-	// RC4 encrypt pkt
-	show_memory(pkt, len, "Before RC4 encrypt");	
-	RC4_crypt (pkt, len, &rc4_send, 0);
-	show_memory(pkt, len, "After RC4 encrypt");	
-
-	// display pkt
-	show_memory(pkt, len, "Send pkt");
-
-	// send pkt
-	len=tcp_talk_send(pkt,len);
-	if (len<=0) {
-		debuglog("send err\n");
-		return -1;
-	};
+  //aes encrypt block 1
+  blkseq = blkseq + 1;
+  buf1_len = process_aes(buf1, buf1_len, 1, blkseq, 0);
 
 
-	return 0;
+  // first bytes correction
+  // calculate for 4 and 5 byte fixing
+  buf1header_len = first_bytes_correction(buf1header, sizeof(buf1header) - 1, buf1, buf1_len);
+  show_memory(buf1header, buf1header_len, "sess1pkt_7A_header");
+
+  // assembling pkt for sending
+  pkt = (char *) malloc(0x1000);
+  memset(pkt, 0, 0x1000);
+  len = 0;
+
+  memcpy(pkt, buf1header, buf1header_len);
+  len = len + buf1header_len;
+
+  memcpy(pkt + len, buf1, buf1_len);
+  len = len + buf1_len;
+
+
+  // RC4 encrypt pkt
+  show_memory(pkt, len, "Before RC4 encrypt");
+  RC4_crypt(pkt, len, &rc4_send, 0);
+  show_memory(pkt, len, "After RC4 encrypt");
+
+  // display pkt
+  show_memory(pkt, len, "Send pkt");
+
+  // send pkt
+  len = tcp_talk_send(pkt, len);
+  if (len <= 0) {
+    debuglog("send err\n");
+    return -1;
+  };
+
+
+  return 0;
 };
 
 

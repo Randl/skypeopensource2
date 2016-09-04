@@ -13,282 +13,260 @@
 #include "miracl.h"
 
 #ifdef MR_COUNT_OPS
-extern int fpmq,fpsq,fpaq; 
+extern int fpmq,fpsq,fpaq;
 #endif
 
-BOOL zzn2_iszero(zzn2 *x)
-{
-    if (size(x->a)==0 && size(x->b)==0) return TRUE;
-    return FALSE;
+BOOL zzn2_iszero(zzn2 *x) {
+  if (size(x->a) == 0 && size(x->b) == 0) return TRUE;
+  return FALSE;
 }
 
-BOOL zzn2_isunity(_MIPD_ zzn2 *x)
-{
+BOOL zzn2_isunity(_MIPD_ zzn2 *x) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM || size(x->b)!=0) return FALSE;
+  if (mr_mip->ERNUM || size(x->b) != 0) return FALSE;
 
-    if (compare(x->a,mr_mip->one)==0) return TRUE;
-    return FALSE;
+  if (compare(x->a, mr_mip->one) == 0) return TRUE;
+  return FALSE;
 
 }
 
-BOOL zzn2_compare(zzn2 *x,zzn2 *y)
-{
-    if (mr_compare(x->a,y->a)==0 && mr_compare(x->b,y->b)==0) return TRUE;
-    return FALSE;
+BOOL zzn2_compare(zzn2 *x, zzn2 *y) {
+  if (mr_compare(x->a, y->a) == 0 && mr_compare(x->b, y->b) == 0) return TRUE;
+  return FALSE;
 }
 
-void zzn2_from_int(_MIPD_ int i,zzn2 *w)
-{
+void zzn2_from_int(_MIPD_ int i, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
+  if (mr_mip->ERNUM) return;
 
-    MR_IN(156)
-    if (i==1) 
-    {
-        copy(mr_mip->one,w->a);
-    }
-    else
-    {
-        convert(_MIPP_ i,mr_mip->w1);
-        nres(_MIPP_ mr_mip->w1,w->a);
-    }
-    zero(w->b);
-    MR_OUT
+  MR_IN(156)
+  if (i == 1) {
+    copy(mr_mip->one, w->a);
+  }
+  else {
+    convert(_MIPP_ i, mr_mip->w1);
+    nres(_MIPP_ mr_mip->w1, w->a);
+  }
+  zero(w->b);
+  MR_OUT
 }
 
-void zzn2_from_ints(_MIPD_ int i,int j,zzn2 *w)
-{
+void zzn2_from_ints(_MIPD_ int i, int j, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
+  if (mr_mip->ERNUM) return;
 
-    MR_IN(168)
-    convert(_MIPP_ i,mr_mip->w1);
-    nres(_MIPP_ mr_mip->w1,w->a);
-    convert(_MIPP_ j,mr_mip->w1);
-    nres(_MIPP_ mr_mip->w1,w->b);
+  MR_IN(168)
+  convert(_MIPP_ i, mr_mip->w1);
+  nres(_MIPP_ mr_mip->w1, w->a);
+  convert(_MIPP_ j, mr_mip->w1);
+  nres(_MIPP_ mr_mip->w1, w->b);
 
-    MR_OUT
+  MR_OUT
 }
 
-void zzn2_from_zzns(big x,big y,zzn2 *w)
-{
-    copy(x,w->a);
-    copy(y,w->b);
+void zzn2_from_zzns(big x, big y, zzn2 *w) {
+  copy(x, w->a);
+  copy(y, w->b);
 }
 
-void zzn2_from_bigs(_MIPD_ big x,big y, zzn2 *w)
-{
+void zzn2_from_bigs(_MIPD_ big x, big y, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
+  if (mr_mip->ERNUM) return;
 
-    MR_IN(166)
-    nres(_MIPP_ x,w->a);
-    nres(_MIPP_ y,w->b);
-    MR_OUT
+  MR_IN(166)
+  nres(_MIPP_ x, w->a);
+  nres(_MIPP_ y, w->b);
+  MR_OUT
 }
 
-void zzn2_from_zzn(big x,zzn2 *w)
-{
-    copy(x,w->a);
-    zero(w->b);
+void zzn2_from_zzn(big x, zzn2 *w) {
+  copy(x, w->a);
+  zero(w->b);
 }
 
-void zzn2_from_big(_MIPD_ big x, zzn2 *w)
-{
+void zzn2_from_big(_MIPD_ big x, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
+  if (mr_mip->ERNUM) return;
 
-    MR_IN(167)
-    nres(_MIPP_ x,w->a);
-    zero(w->b);
-    MR_OUT
+  MR_IN(167)
+  nres(_MIPP_ x, w->a);
+  zero(w->b);
+  MR_OUT
 }
 
-void zzn2_copy(zzn2 *x,zzn2 *w)
-{
-    if (x==w) return;
-    copy(x->a,w->a);
-    copy(x->b,w->b);
+void zzn2_copy(zzn2 *x, zzn2 *w) {
+  if (x == w) return;
+  copy(x->a, w->a);
+  copy(x->b, w->b);
 }
 
-void zzn2_zero(zzn2 *w)
-{
-    zero(w->a);
-    zero(w->b);
+void zzn2_zero(zzn2 *w) {
+  zero(w->a);
+  zero(w->b);
 }
 
-void zzn2_negate(_MIPD_ zzn2 *x,zzn2 *w)
-{
+void zzn2_negate(_MIPD_ zzn2 *x, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(157)
-    zzn2_copy(x,w);
-    nres_negate(_MIPP_ w->a,w->a);
-    nres_negate(_MIPP_ w->b,w->b);
-    MR_OUT
+  if (mr_mip->ERNUM) return;
+  MR_IN(157)
+  zzn2_copy(x, w);
+  nres_negate(_MIPP_ w->a, w->a);
+  nres_negate(_MIPP_ w->b, w->b);
+  MR_OUT
 }
 
-void zzn2_conj(_MIPD_ zzn2 *x,zzn2 *w)
-{
+void zzn2_conj(_MIPD_ zzn2 *x, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    MR_IN(158)
-    if (mr_mip->ERNUM) return;
-    zzn2_copy(x,w);
-    nres_negate(_MIPP_ w->b,w->b);
-    MR_OUT
+  MR_IN(158)
+  if (mr_mip->ERNUM) return;
+  zzn2_copy(x, w);
+  nres_negate(_MIPP_ w->b, w->b);
+  MR_OUT
 }
 
-void zzn2_add(_MIPD_ zzn2 *x,zzn2 *y,zzn2 *w)
-{
+void zzn2_add(_MIPD_ zzn2 *x, zzn2 *y, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
+  if (mr_mip->ERNUM) return;
 #ifdef MR_COUNT_OPS
-fpaq++; 
+    fpaq++;
 #endif
-    MR_IN(159)
-    nres_modadd(_MIPP_ x->a,y->a,w->a);
-    nres_modadd(_MIPP_ x->b,y->b,w->b);
-    MR_OUT
+  MR_IN(159)
+  nres_modadd(_MIPP_ x->a, y->a, w->a);
+  nres_modadd(_MIPP_ x->b, y->b, w->b);
+  MR_OUT
 }
-  
-void zzn2_sadd(_MIPD_ zzn2 *x,big y,zzn2 *w)
-{
-#ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
-#endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(169)
-    nres_modadd(_MIPP_ x->a,y,w->a);
-    MR_OUT
-}              
 
-void zzn2_sub(_MIPD_ zzn2 *x,zzn2 *y,zzn2 *w)
-{
+void zzn2_sadd(_MIPD_ zzn2 *x, big y, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
+  if (mr_mip->ERNUM) return;
+  MR_IN(169)
+  nres_modadd(_MIPP_ x->a, y, w->a);
+  MR_OUT
+}
+
+void zzn2_sub(_MIPD_ zzn2 *x, zzn2 *y, zzn2 *w) {
+#ifdef MR_OS_THREADS
+  miracl *mr_mip=get_mip();
+#endif
+  if (mr_mip->ERNUM) return;
 #ifdef MR_COUNT_OPS
-fpaq++; 
+    fpaq++;
 #endif
-    MR_IN(160)
-    nres_modsub(_MIPP_ x->a,y->a,w->a);
-    nres_modsub(_MIPP_ x->b,y->b,w->b);
-    MR_OUT
+  MR_IN(160)
+  nres_modsub(_MIPP_ x->a, y->a, w->a);
+  nres_modsub(_MIPP_ x->b, y->b, w->b);
+  MR_OUT
 }
 
-void zzn2_ssub(_MIPD_ zzn2 *x,big y,zzn2 *w)
-{
+void zzn2_ssub(_MIPD_ zzn2 *x, big y, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
+  if (mr_mip->ERNUM) return;
 
-    MR_IN(170)
-    nres_modsub(_MIPP_ x->a,y,w->a);
-    MR_OUT
+  MR_IN(170)
+  nres_modsub(_MIPP_ x->a, y, w->a);
+  MR_OUT
 }
 
-void zzn2_smul(_MIPD_ zzn2 *x,big y,zzn2 *w)
-{
+void zzn2_smul(_MIPD_ zzn2 *x, big y, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(161)
-    if (size(x->a)!=0) nres_modmult(_MIPP_ x->a,y,w->a);
-    else zero(w->a);
-    if (size(x->b)!=0) nres_modmult(_MIPP_ x->b,y,w->b);
-    else zero(w->b);
-    MR_OUT
+  if (mr_mip->ERNUM) return;
+  MR_IN(161)
+  if (size(x->a) != 0) nres_modmult(_MIPP_ x->a, y, w->a);
+  else zero(w->a);
+  if (size(x->b) != 0) nres_modmult(_MIPP_ x->b, y, w->b);
+  else zero(w->b);
+  MR_OUT
 }
 
-void zzn2_imul(_MIPD_ zzn2 *x,int y,zzn2 *w)
-{
+void zzn2_imul(_MIPD_ zzn2 *x, int y, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(152)
-    if (size(x->a)!=0) nres_premult(_MIPP_ x->a,y,w->a);
-    else zero(w->a);
-    if (size(x->b)!=0) nres_premult(_MIPP_ x->b,y,w->b);
-    else zero(w->b);
-    MR_OUT
+  if (mr_mip->ERNUM) return;
+  MR_IN(152)
+  if (size(x->a) != 0) nres_premult(_MIPP_ x->a, y, w->a);
+  else zero(w->a);
+  if (size(x->b) != 0) nres_premult(_MIPP_ x->b, y, w->b);
+  else zero(w->b);
+  MR_OUT
 }
 
-void zzn2_sqr(_MIPD_ zzn2 *x,zzn2 *w)
-{
+void zzn2_sqr(_MIPD_ zzn2 *x, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
 
-    if (mr_mip->ERNUM) return;
+  if (mr_mip->ERNUM) return;
 #ifdef MR_COUNT_OPS
-fpsq++; 
+    fpsq++;
 #endif
-    MR_IN(210)
+  MR_IN(210)
 
-	nres_complex(x->a,x->b,w->a,w->b);
+  nres_complex(x->a, x->b, w->a, w->b);
 
-    MR_OUT
-}    
+  MR_OUT
+}
 
-void zzn2_mul(_MIPD_ zzn2 *x,zzn2 *y,zzn2 *w)
-{
+void zzn2_mul(_MIPD_ zzn2 *x, zzn2 *y, zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
 
-    if (mr_mip->ERNUM) return;
-	if (x==y) {zzn2_sqr(_MIPP_ x,w); return; }
-    MR_IN(162)
- /* Uses w1, w2, and w5 */
+  if (mr_mip->ERNUM) return;
+  if (x == y) {
+    zzn2_sqr(_MIPP_ x, w);
+    return;
+  }
+  MR_IN(162)
+  /* Uses w1, w2, and w5 */
 
-    if (zzn2_iszero(x) || zzn2_iszero(y)) zzn2_zero(w);
-    else
-    {
+  if (zzn2_iszero(x) || zzn2_iszero(y)) zzn2_zero(w);
+  else {
 #ifdef MR_COUNT_OPS
-fpmq++; 
+    fpmq++;
 #endif
-#ifndef MR_NO_LAZY_REDUCTION 
-        if (x->a->len!=0 && x->b->len!=0 && y->a->len!=0 && y->b->len!=0)
-            nres_lazy(_MIPP_ x->a,x->b,y->a,y->b,w->a,w->b);
-        else
-        {
-#endif
-            nres_modmult(_MIPP_ x->a,y->a,mr_mip->w1);
-            nres_modmult(_MIPP_ x->b,y->b,mr_mip->w2);
-            nres_modadd(_MIPP_ x->a,x->b,mr_mip->w5);
-            nres_modadd(_MIPP_ y->a,y->b,w->b);
-            nres_modmult(_MIPP_ w->b,mr_mip->w5,w->b);
-            nres_modsub(_MIPP_ w->b,mr_mip->w1,w->b);
-            nres_modsub(_MIPP_ w->b,mr_mip->w2,w->b);
-            nres_modsub(_MIPP_ mr_mip->w1,mr_mip->w2,w->a);
-            if (mr_mip->qnr==-2)
-                nres_modsub(_MIPP_ w->a,mr_mip->w2,w->a);
 #ifndef MR_NO_LAZY_REDUCTION
-        }
+    if (x->a->len != 0 && x->b->len != 0 && y->a->len != 0 && y->b->len != 0)
+      nres_lazy(_MIPP_ x->a, x->b, y->a, y->b, w->a, w->b);
+    else {
 #endif
-    }    
-    MR_OUT
+      nres_modmult(_MIPP_ x->a, y->a, mr_mip->w1);
+      nres_modmult(_MIPP_ x->b, y->b, mr_mip->w2);
+      nres_modadd(_MIPP_ x->a, x->b, mr_mip->w5);
+      nres_modadd(_MIPP_ y->a, y->b, w->b);
+      nres_modmult(_MIPP_ w->b, mr_mip->w5, w->b);
+      nres_modsub(_MIPP_ w->b, mr_mip->w1, w->b);
+      nres_modsub(_MIPP_ w->b, mr_mip->w2, w->b);
+      nres_modsub(_MIPP_ mr_mip->w1, mr_mip->w2, w->a);
+      if (mr_mip->qnr == -2)
+        nres_modsub(_MIPP_ w->a, mr_mip->w2, w->a);
+#ifndef MR_NO_LAZY_REDUCTION
+    }
+#endif
+  }
+  MR_OUT
 }
 
 
@@ -338,171 +316,163 @@ static void nres_print(_MIPD_ char *label, big x)
 }
 
 */
-void zzn2_inv(_MIPD_ zzn2 *w)
-{
+void zzn2_inv(_MIPD_ zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(163)
-    nres_modmult(_MIPP_ w->a,w->a,mr_mip->w1); 
-    nres_modmult(_MIPP_ w->b,w->b,mr_mip->w2); 
-    nres_modadd(_MIPP_ mr_mip->w1,mr_mip->w2,mr_mip->w1);
+  if (mr_mip->ERNUM) return;
+  MR_IN(163)
+  nres_modmult(_MIPP_ w->a, w->a, mr_mip->w1);
+  nres_modmult(_MIPP_ w->b, w->b, mr_mip->w2);
+  nres_modadd(_MIPP_ mr_mip->w1, mr_mip->w2, mr_mip->w1);
 
-    if (mr_mip->qnr==-2)
-        nres_modadd(_MIPP_ mr_mip->w1,mr_mip->w2,mr_mip->w1);
-    redc(_MIPP_ mr_mip->w1,mr_mip->w6);
-  
-    invmodp(_MIPP_ mr_mip->w6,mr_mip->modulus,mr_mip->w6);
+  if (mr_mip->qnr == -2)
+    nres_modadd(_MIPP_ mr_mip->w1, mr_mip->w2, mr_mip->w1);
+  redc(_MIPP_ mr_mip->w1, mr_mip->w6);
 
-    nres(_MIPP_ mr_mip->w6,mr_mip->w6);
+  invmodp(_MIPP_ mr_mip->w6, mr_mip->modulus, mr_mip->w6);
 
-    nres_modmult(_MIPP_ w->a,mr_mip->w6,w->a);
-    nres_negate(_MIPP_ mr_mip->w6,mr_mip->w6);
-    nres_modmult(_MIPP_ w->b,mr_mip->w6,w->b);
-    MR_OUT
+  nres(_MIPP_ mr_mip->w6, mr_mip->w6);
+
+  nres_modmult(_MIPP_ w->a, mr_mip->w6, w->a);
+  nres_negate(_MIPP_ mr_mip->w6, mr_mip->w6);
+  nres_modmult(_MIPP_ w->b, mr_mip->w6, w->b);
+  MR_OUT
 }
 
 /* divide zzn2 by 2 */
 
-void zzn2_div2(_MIPD_ zzn2 *w)
-{
+void zzn2_div2(_MIPD_ zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(173)
+  if (mr_mip->ERNUM) return;
+  MR_IN(173)
 
-    nres_div2(_MIPP_ w->a,w->a);
-    nres_div2(_MIPP_ w->b,w->b);
+  nres_div2(_MIPP_ w->a, w->a);
+  nres_div2(_MIPP_ w->b, w->b);
 
-    MR_OUT
+  MR_OUT
 }
 
 /* divide zzn2 by 3 */
 
-void zzn2_div3(_MIPD_ zzn2 *w)
-{
+void zzn2_div3(_MIPD_ zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(200)
+  if (mr_mip->ERNUM) return;
+  MR_IN(200)
 
-    nres_div3(_MIPP_ w->a,w->a);
-    nres_div3(_MIPP_ w->b,w->b);
+  nres_div3(_MIPP_ w->a, w->a);
+  nres_div3(_MIPP_ w->b, w->b);
 
-    MR_OUT
+  MR_OUT
 }
 
 /* divide zzn2 by 5 */
 
-void zzn2_div5(_MIPD_ zzn2 *w)
-{
+void zzn2_div5(_MIPD_ zzn2 *w) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(209)
+  if (mr_mip->ERNUM) return;
+  MR_IN(209)
 
-    nres_div5(_MIPP_ w->a,w->a);
-    nres_div5(_MIPP_ w->b,w->b);
+  nres_div5(_MIPP_ w->a, w->a);
+  nres_div5(_MIPP_ w->b, w->b);
 
-    MR_OUT
+  MR_OUT
 }
 
 /* multiply zzn2 by i */
 
-void zzn2_timesi(_MIPD_ zzn2 *u)
-{
+void zzn2_timesi(_MIPD_ zzn2 *u) {
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(164)
-    copy(u->a,mr_mip->w1);
-    nres_negate(_MIPP_ u->b,u->a);
-    if (mr_mip->qnr==-2)
-        nres_modadd(_MIPP_ u->a,u->a,u->a);
+  if (mr_mip->ERNUM) return;
+  MR_IN(164)
+  copy(u->a, mr_mip->w1);
+  nres_negate(_MIPP_ u->b, u->a);
+  if (mr_mip->qnr == -2)
+    nres_modadd(_MIPP_ u->a, u->a, u->a);
 
-    copy(mr_mip->w1,u->b);
-    MR_OUT
+  copy(mr_mip->w1, u->b);
+  MR_OUT
 }
 
-void zzn2_txx(_MIPD_ zzn2 *u)
-{
+void zzn2_txx(_MIPD_ zzn2 *u) {
   /* multiply w by t^2 where x^2-t is irreducible polynomial for ZZn4
   
    for p=5 mod 8 t=sqrt(sqrt(-2)), qnr=-2
    for p=3 mod 8 t=sqrt(1+sqrt(-1)), qnr=-1
    for p=7 mod 8 and p=2,3 mod 5 t=sqrt(2+sqrt(-1)), qnr=-1 */
-    zzn2 t;
+  zzn2 t;
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(196)  
-        
-    switch (mr_mip->pmod8)
-    {
+  if (mr_mip->ERNUM) return;
+  MR_IN(196)
+
+  switch (mr_mip->pmod8) {
     case 5:
-        zzn2_timesi(_MIPP_ u);
-        break;
+      zzn2_timesi(_MIPP_ u);
+      break;
     case 3:
-        t.a=mr_mip->w3;
-        t.b=mr_mip->w4;
-        zzn2_copy(u,&t);
-        zzn2_timesi(_MIPP_ u);
-        zzn2_add(_MIPP_ u,&t,u);
-        break;
+      t.a = mr_mip->w3;
+      t.b = mr_mip->w4;
+      zzn2_copy(u, &t);
+      zzn2_timesi(_MIPP_ u);
+      zzn2_add(_MIPP_ u, &t, u);
+      break;
     case 7:
-        t.a=mr_mip->w3;
-        t.b=mr_mip->w4;
-        zzn2_copy(u,&t);
-        zzn2_timesi(_MIPP_ u);
-        zzn2_add(_MIPP_ u,&t,u);
-        zzn2_add(_MIPP_ u,&t,u); 
-        break;
-    default: break; 
-    }
-    MR_OUT
+      t.a = mr_mip->w3;
+      t.b = mr_mip->w4;
+      zzn2_copy(u, &t);
+      zzn2_timesi(_MIPP_ u);
+      zzn2_add(_MIPP_ u, &t, u);
+      zzn2_add(_MIPP_ u, &t, u);
+      break;
+    default:
+      break;
+  }
+  MR_OUT
 }
 
-void zzn2_txd(_MIPD_ zzn2 *u)
-{ /* divide w by t^2 where x^2-t is irreducible polynomial for ZZn4
+void zzn2_txd(_MIPD_ zzn2 *u) { /* divide w by t^2 where x^2-t is irreducible polynomial for ZZn4
   
    for p=5 mod 8 t=sqrt(sqrt(-2)), qnr=-2
    for p=3 mod 8 t=sqrt(1+sqrt(-1)), qnr=-1
    for p=7 mod 8 and p=2,3 mod 5 t=sqrt(2+sqrt(-1)), qnr=-1 */
-    zzn2 t;
+  zzn2 t;
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM) return;
-    MR_IN(197)  
-    t.a=mr_mip->w3;
-    t.b=mr_mip->w4;
-    switch (mr_mip->pmod8)
-    {
+  if (mr_mip->ERNUM) return;
+  MR_IN(197)
+  t.a = mr_mip->w3;
+  t.b = mr_mip->w4;
+  switch (mr_mip->pmod8) {
     case 5:
-        copy(u->b,t.a);
-        nres_div2(_MIPP_ u->a,t.b);
-        nres_negate(_MIPP_ t.b,t.b);
-        zzn2_copy(&t,u);
-        break;
+      copy(u->b, t.a);
+      nres_div2(_MIPP_ u->a, t.b);
+      nres_negate(_MIPP_ t.b, t.b);
+      zzn2_copy(&t, u);
+      break;
     case 3:
-        nres_modadd(_MIPP_ u->a,u->b,t.a);
-        nres_modsub(_MIPP_ u->b,u->a,t.b);
-        zzn2_div2(_MIPP_ &t);
-        zzn2_copy(&t,u);
-        break;
+      nres_modadd(_MIPP_ u->a, u->b, t.a);
+      nres_modsub(_MIPP_ u->b, u->a, t.b);
+      zzn2_div2(_MIPP_ &t);
+      zzn2_copy(&t, u);
+      break;
     case 7:
-        nres_modadd(_MIPP_ u->a,u->a,t.a);
-        nres_modadd(_MIPP_ t.a,u->b,t.a);
-        nres_modadd(_MIPP_ u->b,u->b,t.b);
-        nres_modsub(_MIPP_ t.b,u->a,t.b);
-        zzn2_div5(_MIPP_ &t);
-        zzn2_copy(&t,u);  
+      nres_modadd(_MIPP_ u->a, u->a, t.a);
+      nres_modadd(_MIPP_ t.a, u->b, t.a);
+      nres_modadd(_MIPP_ u->b, u->b, t.b);
+      nres_modsub(_MIPP_ t.b, u->a, t.b);
+      zzn2_div5(_MIPP_ &t);
+      zzn2_copy(&t, u);
 /*
         nres_modadd(_MIPP_ u->a,u->b,t.a);
         nres_modadd(_MIPP_ t.a,u->b,t.a);
@@ -510,11 +480,12 @@ void zzn2_txd(_MIPD_ zzn2 *u)
         zzn2_div3(_MIPP_ &t);
         zzn2_copy(&t,u);
 */
-        break;
-        default: break;
-    }
- 
-    MR_OUT
+      break;
+    default:
+      break;
+  }
+
+  MR_OUT
 }
 
 

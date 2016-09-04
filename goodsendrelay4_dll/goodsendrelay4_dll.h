@@ -12,9 +12,10 @@
 
 // This class is exported from the goodsendrelay4_dll.dll
 class GOODSENDRELAY4_DLL_API Cgoodsendrelay4_dll {
-public:
-	Cgoodsendrelay4_dll(void);
-	// TODO: add your methods here.
+  public:
+  Cgoodsendrelay4_dll(
+  void);
+  // TODO: add your methods here.
 };
 
 extern GOODSENDRELAY4_DLL_API int ngoodsendrelay4_dll;

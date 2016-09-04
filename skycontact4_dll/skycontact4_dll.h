@@ -12,9 +12,9 @@
 
 // This class is exported from the skycontact4_dll.dll
 class SKYCONTACT4_DLL_API Cskycontact4_dll {
-public:
-	Cskycontact4_dll(void);
-	// TODO: add your methods here.
+ public:
+  Cskycontact4_dll(void);
+  // TODO: add your methods here.
 };
 
 extern SKYCONTACT4_DLL_API int nskycontact4_dll;

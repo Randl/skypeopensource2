@@ -41,100 +41,100 @@ extern uint pkt_7D_BLOB_00_19;
 //
 // sess1pkt1
 //
-int encode41_sess1pkt1_recurs(char *buf, int buf_limit_len){
-	struct blob_s blob;
-	int buf_len;
-	int blobs_count;
-	memset(buf,0,sizeof(buf));
-    buf_len=0;
+int encode41_sess1pkt1_recurs(char *buf, int buf_limit_len) {
+  struct blob_s blob;
+  int buf_len;
+  int blobs_count;
+  memset(buf, 0, sizeof(buf));
+  buf_len = 0;
 
-	blobs_count = 2;
+  blobs_count = 2;
 
-    buf_len=make_41cmdencode_recurs(buf, buf_len, blobs_count, 0);
+  buf_len = make_41cmdencode_recurs(buf, buf_len, blobs_count, 0);
 
-    // some kind of type -- blob1
-    blob.obj_type = 0x00;
-	blob.obj_index = 0x01;
-    blob.obj_data = pkt_7D_BLOB_00_01;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some kind of type -- blob1
+  blob.obj_type = 0x00;
+  blob.obj_index = 0x01;
+  blob.obj_data = pkt_7D_BLOB_00_01;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // 00-19 info -- blob2
-    blob.obj_type = 0x00;
-	blob.obj_index = 0x19;
-    blob.obj_data = pkt_7D_BLOB_00_19;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // 00-19 info -- blob2
+  blob.obj_type = 0x00;
+  blob.obj_index = 0x19;
+  blob.obj_data = pkt_7D_BLOB_00_19;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		debuglog("buffer limit overrun\n");
-		return -1;
-	};
+  if (buf_len > buf_limit_len) {
+    debuglog("buffer limit overrun\n");
+    return -1;
+  };
 
-	return buf_len;
+  return buf_len;
 };
 
 
-int encode41_sess1pkt_7D(char *buf, int buf_limit_len, char *chatstr){
-	struct blob_s blob;
-	uint session_id;
-	uint session_cmd;
-	int buf_len;
-	int blob_count;
-	
-	char intbuf[0x1000];
-	int intbuf_len;
+int encode41_sess1pkt_7D(char *buf, int buf_limit_len, char *chatstr) {
+  struct blob_s blob;
+  uint session_id;
+  uint session_cmd;
+  int buf_len;
+  int blob_count;
 
-	session_id=00;
-	session_cmd=0xA6;
+  char intbuf[0x1000];
+  int intbuf_len;
 
-	blob_count=4;
+  session_id = 00;
+  session_cmd = 0xA6;
 
-	memset(buf,0,sizeof(buf));
-    buf_len=0;
-    buf_len=make_41cmdencodeA6(buf, buf_len, blob_count, session_id, session_cmd, 0);
+  blob_count = 4;
 
-	// type of session_cmd -- blob1
-    blob.obj_type = 0;
-	blob.obj_index = 0;
-    blob.obj_data = 0x02;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
-	
-    // session_cmd command -- blob2
-    blob.obj_type = 0;
-	blob.obj_index = 1;
-    blob.obj_data = 0x7D;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  memset(buf, 0, sizeof(buf));
+  buf_len = 0;
+  buf_len = make_41cmdencodeA6(buf, buf_len, blob_count, session_id, session_cmd, 0);
 
-    // session_cmd uniq_send_id -- blob3
-    blob.obj_type = 0;
-	blob.obj_index = 2;
-	blob.obj_data = get_cmdid_seqnum();
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // type of session_cmd -- blob1
+  blob.obj_type = 0;
+  blob.obj_index = 0;
+  blob.obj_data = 0x02;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // ALLOC1 recursive 00-19 info -- blob4
-	intbuf_len=encode41_sess1pkt1_recurs(intbuf,sizeof(intbuf));
-    blob.obj_type = 5;
-	blob.obj_index = 0x03;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)intbuf;
-	blob.data_size = intbuf_len;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // session_cmd command -- blob2
+  blob.obj_type = 0;
+  blob.obj_index = 1;
+  blob.obj_data = 0x7D;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		debuglog("buffer limit overrun\n");
-		return -1;
-	};
+  // session_cmd uniq_send_id -- blob3
+  blob.obj_type = 0;
+  blob.obj_index = 2;
+  blob.obj_data = get_cmdid_seqnum();
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	return buf_len;
+  // ALLOC1 recursive 00-19 info -- blob4
+  intbuf_len = encode41_sess1pkt1_recurs(intbuf, sizeof(intbuf));
+  blob.obj_type = 5;
+  blob.obj_index = 0x03;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) intbuf;
+  blob.data_size = intbuf_len;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
+
+  if (buf_len > buf_limit_len) {
+    debuglog("buffer limit overrun\n");
+    return -1;
+  };
+
+  return buf_len;
 };
 
 

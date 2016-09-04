@@ -39,132 +39,132 @@ extern u8 LOCAL_UIC[0x189];
 extern uint BLOB_0_2;
 
 
-int encode41_setup2pkt(char *buf, int buf_limit_len){
-	struct blob_s blob;
-	uint session_id;
-	uint session_cmd;
-	int buf_len;
+int encode41_setup2pkt(char *buf, int buf_limit_len) {
+  struct blob_s blob;
+  uint session_id;
+  uint session_cmd;
+  int buf_len;
 
-	int blob_count;
+  int blob_count;
 
-	//session_id=0x45EF;
-    session_id=0x028D93;
+  //session_id=0x45EF;
+  session_id = 0x028D93;
 
-	session_cmd=0x45;
+  session_cmd = 0x45;
 
-	memset(buf,0,sizeof(buf));
-    buf_len=0;
+  memset(buf, 0, sizeof(buf));
+  buf_len = 0;
 
-	// 0x0C
-	blob_count = 12;
+  // 0x0C
+  blob_count = 12;
 
-    buf_len=make_41cmdencode(buf, buf_len, blob_count, session_id, session_cmd, 0);
+  buf_len = make_41cmdencode(buf, buf_len, blob_count, session_id, session_cmd, 0);
 
 
-    // blob1
-    blob.obj_type = 0;
-	blob.obj_index = 0x16;
-    blob.obj_data = 1;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob1
+  blob.obj_type = 0;
+  blob.obj_index = 0x16;
+  blob.obj_data = 1;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // blob2
-    blob.obj_type = 0;
-	blob.obj_index = 0x1A;
-    blob.obj_data = 1;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob2
+  blob.obj_type = 0;
+  blob.obj_index = 0x1A;
+  blob.obj_data = 1;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // blob3
-    blob.obj_type = 0;
-	blob.obj_index = 0x1D;
-	blob.obj_data = 0xFA;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob3
+  blob.obj_type = 0;
+  blob.obj_index = 0x1D;
+  blob.obj_data = 0xFA;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // blob4
-    blob.obj_type = 0;
-	blob.obj_index = 0x1E;
-    blob.obj_data = 0;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
-	
+  // blob4
+  blob.obj_type = 0;
+  blob.obj_index = 0x1E;
+  blob.obj_data = 0;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// blob5 -- our real internet ip
-    blob.obj_type = 0;
-	blob.obj_index = 2;
-	blob.obj_data = 0xB2412C15;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
 
-    // blob6 -- ALLOC1 credentials ciphered
-    blob.obj_type = 4;
-	blob.obj_index = 5;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)CREDENTIALS188;
-	blob.data_size = CREDENTIALS188_LEN;
+  // blob5 -- our real internet ip
+  blob.obj_type = 0;
+  blob.obj_index = 2;
+  blob.obj_data = 0xB2412C15;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob6 -- ALLOC1 credentials ciphered
+  blob.obj_type = 4;
+  blob.obj_index = 5;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) CREDENTIALS188;
+  blob.data_size = CREDENTIALS188_LEN;
 
-    // blob7 -- some flag
-    blob.obj_type = 0;
-	blob.obj_index = 0x15;
-    blob.obj_data = 2;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // blob8 -- ALLOC2 challenge_response
-    blob.obj_type = 4;
-	blob.obj_index = 0x0A;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)CHALLENGE_RESPONSE;
-	blob.data_size = sizeof(CHALLENGE_RESPONSE);
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob7 -- some flag
+  blob.obj_type = 0;
+  blob.obj_index = 0x15;
+  blob.obj_data = 2;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // hz -- blob9
-    blob.obj_type = 0;
-	blob.obj_index = 0x19;
-    blob.obj_data = 1;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
-	
-    // blob10 -- ALLOC3 aes nonce, encrypted by rsa public key (for aes key)
-    blob.obj_type = 4;
-	blob.obj_index = 0x06;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)LOCAL_NONCE;
-	blob.data_size = sizeof(LOCAL_NONCE);
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob8 -- ALLOC2 challenge_response
+  blob.obj_type = 4;
+  blob.obj_index = 0x0A;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) CHALLENGE_RESPONSE;
+  blob.data_size = sizeof(CHALLENGE_RESPONSE);
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // blob11 -- ALLOC4 
-    blob.obj_type = 4;
-	blob.obj_index = 0x11;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)REMOTE_AUTHORIZED188;
-	blob.data_size = REMOTE_AUTHORIZED188_LEN;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // hz -- blob9
+  blob.obj_type = 0;
+  blob.obj_index = 0x19;
+  blob.obj_data = 1;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // hz -- blob12
-    blob.obj_type = 0;
-	blob.obj_index = 0x14;
-    blob.obj_data = 0;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob10 -- ALLOC3 aes nonce, encrypted by rsa public key (for aes key)
+  blob.obj_type = 4;
+  blob.obj_index = 0x06;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) LOCAL_NONCE;
+  blob.data_size = sizeof(LOCAL_NONCE);
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		debuglog("buffer limit overrun\n");
-		return -1;
-	};
+  // blob11 -- ALLOC4
+  blob.obj_type = 4;
+  blob.obj_index = 0x11;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) REMOTE_AUTHORIZED188;
+  blob.data_size = REMOTE_AUTHORIZED188_LEN;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	return buf_len;
+  // hz -- blob12
+  blob.obj_type = 0;
+  blob.obj_index = 0x14;
+  blob.obj_data = 0;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
+
+  if (buf_len > buf_limit_len) {
+    debuglog("buffer limit overrun\n");
+    return -1;
+  };
+
+  return buf_len;
 };
 
 

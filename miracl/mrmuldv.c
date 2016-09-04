@@ -56,26 +56,22 @@ int a,b,*c,*rp;
 }
 #else
 
-int muldiv(int a,int b,int c,int m,int *rp)
-{
+int muldiv(int a, int b, int c, int m, int *rp) {
   //TODO
   return 0;
 }
 
-int muldvm(int a,int c,int m,int *rp)
-{
+int muldvm(int a, int c, int m, int *rp) {
   //TODO
   return 0;
 }
 
-int muldvd(int a,int b,int c,int *rp)
-{
+int muldvd(int a, int b, int c, int *rp) {
   //TODO
   return 0;
 }
 
-void muldvd2(int a,int b,int c,int *rp)
-{
+void muldvd2(int a, int b, int c, int *rp) {
   //TODO
   return;
 }

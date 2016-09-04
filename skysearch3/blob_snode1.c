@@ -8,61 +8,61 @@
 
 
 int make_tcp_reqslot_prepare(u16 seqnum, u16 req_slot, u16 req_slot_size, char *send_pkt) {
-	u8 result[0x1000];
-	int result_len;
-	u8 header[0x100];
-	int header_len=5;
-	int send_len;
+  u8 result[0x1000];
+  int result_len;
+  u8 header[0x100];
+  int header_len = 5;
+  int send_len;
 
 
-	skype_thing	mythings[] = {
-		{00, 00, req_slot, 0x00},
-		{00, 05, req_slot_size, 0x00},
-	};
-	int mythings_len=2;
+  skype_thing mythings[] = {
+      {00, 00, req_slot, 0x00},
+      {00, 05, req_slot_size, 0x00},
+  };
+  int mythings_len = 2;
 
-	skype_list		list = {&list, mythings, mythings_len, mythings_len};
+  skype_list list = {&list, mythings, mythings_len, mythings_len};
 
-	result_len=main_pack_into(&list, result, sizeof(result)-1 );
+  result_len = main_pack_into(&list, result, sizeof(result) - 1);
 
-	show_memory(result,result_len,"packed42:");
-	main_unpack42(result,result_len);
+  show_memory(result, result_len, "packed42:");
+  main_unpack42(result, result_len);
 
-	header_len=encode_to_7bit(header, result_len+2, header_len);
-
-
-	// pkt start bytes
-	send_len = 0;
-	send_pkt[0]=0x18;
-	send_len+=1;
-
-	// seqnum
-	seqnum=_bswap16(seqnum);
-	memcpy(send_pkt+send_len,(char *)&seqnum,2);
-	seqnum=_bswap16(seqnum);
-	send_len+=2;
+  header_len = encode_to_7bit(header, result_len + 2, header_len);
 
 
-	// pkt size
-	memcpy(send_pkt+send_len,header,header_len);
-	send_len+=header_len;
+  // pkt start bytes
+  send_len = 0;
+  send_pkt[0] = 0x18;
+  send_len += 1;
 
-	// cmd 
-	send_pkt[send_len]=0x32;
-	send_len++;
+  // seqnum
+  seqnum = _bswap16(seqnum);
+  memcpy(send_pkt + send_len, (char *) &seqnum, 2);
+  seqnum = _bswap16(seqnum);
+  send_len += 2;
 
-	// seqnum
-	seqnum--;
-	seqnum=_bswap16(seqnum);
-	memcpy(send_pkt+send_len,(char *)&seqnum,2);
-	seqnum=_bswap16(seqnum);
-	send_len+=2;
 
-	// 42 data
-	memcpy(send_pkt+send_len,result,result_len);
-	send_len+=result_len;
+  // pkt size
+  memcpy(send_pkt + send_len, header, header_len);
+  send_len += header_len;
 
-	return send_len;
+  // cmd
+  send_pkt[send_len] = 0x32;
+  send_len++;
+
+  // seqnum
+  seqnum--;
+  seqnum = _bswap16(seqnum);
+  memcpy(send_pkt + send_len, (char *) &seqnum, 2);
+  seqnum = _bswap16(seqnum);
+  send_len += 2;
+
+  // 42 data
+  memcpy(send_pkt + send_len, result, result_len);
+  send_len += result_len;
+
+  return send_len;
 };
 
 

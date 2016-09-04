@@ -24,53 +24,53 @@ miracl *mip;
 
 
 char *gnu_basename(char *path) {
-    char *base = strrchr(path, '\\');
-    return base ? base+1 : path;
+  char *base = strrchr(path, '\\');
+  return base ? base + 1 : path;
 };
 
 
 int main_skyauth4(char *username, char *password) {
-	char *ip;
-	unsigned short port;
-	unsigned short seqnum;
-    int i;
+  char *ip;
+  unsigned short port;
+  unsigned short seqnum;
+  int i;
 
-	srand( time(NULL) );
-	
-	mip = mirsys (100, 0);
-	
-	ip=strdup("91.190.218.40");
-	port=33033;
-	
-	//ip=strdup("157.55.235.147");
-	//port=40030;
+  srand(time(NULL));
 
-	//ip=strdup("192.168.1.17");
-	//port=33864;
+  mip = mirsys(100, 0);
 
-	/*
-	if (argc != 3) {
-		printf("Please specify username and password.\n");
-		printf("Example: %s <someuser> <somepass>\n", gnu_basename(argv[0]));
-		exit(1);
-	};
-	username = argv[1];
-	password = argv[2];
-	*/
+  ip = strdup("91.190.218.40");
+  port = 33033;
 
-	make_dh384_handshake(ip, port);
+  //ip=strdup("157.55.235.147");
+  //port=40030;
 
-	i = do_skype_login(username, password);
+  //ip=strdup("192.168.1.17");
+  //port=33864;
 
-    if (i==285){
-        // successful login
-        i = 1;
-    } else {
-        // login fail
-        i = 0;
-    };
+  /*
+  if (argc != 3) {
+      printf("Please specify username and password.\n");
+      printf("Example: %s <someuser> <somepass>\n", gnu_basename(argv[0]));
+      exit(1);
+  };
+  username = argv[1];
+  password = argv[2];
+  */
 
-	printf("Done!\n");
+  make_dh384_handshake(ip, port);
 
-	return i;
+  i = do_skype_login(username, password);
+
+  if (i == 285) {
+    // successful login
+    i = 1;
+  } else {
+    // login fail
+    i = 0;
+  };
+
+  printf("Done!\n");
+
+  return i;
 }

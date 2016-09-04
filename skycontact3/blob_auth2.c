@@ -19,106 +19,106 @@ extern u8 LOCAL_NAME[0x100];
 extern u8 CLIENT_VERSION[0x100];
 extern u8 LOCAL_AUTH_BUF[0x11];
 
-int encode41_auth2pkt(char *buf, int buf_limit_len){
-	struct blob_s blob;
-	uint session_id;
-	uint session_cmd;
-	int buf_len;
-	int blob_count;
-	int second_len;
+int encode41_auth2pkt(char *buf, int buf_limit_len) {
+  struct blob_s blob;
+  uint session_id;
+  uint session_cmd;
+  int buf_len;
+  int blob_count;
+  int second_len;
 
-	blob_count=4;
+  blob_count = 4;
 
-	memset(buf,0,sizeof(buf));
-    buf_len=0;
-    buf_len=make_41cmdencode_auth(buf, buf_len, blob_count, 0);
+  memset(buf, 0, sizeof(buf));
+  buf_len = 0;
+  buf_len = make_41cmdencode_auth(buf, buf_len, blob_count, 0);
 
-    // blob1 
-    blob.obj_type = 0;
-	blob.obj_index = 0;
-    blob.obj_data = 0x178E;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob1
+  blob.obj_type = 0;
+  blob.obj_index = 0;
+  blob.obj_data = 0x178E;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// blob2
-	blob.obj_type = 0;
-	blob.obj_index = 2;
-    blob.obj_data = 0x03;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob2
+  blob.obj_type = 0;
+  blob.obj_index = 2;
+  blob.obj_data = 0x03;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// blob3 -- local skypename
-	blob.obj_type = 3;
-	blob.obj_index = 4;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)LOCAL_NAME;
-	blob.data_size = strlen(LOCAL_NAME)+1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob3 -- local skypename
+  blob.obj_type = 3;
+  blob.obj_index = 4;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) LOCAL_NAME;
+  blob.data_size = strlen(LOCAL_NAME) + 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // blob4 -- auth buffer
-    blob.obj_type = 4;
-	blob.obj_index = 5;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)LOCAL_AUTH_BUF;
-	blob.data_size = sizeof(LOCAL_AUTH_BUF)-1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob4 -- auth buffer
+  blob.obj_type = 4;
+  blob.obj_index = 5;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) LOCAL_AUTH_BUF;
+  blob.data_size = sizeof(LOCAL_AUTH_BUF) - 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		printf("buffer limit overrun\n");
-		return -1;
-	};
+  if (buf_len > buf_limit_len) {
+    printf("buffer limit overrun\n");
+    return -1;
+  };
 
-	second_len = encode41_auth2pkt_second(buf+buf_len, buf_limit_len);
-	buf_len = buf_len + second_len;
+  second_len = encode41_auth2pkt_second(buf + buf_len, buf_limit_len);
+  buf_len = buf_len + second_len;
 
-	return buf_len;
+  return buf_len;
 };
 
 
-int encode41_auth2pkt_second(char *buf, int buf_limit_len){
-	struct blob_s blob;
-	uint session_id;
-	uint session_cmd;
-	int buf_len;
-	int blob_count;
+int encode41_auth2pkt_second(char *buf, int buf_limit_len) {
+  struct blob_s blob;
+  uint session_id;
+  uint session_cmd;
+  int buf_len;
+  int blob_count;
 
-	blob_count=3;
+  blob_count = 3;
 
-    buf_len=0;
-    buf_len=make_41cmdencode_auth(buf, buf_len, blob_count, 0);
+  buf_len = 0;
+  buf_len = make_41cmdencode_auth(buf, buf_len, blob_count, 0);
 
-	// blob1
-	blob.obj_type = 3;
-	blob.obj_index = 4;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)LOCAL_NAME;
-	blob.data_size = strlen(LOCAL_NAME)+1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob1
+  blob.obj_type = 3;
+  blob.obj_index = 4;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) LOCAL_NAME;
+  blob.data_size = strlen(LOCAL_NAME) + 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// blob2 -- our client version
-	blob.obj_type = 0x03;
-	blob.obj_index = 0x0D;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)CLIENT_VERSION;
-	blob.data_size = strlen(CLIENT_VERSION)+1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob2 -- our client version
+  blob.obj_type = 0x03;
+  blob.obj_index = 0x0D;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) CLIENT_VERSION;
+  blob.data_size = strlen(CLIENT_VERSION) + 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// blob3 -- some ... hostid2 or unique session garbage data?
-	blob.obj_type = 0;
-	blob.obj_index = 0x0E;
-    blob.obj_data = 0x5F34EB7A;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // blob3 -- some ... hostid2 or unique session garbage data?
+  blob.obj_type = 0;
+  blob.obj_index = 0x0E;
+  blob.obj_data = 0x5F34EB7A;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		printf("buffer limit overrun\n");
-		return -1;
-	};
+  if (buf_len > buf_limit_len) {
+    printf("buffer limit overrun\n");
+    return -1;
+  };
 
-	return buf_len;
+  return buf_len;
 };
 
 

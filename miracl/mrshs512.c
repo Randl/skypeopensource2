@@ -15,7 +15,7 @@
 #ifdef mr_unsign64
 
 
-#ifdef __GNUC__ 
+#ifdef __GNUC__
 #define H0 0x6a09e667f3bcc908LL
 #define H1 0xbb67ae8584caa73bLL
 #define H2 0x3c6ef372fe94f82bLL
@@ -54,28 +54,28 @@
 #endif
 /* */
 
-#ifdef __GNUC__ 
-static const mr_unsign64 K[80]=
-{0x428a2f98d728ae22LL,0x7137449123ef65cdLL,0xb5c0fbcfec4d3b2fLL,0xe9b5dba58189dbbcLL,
-0x3956c25bf348b538LL,0x59f111f1b605d019LL,0x923f82a4af194f9bLL,0xab1c5ed5da6d8118LL,
-0xd807aa98a3030242LL,0x12835b0145706fbeLL,0x243185be4ee4b28cLL,0x550c7dc3d5ffb4e2LL,
-0x72be5d74f27b896fLL,0x80deb1fe3b1696b1LL,0x9bdc06a725c71235LL,0xc19bf174cf692694LL,
-0xe49b69c19ef14ad2LL,0xefbe4786384f25e3LL,0x0fc19dc68b8cd5b5LL,0x240ca1cc77ac9c65LL,
-0x2de92c6f592b0275LL,0x4a7484aa6ea6e483LL,0x5cb0a9dcbd41fbd4LL,0x76f988da831153b5LL,
-0x983e5152ee66dfabLL,0xa831c66d2db43210LL,0xb00327c898fb213fLL,0xbf597fc7beef0ee4LL,
-0xc6e00bf33da88fc2LL,0xd5a79147930aa725LL,0x06ca6351e003826fLL,0x142929670a0e6e70LL,
-0x27b70a8546d22ffcLL,0x2e1b21385c26c926LL,0x4d2c6dfc5ac42aedLL,0x53380d139d95b3dfLL,
-0x650a73548baf63deLL,0x766a0abb3c77b2a8LL,0x81c2c92e47edaee6LL,0x92722c851482353bLL,
-0xa2bfe8a14cf10364LL,0xa81a664bbc423001LL,0xc24b8b70d0f89791LL,0xc76c51a30654be30LL,
-0xd192e819d6ef5218LL,0xd69906245565a910LL,0xf40e35855771202aLL,0x106aa07032bbd1b8LL,
-0x19a4c116b8d2d0c8LL,0x1e376c085141ab53LL,0x2748774cdf8eeb99LL,0x34b0bcb5e19b48a8LL,
-0x391c0cb3c5c95a63LL,0x4ed8aa4ae3418acbLL,0x5b9cca4f7763e373LL,0x682e6ff3d6b2b8a3LL,
-0x748f82ee5defb2fcLL,0x78a5636f43172f60LL,0x84c87814a1f0ab72LL,0x8cc702081a6439ecLL,
-0x90befffa23631e28LL,0xa4506cebde82bde9LL,0xbef9a3f7b2c67915LL,0xc67178f2e372532bLL,
-0xca273eceea26619cLL,0xd186b8c721c0c207LL,0xeada7dd6cde0eb1eLL,0xf57d4f7fee6ed178LL,
-0x06f067aa72176fbaLL,0x0a637dc5a2c898a6LL,0x113f9804bef90daeLL,0x1b710b35131c471bLL,
-0x28db77f523047d84LL,0x32caab7b40c72493LL,0x3c9ebe0a15c9bebcLL,0x431d67c49c100d4cLL,
-0x4cc5d4becb3e42b6LL,0x597f299cfc657e2aLL,0x5fcb6fab3ad6faecLL,0x6c44198c4a475817LL};
+#ifdef __GNUC__
+static const mr_unsign64 K[80] =
+    {0x428a2f98d728ae22LL, 0x7137449123ef65cdLL, 0xb5c0fbcfec4d3b2fLL, 0xe9b5dba58189dbbcLL,
+     0x3956c25bf348b538LL, 0x59f111f1b605d019LL, 0x923f82a4af194f9bLL, 0xab1c5ed5da6d8118LL,
+     0xd807aa98a3030242LL, 0x12835b0145706fbeLL, 0x243185be4ee4b28cLL, 0x550c7dc3d5ffb4e2LL,
+     0x72be5d74f27b896fLL, 0x80deb1fe3b1696b1LL, 0x9bdc06a725c71235LL, 0xc19bf174cf692694LL,
+     0xe49b69c19ef14ad2LL, 0xefbe4786384f25e3LL, 0x0fc19dc68b8cd5b5LL, 0x240ca1cc77ac9c65LL,
+     0x2de92c6f592b0275LL, 0x4a7484aa6ea6e483LL, 0x5cb0a9dcbd41fbd4LL, 0x76f988da831153b5LL,
+     0x983e5152ee66dfabLL, 0xa831c66d2db43210LL, 0xb00327c898fb213fLL, 0xbf597fc7beef0ee4LL,
+     0xc6e00bf33da88fc2LL, 0xd5a79147930aa725LL, 0x06ca6351e003826fLL, 0x142929670a0e6e70LL,
+     0x27b70a8546d22ffcLL, 0x2e1b21385c26c926LL, 0x4d2c6dfc5ac42aedLL, 0x53380d139d95b3dfLL,
+     0x650a73548baf63deLL, 0x766a0abb3c77b2a8LL, 0x81c2c92e47edaee6LL, 0x92722c851482353bLL,
+     0xa2bfe8a14cf10364LL, 0xa81a664bbc423001LL, 0xc24b8b70d0f89791LL, 0xc76c51a30654be30LL,
+     0xd192e819d6ef5218LL, 0xd69906245565a910LL, 0xf40e35855771202aLL, 0x106aa07032bbd1b8LL,
+     0x19a4c116b8d2d0c8LL, 0x1e376c085141ab53LL, 0x2748774cdf8eeb99LL, 0x34b0bcb5e19b48a8LL,
+     0x391c0cb3c5c95a63LL, 0x4ed8aa4ae3418acbLL, 0x5b9cca4f7763e373LL, 0x682e6ff3d6b2b8a3LL,
+     0x748f82ee5defb2fcLL, 0x78a5636f43172f60LL, 0x84c87814a1f0ab72LL, 0x8cc702081a6439ecLL,
+     0x90befffa23631e28LL, 0xa4506cebde82bde9LL, 0xbef9a3f7b2c67915LL, 0xc67178f2e372532bLL,
+     0xca273eceea26619cLL, 0xd186b8c721c0c207LL, 0xeada7dd6cde0eb1eLL, 0xf57d4f7fee6ed178LL,
+     0x06f067aa72176fbaLL, 0x0a637dc5a2c898a6LL, 0x113f9804bef90daeLL, 0x1b710b35131c471bLL,
+     0x28db77f523047d84LL, 0x32caab7b40c72493LL, 0x3c9ebe0a15c9bebcLL, 0x431d67c49c100d4cLL,
+     0x4cc5d4becb3e42b6LL, 0x597f299cfc657e2aLL, 0x5fcb6fab3ad6faecLL, 0x6c44198c4a475817LL};
 #else
 static const mr_unsign64 K[80]=
 {0x428a2f98d728ae22,0x7137449123ef65cd,0xb5c0fbcfec4d3b2f,0xe9b5dba58189dbbc,
@@ -105,136 +105,146 @@ static const mr_unsign64 K[80]=
 
 /* functions */
 
-#define S(n,x) (((x)>>n) | ((x)<<(64-n)))
-#define R(n,x) ((x)>>n)
+#define S(n, x) (((x)>>n) | ((x)<<(64-n)))
+#define R(n, x) ((x)>>n)
 
-#define Ch(x,y,z)  ((x&y)^(~(x)&z))
-#define Maj(x,y,z) ((x&y)^(x&z)^(y&z))
+#define Ch(x, y, z)  ((x&y)^(~(x)&z))
+#define Maj(x, y, z) ((x&y)^(x&z)^(y&z))
 #define Sig0(x)    (S(28,x)^S(34,x)^S(39,x))
 #define Sig1(x)    (S(14,x)^S(18,x)^S(41,x))
 #define theta0(x)  (S(1,x)^S(8,x)^R(7,x))
 #define theta1(x)  (S(19,x)^S(61,x)^R(6,x))
 
-static void shs_transform(sha512 *sh)
-{ /* basic transformation step */
-    mr_unsign64 a,b,c,d,e,f,g,h,t1,t2;
-    int j;
-    for (j=16;j<80;j++) 
-        sh->w[j]=theta1(sh->w[j-2])+sh->w[j-7]+theta0(sh->w[j-15])+sh->w[j-16];
+static void shs_transform(sha512 *sh) { /* basic transformation step */
+  mr_unsign64 a, b, c, d, e, f, g, h, t1, t2;
+  int j;
+  for (j = 16; j < 80; j++)
+    sh->w[j] = theta1(sh->w[j - 2]) + sh->w[j - 7] + theta0(sh->w[j - 15]) + sh->w[j - 16];
 
-    a=sh->h[0]; b=sh->h[1]; c=sh->h[2]; d=sh->h[3]; 
-    e=sh->h[4]; f=sh->h[5]; g=sh->h[6]; h=sh->h[7];
+  a = sh->h[0];
+  b = sh->h[1];
+  c = sh->h[2];
+  d = sh->h[3];
+  e = sh->h[4];
+  f = sh->h[5];
+  g = sh->h[6];
+  h = sh->h[7];
 
-    for (j=0;j<80;j++)
-    { /* 80 times - mush it up */
-        t1=h+Sig1(e)+Ch(e,f,g)+K[j]+sh->w[j];
-        t2=Sig0(a)+Maj(a,b,c);
-        h=g; g=f; f=e;
-        e=d+t1;
-        d=c;
-        c=b;
-        b=a;
-        a=t1+t2;        
-    }
-    sh->h[0]+=a; sh->h[1]+=b; sh->h[2]+=c; sh->h[3]+=d; 
-    sh->h[4]+=e; sh->h[5]+=f; sh->h[6]+=g; sh->h[7]+=h; 
-} 
-
-void shs512_init(sha512 *sh)
-{ /* re-initialise */
-    int i;
-    for (i=0;i<80;i++) sh->w[i]=0;
-    sh->length[0]=sh->length[1]=0;
-    sh->h[0]=H0;
-    sh->h[1]=H1;
-    sh->h[2]=H2;
-    sh->h[3]=H3;
-    sh->h[4]=H4;
-    sh->h[5]=H5;
-    sh->h[6]=H6;
-    sh->h[7]=H7;
+  for (j = 0; j < 80; j++) { /* 80 times - mush it up */
+    t1 = h + Sig1(e) + Ch(e, f, g) + K[j] + sh->w[j];
+    t2 = Sig0(a) + Maj(a, b, c);
+    h = g;
+    g = f;
+    f = e;
+    e = d + t1;
+    d = c;
+    c = b;
+    b = a;
+    a = t1 + t2;
+  }
+  sh->h[0] += a;
+  sh->h[1] += b;
+  sh->h[2] += c;
+  sh->h[3] += d;
+  sh->h[4] += e;
+  sh->h[5] += f;
+  sh->h[6] += g;
+  sh->h[7] += h;
 }
 
-void shs384_init(sha384 *sh)
-{ /* re-initialise */
-    int i;
-    for (i=0;i<80;i++) sh->w[i]=0;
-    sh->length[0]=sh->length[1]=0;
-    sh->h[0]=H8;
-    sh->h[1]=H9;
-    sh->h[2]=HA;
-    sh->h[3]=HB;
-    sh->h[4]=HC;
-    sh->h[5]=HD;
-    sh->h[6]=HE;
-    sh->h[7]=HF;
+void shs512_init(sha512 *sh) { /* re-initialise */
+  int i;
+  for (i = 0; i < 80; i++) sh->w[i] = 0;
+  sh->length[0] = sh->length[1] = 0;
+  sh->h[0] = H0;
+  sh->h[1] = H1;
+  sh->h[2] = H2;
+  sh->h[3] = H3;
+  sh->h[4] = H4;
+  sh->h[5] = H5;
+  sh->h[6] = H6;
+  sh->h[7] = H7;
 }
 
-
-void shs512_process(sha512 *sh,int byte)
-{ /* process the next message byte */
-    int cnt;
-    
-    cnt=(int)((sh->length[0]/64)%16);
-    
-    sh->w[cnt]<<=8;
-    sh->w[cnt]|=(mr_unsign64)(byte&0xFF);
-
-    sh->length[0]+=8;
-    if (sh->length[0]==0L) { sh->length[1]++; sh->length[0]=0L; }
-    if ((sh->length[0]%1024)==0) shs_transform(sh);
+void shs384_init(sha384 *sh) { /* re-initialise */
+  int i;
+  for (i = 0; i < 80; i++) sh->w[i] = 0;
+  sh->length[0] = sh->length[1] = 0;
+  sh->h[0] = H8;
+  sh->h[1] = H9;
+  sh->h[2] = HA;
+  sh->h[3] = HB;
+  sh->h[4] = HC;
+  sh->h[5] = HD;
+  sh->h[6] = HE;
+  sh->h[7] = HF;
 }
 
 
-void shs384_process(sha384 *sh,int byte)
-{ /* process the next message byte */
-    int cnt;
-    
-    cnt=(int)((sh->length[0]/64)%16);
-    
-    sh->w[cnt]<<=8;
-    sh->w[cnt]|=(mr_unsign64)(byte&0xFF);
+void shs512_process(sha512 *sh, int byte) { /* process the next message byte */
+  int cnt;
 
-    sh->length[0]+=8;
-    if (sh->length[0]==0L) { sh->length[1]++; sh->length[0]=0L; }
-    if ((sh->length[0]%1024)==0) shs_transform(sh);
+  cnt = (int) ((sh->length[0] / 64) % 16);
+
+  sh->w[cnt] <<= 8;
+  sh->w[cnt] |= (mr_unsign64) (byte & 0xFF);
+
+  sh->length[0] += 8;
+  if (sh->length[0] == 0L) {
+    sh->length[1]++;
+    sh->length[0] = 0L;
+  }
+  if ((sh->length[0] % 1024) == 0) shs_transform(sh);
 }
 
 
-void shs512_hash(sha512 *sh,char hash[64])
-{ /* pad message and finish - supply digest */
-    int i;
-    mr_unsign64 len0,len1;
-    len0=sh->length[0];
-    len1=sh->length[1];
-    shs512_process(sh,PAD);
-    while ((sh->length[0]%1024)!=896) shs512_process(sh,ZERO);
-    sh->w[14]=len1;
-    sh->w[15]=len0;    
-    shs_transform(sh);
-    for (i=0;i<64;i++)
-    { /* convert to bytes */
-        hash[i]=(char)((sh->h[i/8]>>(8*(7-i%8))) & 0xffL);
-    }
-    shs512_init(sh);
+void shs384_process(sha384 *sh, int byte) { /* process the next message byte */
+  int cnt;
+
+  cnt = (int) ((sh->length[0] / 64) % 16);
+
+  sh->w[cnt] <<= 8;
+  sh->w[cnt] |= (mr_unsign64) (byte & 0xFF);
+
+  sh->length[0] += 8;
+  if (sh->length[0] == 0L) {
+    sh->length[1]++;
+    sh->length[0] = 0L;
+  }
+  if ((sh->length[0] % 1024) == 0) shs_transform(sh);
 }
 
-void shs384_hash(sha384 *sh,char hash[48])
-{ /* pad message and finish - supply digest */
-    int i;
-    mr_unsign64 len0,len1;
-    len0=sh->length[0];
-    len1=sh->length[1];
-    shs512_process(sh,PAD);
-    while ((sh->length[0]%1024)!=896) shs384_process(sh,ZERO);
-    sh->w[14]=len1;
-    sh->w[15]=len0;    
-    shs_transform(sh);
-    for (i=0;i<48;i++)
-    { /* convert to bytes */
-        hash[i]=(char)((sh->h[i/8]>>(8*(7-i%8))) & 0xffL);
-    }
-    shs384_init(sh);
+
+void shs512_hash(sha512 *sh, char hash[64]) { /* pad message and finish - supply digest */
+  int i;
+  mr_unsign64 len0, len1;
+  len0 = sh->length[0];
+  len1 = sh->length[1];
+  shs512_process(sh, PAD);
+  while ((sh->length[0] % 1024) != 896) shs512_process(sh, ZERO);
+  sh->w[14] = len1;
+  sh->w[15] = len0;
+  shs_transform(sh);
+  for (i = 0; i < 64; i++) { /* convert to bytes */
+    hash[i] = (char) ((sh->h[i / 8] >> (8 * (7 - i % 8))) & 0xffL);
+  }
+  shs512_init(sh);
+}
+
+void shs384_hash(sha384 *sh, char hash[48]) { /* pad message and finish - supply digest */
+  int i;
+  mr_unsign64 len0, len1;
+  len0 = sh->length[0];
+  len1 = sh->length[1];
+  shs512_process(sh, PAD);
+  while ((sh->length[0] % 1024) != 896) shs384_process(sh, ZERO);
+  sh->w[14] = len1;
+  sh->w[15] = len0;
+  shs_transform(sh);
+  for (i = 0; i < 48; i++) { /* convert to bytes */
+    hash[i] = (char) ((sh->h[i / 8] >> (8 * (7 - i % 8))) & 0xffL);
+  }
+  shs384_init(sh);
 }
 
 

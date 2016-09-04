@@ -12,9 +12,10 @@
 
 // This class is exported from the skyauth4_dll.dll
 class SKYAUTH4_DLL_API Cskyauth4_dll {
-public:
-	Cskyauth4_dll(void);
-	// TODO: add your methods here.
+  public:
+  Cskyauth4_dll(
+  void);
+  // TODO: add your methods here.
 };
 
 extern SKYAUTH4_DLL_API int nskyauth4_dll;

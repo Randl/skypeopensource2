@@ -10,55 +10,51 @@
 #include <stdlib.h>
 #include "miracl.h"
 
-int jack(_MIPD_ big a,big n)
-{ /* find jacobi symbol (a/n), for positive odd n */
-    big w;
-    int nm8,onm8,t;
+int jack(_MIPD_ big a, big n) { /* find jacobi symbol (a/n), for positive odd n */
+  big w;
+  int nm8, onm8, t;
 #ifdef MR_OS_THREADS
-    miracl *mr_mip=get_mip();
+  miracl *mr_mip=get_mip();
 #endif
-    if (mr_mip->ERNUM || size(a)==0 || size(n) <1) return 0;
-    MR_IN(3)
+  if (mr_mip->ERNUM || size(a) == 0 || size(n) < 1) return 0;
+  MR_IN(3)
 
-    t=1;
-    copy(n,mr_mip->w2);
-    nm8=remain(_MIPP_ mr_mip->w2,8);
-    if (nm8%2==0) 
-    {
-        MR_OUT
-        return 0;
-    }
-    
-    if (size(a)<0)
-    {
-        if (nm8%4==3) t=-1;
-        negify(a,mr_mip->w1);
-    }
-    else copy(a,mr_mip->w1);
-
-    while (size(mr_mip->w1)!=0)
-    {
-        while (remain(_MIPP_ mr_mip->w1,2)==0)
-        {
-            subdiv(_MIPP_ mr_mip->w1,2,mr_mip->w1);
-            if (nm8==3 || nm8==5) t=-t; 
-        }
-        if (compare(mr_mip->w1,mr_mip->w2)<0)
-        {
-            onm8=nm8;
-            w=mr_mip->w1; mr_mip->w1=mr_mip->w2; mr_mip->w2=w;
-            nm8=remain(_MIPP_ mr_mip->w2,8);
-            if (onm8%4==3 && nm8%4==3) t=-t;
-        }
-        mr_psub(_MIPP_ mr_mip->w1,mr_mip->w2,mr_mip->w1);
-        subdiv(_MIPP_ mr_mip->w1,2,mr_mip->w1);
- 
-        if (nm8==3 || nm8==5) t=-t; 
-    }
-
+  t = 1;
+  copy(n, mr_mip->w2);
+  nm8 = remain(_MIPP_ mr_mip->w2, 8);
+  if (nm8 % 2 == 0) {
     MR_OUT
-    if (size(mr_mip->w2)==1) return t;
     return 0;
+  }
+
+  if (size(a) < 0) {
+    if (nm8 % 4 == 3) t = -1;
+    negify(a, mr_mip->w1);
+  }
+  else copy(a, mr_mip->w1);
+
+  while (size(mr_mip->w1) != 0) {
+    while (remain(_MIPP_ mr_mip->w1, 2) == 0) {
+      subdiv(_MIPP_ mr_mip->w1, 2, mr_mip->w1);
+      if (nm8 == 3 || nm8 == 5) t = -t;
+    }
+    if (compare(mr_mip->w1, mr_mip->w2) < 0) {
+      onm8 = nm8;
+      w = mr_mip->w1;
+      mr_mip->w1 = mr_mip->w2;
+      mr_mip->w2 = w;
+      nm8 = remain(_MIPP_ mr_mip->w2, 8);
+      if (onm8 % 4 == 3 && nm8 % 4 == 3) t = -t;
+    }
+    mr_psub(_MIPP_ mr_mip->w1, mr_mip->w2, mr_mip->w1);
+    subdiv(_MIPP_ mr_mip->w1, 2, mr_mip->w1);
+
+    if (nm8 == 3 || nm8 == 5) t = -t;
+  }
+
+  MR_OUT
+  if (size(mr_mip->w2) == 1) return t;
+  return 0;
 }
 
 /*

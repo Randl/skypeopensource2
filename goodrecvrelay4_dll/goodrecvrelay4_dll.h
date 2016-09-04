@@ -12,9 +12,10 @@
 
 // This class is exported from the goodrecvrelay4_dll.dll
 class GOODRECVRELAY4_DLL_API Cgoodrecvrelay4_dll {
-public:
-	Cgoodrecvrelay4_dll(void);
-	// TODO: add your methods here.
+  public:
+  Cgoodrecvrelay4_dll(
+  void);
+  // TODO: add your methods here.
 };
 
 extern GOODRECVRELAY4_DLL_API int ngoodrecvrelay4_dll;

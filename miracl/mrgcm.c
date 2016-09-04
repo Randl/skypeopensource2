@@ -26,141 +26,147 @@
 #define NB 4
 #define MR_WORD mr_unsign32
 
-static MR_WORD pack(const MR_BYTE *b)
-{ /* pack bytes into a 32-bit Word */
-    return ((MR_WORD)b[0]<<24)|((MR_WORD)b[1]<<16)|((MR_WORD)b[2]<<8)|(MR_WORD)b[3];
+static MR_WORD pack(const MR_BYTE *b) { /* pack bytes into a 32-bit Word */
+  return ((MR_WORD) b[0] << 24) | ((MR_WORD) b[1] << 16) | ((MR_WORD) b[2] << 8) | (MR_WORD) b[3];
 }
 
-static void unpack(MR_WORD a,MR_BYTE *b)
-{ /* unpack bytes from a word */
-    b[3]=MR_TOBYTE(a);
-    b[2]=MR_TOBYTE(a>>8);
-    b[1]=MR_TOBYTE(a>>16);
-    b[0]=MR_TOBYTE(a>>24);
+static void unpack(MR_WORD a, MR_BYTE *b) { /* unpack bytes from a word */
+  b[3] = MR_TOBYTE(a);
+  b[2] = MR_TOBYTE(a >> 8);
+  b[1] = MR_TOBYTE(a >> 16);
+  b[0] = MR_TOBYTE(a >> 24);
 }
 
-static void precompute(gcm *g,MR_BYTE *H)
-{ /* precompute small 2k bytes gf2m table of x^n.H */
-	int i,j;
-	MR_WORD *last,*next,b;
+static void precompute(gcm *g, MR_BYTE *H) { /* precompute small 2k bytes gf2m table of x^n.H */
+  int i, j;
+  MR_WORD *last, *next, b;
 
-	for (i=j=0;i<NB;i++,j+=4) g->table[0][i]=pack((MR_BYTE *)&H[j]);
+  for (i = j = 0; i < NB; i++, j += 4) g->table[0][i] = pack((MR_BYTE *) &H[j]);
 
-	for (i=1;i<128;i++)
-	{
-		next=g->table[i]; last=g->table[i-1]; b=0;
-		for (j=0;j<NB;j++) {next[j]=b|(last[j])>>1; b=last[j]<<31;}
-		if (b) next[0]^=0xE1000000; /* irreducible polynomial */
-	}
+  for (i = 1; i < 128; i++) {
+    next = g->table[i];
+    last = g->table[i - 1];
+    b = 0;
+    for (j = 0; j < NB; j++) {
+      next[j] = b | (last[j]) >> 1;
+      b = last[j] << 31;
+    }
+    if (b) next[0] ^= 0xE1000000; /* irreducible polynomial */
+  }
 }
 
-static void gf2mul(gcm *g)
-{ /* gf2m mul - Z=H*X mod 2^128 */
-	int i,j,m,k;
-	MR_WORD P[4];
-	MR_BYTE b;
+static void gf2mul(gcm *g) { /* gf2m mul - Z=H*X mod 2^128 */
+  int i, j, m, k;
+  MR_WORD P[4];
+  MR_BYTE b;
 
-	P[0]=P[1]=P[2]=P[3]=0;
-	j=8; m=0;
-	for (i=0;i<128;i++)
-	{
-		b=(g->stateX[m]>>(--j))&1;
-		if (b) for (k=0;k<NB;k++) P[k]^=g->table[i][k];
-		if (j==0)
-		{
-			j=8; m++;
-			if (m==16) break;
-		}
-	}
-	for (i=j=0;i<NB;i++,j+=4) unpack(P[i],(MR_BYTE *)&g->stateX[j]);
+  P[0] = P[1] = P[2] = P[3] = 0;
+  j = 8;
+  m = 0;
+  for (i = 0; i < 128; i++) {
+    b = (g->stateX[m] >> (--j)) & 1;
+    if (b) for (k = 0; k < NB; k++) P[k] ^= g->table[i][k];
+    if (j == 0) {
+      j = 8;
+      m++;
+      if (m == 16) break;
+    }
+  }
+  for (i = j = 0; i < NB; i++, j += 4) unpack(P[i], (MR_BYTE *) &g->stateX[j]);
 }
 
-void gcm_init(gcm* g,int nk,char *key,char *iv)
-{ /* assumes iv is 96 bits/12 bytes. AES key can be 16,24 or 32 bytes */
-	int i;
-	MR_BYTE H[16];
-	for (i=0;i<16;i++) {H[i]=0; g->stateX[i]=0;}
+void gcm_init(gcm *g,
+              int nk,
+              char *key,
+              char *iv) { /* assumes iv is 96 bits/12 bytes. AES key can be 16,24 or 32 bytes */
+  int i;
+  MR_BYTE H[16];
+  for (i = 0; i < 16; i++) {
+    H[i] = 0;
+    g->stateX[i] = 0;
+  }
 
-	aes_init(&(g->a),MR_ECB,nk,key,iv);
-	aes_ecb_encrypt(&(g->a),H);     /* E(K,0) */
-	precompute(g,H);
-	g->counter=1;
-	for (i=0;i<12;i++) g->a.f[i]=iv[i];
-	unpack(g->counter,(MR_BYTE *)&(g->a.f[12]));  /* initialise IV */
+  aes_init(&(g->a), MR_ECB, nk, key, iv);
+  aes_ecb_encrypt(&(g->a), H);     /* E(K,0) */
+  precompute(g, H);
+  g->counter = 1;
+  for (i = 0; i < 12; i++) g->a.f[i] = iv[i];
+  unpack(g->counter, (MR_BYTE *) &(g->a.f[12]));  /* initialise IV */
 
-	g->status=GCM_ACCEPTING_HEADER;
-	g->lenA[0]=g->lenC[0]=g->lenA[1]=g->lenC[1]=0;
+  g->status = GCM_ACCEPTING_HEADER;
+  g->lenA[0] = g->lenC[0] = g->lenA[1] = g->lenC[1] = 0;
 }
 
-BOOL gcm_add_header(gcm* g,char *header,int len)
-{ /* Add some header. Won't be encrypted, but will be authenticated. len is length of header */
-	int i,j=0;
-	if (g->status!=GCM_ACCEPTING_HEADER) return FALSE;
+BOOL gcm_add_header(gcm *g,
+                    char *header,
+                    int len) { /* Add some header. Won't be encrypted, but will be authenticated. len is length of header */
+  int i, j = 0;
+  if (g->status != GCM_ACCEPTING_HEADER) return FALSE;
 
-	while (j<len)
-	{
-		for (i=0;i<16 && j<len;i++)
-		{
-			g->stateX[i]^=header[j++];
-			g->lenA[1]++; if (g->lenA[1]==0) g->lenA[0]++;
-		}
-		gf2mul(g);
-	}
-	if (len%16!=0) g->status=GCM_ACCEPTING_CIPHER;
-	return TRUE;
+  while (j < len) {
+    for (i = 0; i < 16 && j < len; i++) {
+      g->stateX[i] ^= header[j++];
+      g->lenA[1]++;
+      if (g->lenA[1] == 0) g->lenA[0]++;
+    }
+    gf2mul(g);
+  }
+  if (len % 16 != 0) g->status = GCM_ACCEPTING_CIPHER;
+  return TRUE;
 }
 
-BOOL gcm_add_cipher(gcm *g,int mode,char *plain,int len,char *cipher)
-{ /* Add plaintext to extract ciphertext, or visa versa, depending on mode. len is length of plaintext/ciphertext */
-	int i,j=0;
-	MR_BYTE B[16];
-	if (g->status==GCM_ACCEPTING_HEADER) g->status=GCM_ACCEPTING_CIPHER;
-	if (g->status!=GCM_ACCEPTING_CIPHER) return FALSE;
+BOOL gcm_add_cipher(gcm *g,
+                    int mode,
+                    char *plain,
+                    int len,
+                    char *cipher) { /* Add plaintext to extract ciphertext, or visa versa, depending on mode. len is length of plaintext/ciphertext */
+  int i, j = 0;
+  MR_BYTE B[16];
+  if (g->status == GCM_ACCEPTING_HEADER) g->status = GCM_ACCEPTING_CIPHER;
+  if (g->status != GCM_ACCEPTING_CIPHER) return FALSE;
 
-	while (j<len)
-	{
-		g->counter++;
-		unpack(g->counter,(MR_BYTE *)&(g->a.f[12]));  /* get counter */
-		for (i=0;i<16;i++) B[i]=g->a.f[i];
-		aes_ecb_encrypt(&(g->a),B);        /* encrypt it  */
-		for (i=0;i<16 && j<len;i++)
-		{
-			if (mode==GCM_ENCRYPTING) cipher[j]=plain[j]^B[i];
-			if (mode==GCM_DECRYPTING) plain[j]=cipher[j]^B[i];
-			g->stateX[i]^=cipher[j++];
-			g->lenC[1]++; if (g->lenC[1]==0) g->lenC[0]++;
-		}
-		gf2mul(g);
-	}
-	if (len%16!=0) g->status=GCM_NOT_ACCEPTING_MORE;
-	return TRUE;
+  while (j < len) {
+    g->counter++;
+    unpack(g->counter, (MR_BYTE *) &(g->a.f[12]));  /* get counter */
+    for (i = 0; i < 16; i++) B[i] = g->a.f[i];
+    aes_ecb_encrypt(&(g->a), B);        /* encrypt it  */
+    for (i = 0; i < 16 && j < len; i++) {
+      if (mode == GCM_ENCRYPTING) cipher[j] = plain[j] ^ B[i];
+      if (mode == GCM_DECRYPTING) plain[j] = cipher[j] ^ B[i];
+      g->stateX[i] ^= cipher[j++];
+      g->lenC[1]++;
+      if (g->lenC[1] == 0) g->lenC[0]++;
+    }
+    gf2mul(g);
+  }
+  if (len % 16 != 0) g->status = GCM_NOT_ACCEPTING_MORE;
+  return TRUE;
 }
 
-void gcm_finish(gcm *g,char *tag)
-{ /* Finish off and extract tag (MAC) */
-	int i,j;
-	MR_WORD F[4];
-	MR_BYTE L[16];
+void gcm_finish(gcm *g, char *tag) { /* Finish off and extract tag (MAC) */
+  int i, j;
+  MR_WORD F[4];
+  MR_BYTE L[16];
 
 /* convert lengths from bytes to bits */
-	F[0]=(g->lenA[0]<<3)|(g->lenA[1]&0xE0000000)>>29;
-	F[1]=g->lenA[1]<<3;
-	F[2]=(g->lenC[0]<<3)|(g->lenC[1]&0xE0000000)>>29;
-	F[3]=g->lenC[1]<<3;
-	for (i=j=0;i<NB;i++,j+=4) unpack(F[i],(MR_BYTE *)&L[j]);
+  F[0] = (g->lenA[0] << 3) | (g->lenA[1] & 0xE0000000) >> 29;
+  F[1] = g->lenA[1] << 3;
+  F[2] = (g->lenC[0] << 3) | (g->lenC[1] & 0xE0000000) >> 29;
+  F[3] = g->lenC[1] << 3;
+  for (i = j = 0; i < NB; i++, j += 4) unpack(F[i], (MR_BYTE *) &L[j]);
 
-	for (i=0;i<16;i++) g->stateX[i]^=L[i];
-	gf2mul(g);
+  for (i = 0; i < 16; i++) g->stateX[i] ^= L[i];
+  gf2mul(g);
 
-	g->counter=1;
-	unpack(g->counter,(MR_BYTE *)&(g->a.f[12]));  /* reset counter */
-	for (i=0;i<16;i++) L[i]=g->a.f[i];
-	aes_ecb_encrypt(&(g->a),L);        /* E(K,Y0) */
+  g->counter = 1;
+  unpack(g->counter, (MR_BYTE *) &(g->a.f[12]));  /* reset counter */
+  for (i = 0; i < 16; i++) L[i] = g->a.f[i];
+  aes_ecb_encrypt(&(g->a), L);        /* E(K,Y0) */
 
-	for (i=0;i<16;i++) L[i]^=g->stateX[i];
-	g->status=GCM_FINISHED;
-	for (i=0;i<16;i++) tag[i]=L[i];
-	aes_end(&(g->a));
+  for (i = 0; i < 16; i++) L[i] ^= g->stateX[i];
+  g->status = GCM_FINISHED;
+  for (i = 0; i < 16; i++) tag[i] = L[i];
+  aes_end(&(g->a));
 }
 
 /*

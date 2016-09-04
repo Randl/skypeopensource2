@@ -16,7 +16,6 @@ extern int make_41cmdencode(char *buf, int buf_len, uint blob_count, uint sessio
 extern int make_41encode(char *buf, int buf_len, char *blobptr, int dodebug);
 
 
-
 extern u8 MSG_TEXT[0x100];
 extern u8 CHAT_STRING[0x100];
 extern u8 CHAT_PEERS[0x100];
@@ -54,101 +53,101 @@ extern uint global_unknown_cmd24_blob1b;
 //
 // chatinit sign cmd24 (newblk1)
 //
-int encode41_newblk1(char *buf, int buf_limit_len){
-	struct blob_s blob;
-	int buf_len;
-	int blob_count;
+int encode41_newblk1(char *buf, int buf_limit_len) {
+  struct blob_s blob;
+  int buf_len;
+  int blob_count;
 
-	char intbuf[0x1000];
-	int intbuf_len;
+  char intbuf[0x1000];
+  int intbuf_len;
 
-	memset(buf,0,sizeof(buf));
-    buf_len=0;
+  memset(buf, 0, sizeof(buf));
+  buf_len = 0;
 
-	blob_count = 9;
+  blob_count = 9;
 
-    buf_len=make_41cmdencode_recurs(buf, buf_len, blob_count, 0);
+  buf_len = make_41cmdencode_recurs(buf, buf_len, blob_count, 0);
 
-    // some flag -- blob1
-    blob.obj_type = 0;
-	blob.obj_index = 0;
-    blob.obj_data = 1;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some flag -- blob1
+  blob.obj_type = 0;
+  blob.obj_index = 0;
+  blob.obj_data = 1;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // LOCALNODE_VCARD -- blob2
-    blob.obj_type = 4;
-	blob.obj_index = 3;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)LOCALNODE_VCARD;
-	blob.data_size = sizeof(LOCALNODE_VCARD);
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // LOCALNODE_VCARD -- blob2
+  blob.obj_type = 4;
+  blob.obj_index = 3;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) LOCALNODE_VCARD;
+  blob.data_size = sizeof(LOCALNODE_VCARD);
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // timestamp in seconds -- blob3
-    blob.obj_type = 0;
-	blob.obj_index = 5;
-	blob.obj_data = time(NULL);
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // timestamp in seconds -- blob3
+  blob.obj_type = 0;
+  blob.obj_index = 5;
+  blob.obj_data = time(NULL);
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // timestamp in minutes -- blob4
-    blob.obj_type = 0;
-	blob.obj_index = 6;
-    //blob.obj_data = 0x013AF0D7;
-	blob.obj_data = time(NULL) / 60;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // timestamp in minutes -- blob4
+  blob.obj_type = 0;
+  blob.obj_index = 6;
+  //blob.obj_data = 0x013AF0D7;
+  blob.obj_data = time(NULL) / 60;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// HEADER_ID_NEW (first header appear) -- blob5
-    blob.obj_type = 0;
-	blob.obj_index = 7;
-	//blob.obj_data = BLOB_0_7__2;
-    //blob.obj_data = 0x3D98FDA0;
-	//blob.obj_data = 0x393841CB;
-	//blob.obj_data = 0x1B2BE2D2;
-    //blob.obj_data = 0x16352BA9;
-    blob.obj_data = START_HEADER_ID;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // HEADER_ID_NEW (first header appear) -- blob5
+  blob.obj_type = 0;
+  blob.obj_index = 7;
+  //blob.obj_data = BLOB_0_7__2;
+  //blob.obj_data = 0x3D98FDA0;
+  //blob.obj_data = 0x393841CB;
+  //blob.obj_data = 0x1B2BE2D2;
+  //blob.obj_data = 0x16352BA9;
+  blob.obj_data = START_HEADER_ID;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// remote peer name -- blob6
-    blob.obj_type = 3;
-	blob.obj_index = 1;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)REMOTE_NAME;
-	blob.data_size = strlen(REMOTE_NAME)+1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // remote peer name -- blob6
+  blob.obj_type = 3;
+  blob.obj_index = 1;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) REMOTE_NAME;
+  blob.data_size = strlen(REMOTE_NAME) + 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// some wrapper unk_header -- blob7
-    blob.obj_type = 0;
-	blob.obj_index = 0x0A;
-	//blob.obj_data = BLOB_0_A__2;
-    //blob.obj_data = 0x08DD772A;
-	//blob.obj_data = 0x710F3804;
-	//blob.obj_data = 0x21D598C5;
-	blob.obj_data = global_unknown_cmd24_signed_id;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some wrapper unk_header -- blob7
+  blob.obj_type = 0;
+  blob.obj_index = 0x0A;
+  //blob.obj_data = BLOB_0_A__2;
+  //blob.obj_data = 0x08DD772A;
+  //blob.obj_data = 0x710F3804;
+  //blob.obj_data = 0x21D598C5;
+  blob.obj_data = global_unknown_cmd24_signed_id;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// some unknow blob with new type -- blob8
-    blob.obj_type = 6;
-	blob.obj_index = 0x1B;
-    blob.obj_data = 0x010B0000;
-	blob.data_ptr = 0;
-	blob.data_size = 4;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some unknow blob with new type -- blob8
+  blob.obj_type = 6;
+  blob.obj_index = 0x1B;
+  blob.obj_data = 0x010B0000;
+  blob.data_ptr = 0;
+  blob.data_size = 4;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		debuglog("buffer limit overrun\n");
-		return -1;
-	};
+  if (buf_len > buf_limit_len) {
+    debuglog("buffer limit overrun\n");
+    return -1;
+  };
 
-	return buf_len;
+  return buf_len;
 };
 
 
@@ -204,112 +203,111 @@ Len: 0x000000A0
 
 */
 
- 
+
 //
 // newblk2 (data before signing)
 //
-int encode41_newblk2(char *buf, int buf_limit_len){
-	struct blob_s blob;
-	int buf_len;
-	int blob_count;
-	u8 str_null[]="";
+int encode41_newblk2(char *buf, int buf_limit_len) {
+  struct blob_s blob;
+  int buf_len;
+  int blob_count;
+  u8 str_null[] = "";
 
-	memset(buf,0,sizeof(buf));
-    buf_len=0;
+  memset(buf, 0, sizeof(buf));
+  buf_len = 0;
 
-	blob_count = 9;
+  blob_count = 9;
 
-    buf_len=make_41cmdencode_recurs(buf, buf_len, blob_count, 0);
+  buf_len = make_41cmdencode_recurs(buf, buf_len, blob_count, 0);
 
-    // some flag -- blob1
-    blob.obj_type = 0;
-	blob.obj_index = 0;
-    blob.obj_data = 4;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some flag -- blob1
+  blob.obj_type = 0;
+  blob.obj_index = 0;
+  blob.obj_data = 4;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // LOCALNODE_VCARD -- blob2
-    blob.obj_type = 4;
-	blob.obj_index = 3;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)LOCALNODE_VCARD;
-	blob.data_size = sizeof(LOCALNODE_VCARD);
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // LOCALNODE_VCARD -- blob2
+  blob.obj_type = 4;
+  blob.obj_index = 3;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) LOCALNODE_VCARD;
+  blob.data_size = sizeof(LOCALNODE_VCARD);
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // unix timestamp in seconds -- blob3
-    blob.obj_type = 0;
-	blob.obj_index = 5;
-	//blob.obj_data = BLOB_0_5;
-    //blob.obj_data = 0x49D079E2;
-	blob.obj_data = time(NULL);
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // unix timestamp in seconds -- blob3
+  blob.obj_type = 0;
+  blob.obj_index = 5;
+  //blob.obj_data = BLOB_0_5;
+  //blob.obj_data = 0x49D079E2;
+  blob.obj_data = time(NULL);
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // unix timestamp in minutes -- blob4
-    blob.obj_type = 0;
-	blob.obj_index = 6;
-	//blob.obj_data = BLOB_0_6;
-    //blob.obj_data = 0x013AF0D7;
-	blob.obj_data = time(NULL) / 60;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // unix timestamp in minutes -- blob4
+  blob.obj_type = 0;
+  blob.obj_index = 6;
+  //blob.obj_data = BLOB_0_6;
+  //blob.obj_data = 0x013AF0D7;
+  blob.obj_data = time(NULL) / 60;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// header_id (start_header_id - 1) -- blob5
-    blob.obj_type = 0;
-	blob.obj_index = 7;
-	//blob.obj_data = BLOB_0_7__3;
-    //blob.obj_data = 0x1B2BE2D2;
-    //blob.obj_data = 0x16352BA8;
-    blob.obj_data = START_HEADER_ID - 1;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // header_id (start_header_id - 1) -- blob5
+  blob.obj_type = 0;
+  blob.obj_index = 7;
+  //blob.obj_data = BLOB_0_7__3;
+  //blob.obj_data = 0x1B2BE2D2;
+  //blob.obj_data = 0x16352BA8;
+  blob.obj_data = START_HEADER_ID - 1;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// just empty string -- blob6
-    blob.obj_type = 3;
-	blob.obj_index = 0x0E;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)str_null;
-	blob.data_size = strlen(str_null)+1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // just empty string -- blob6
+  blob.obj_type = 3;
+  blob.obj_index = 0x0E;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) str_null;
+  blob.data_size = strlen(str_null) + 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// some flag -- blob7
-    blob.obj_type = 0;
-	blob.obj_index = 0x0F;
-    blob.obj_data = 0;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some flag -- blob7
+  blob.obj_type = 0;
+  blob.obj_index = 0x0F;
+  blob.obj_data = 0;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// unknown_cmd2A_signed_id -- blob8
-    blob.obj_type = 0;
-	blob.obj_index = 0x0A;
-    //blob.obj_data = 0x1C6089DF;
-    //blob.obj_data = 0x440E8922;    
-    blob.obj_data = global_unknown_cmd2A_signed_id;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // unknown_cmd2A_signed_id -- blob8
+  blob.obj_type = 0;
+  blob.obj_index = 0x0A;
+  //blob.obj_data = 0x1C6089DF;
+  //blob.obj_data = 0x440E8922;
+  blob.obj_data = global_unknown_cmd2A_signed_id;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// some unknow blob with new type -- blob9
-    blob.obj_type = 6;
-	blob.obj_index = 0x1B;
-    blob.obj_data = 0x0;
-	blob.data_ptr = 0;
-	blob.data_size = 1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some unknow blob with new type -- blob9
+  blob.obj_type = 6;
+  blob.obj_index = 0x1B;
+  blob.obj_data = 0x0;
+  blob.data_ptr = 0;
+  blob.data_size = 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		debuglog("buffer limit overrun\n");
-		return -1;
-	};
+  if (buf_len > buf_limit_len) {
+    debuglog("buffer limit overrun\n");
+    return -1;
+  };
 
-	return buf_len;
+  return buf_len;
 };
-
 
 
 /*
@@ -361,83 +359,82 @@ Len: 0x0000008F
 
 
 
-int encode41_newblk3(char *buf, int buf_limit_len){
-	struct blob_s blob;
-	int buf_len;
-	int blob_count;
+int encode41_newblk3(char *buf, int buf_limit_len) {
+  struct blob_s blob;
+  int buf_len;
+  int blob_count;
 
-	memset(buf,0,sizeof(buf));
-    buf_len=0;
+  memset(buf, 0, sizeof(buf));
+  buf_len = 0;
 
-	blob_count = 7;
+  blob_count = 7;
 
-    buf_len=make_41cmdencode_recurs(buf, buf_len, blob_count, 0);
+  buf_len = make_41cmdencode_recurs(buf, buf_len, blob_count, 0);
 
-    // seq id NEWBLK3 for sha-1 hashing -- blob1
-    blob.obj_type = 0;
-	blob.obj_index = 0;
-    blob.obj_data = 3;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // seq id NEWBLK3 for sha-1 hashing -- blob1
+  blob.obj_type = 0;
+  blob.obj_index = 0;
+  blob.obj_data = 3;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // LOCALNODE_VCARD -- blob2
-    blob.obj_type = 4;
-	blob.obj_index = 3;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)LOCALNODE_VCARD;
-	blob.data_size = sizeof(LOCALNODE_VCARD);
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // LOCALNODE_VCARD -- blob2
+  blob.obj_type = 4;
+  blob.obj_index = 3;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) LOCALNODE_VCARD;
+  blob.data_size = sizeof(LOCALNODE_VCARD);
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // unix timestamp in seconds -- blob3
-    blob.obj_type = 0;
-	blob.obj_index = 5;
-    blob.obj_data = time(NULL);
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // unix timestamp in seconds -- blob3
+  blob.obj_type = 0;
+  blob.obj_index = 5;
+  blob.obj_data = time(NULL);
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // unix timestamp in minutes -- blob4
-    blob.obj_type = 0;
-	blob.obj_index = 6;
-    //blob.obj_data = 0x01653F0F;
-    blob.obj_data = time(NULL) / 60;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // unix timestamp in minutes -- blob4
+  blob.obj_type = 0;
+  blob.obj_index = 6;
+  //blob.obj_data = 0x01653F0F;
+  blob.obj_data = time(NULL) / 60;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// START_HEADER_ID  -- blob5
-    blob.obj_type = 0;
-	blob.obj_index = 7;
-	blob.obj_data = START_HEADER_ID + 1;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // START_HEADER_ID  -- blob5
+  blob.obj_type = 0;
+  blob.obj_index = 7;
+  blob.obj_data = START_HEADER_ID + 1;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// some flag info -- blob6
-    blob.obj_type = 0;
-	blob.obj_index = 0x44;
-    blob.obj_data = 0x01;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some flag info -- blob6
+  blob.obj_type = 0;
+  blob.obj_index = 0x44;
+  blob.obj_data = 0x01;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// clear chat text data -- blob7
-    blob.obj_type = 3;
-	blob.obj_index = 2;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)MSG_TEXT;
-	blob.data_size = strlen(MSG_TEXT)+1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // clear chat text data -- blob7
+  blob.obj_type = 3;
+  blob.obj_index = 2;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) MSG_TEXT;
+  blob.data_size = strlen(MSG_TEXT) + 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		debuglog("buffer limit overrun\n");
-		return -1;
-	};
+  if (buf_len > buf_limit_len) {
+    debuglog("buffer limit overrun\n");
+    return -1;
+  };
 
-	return buf_len;
+  return buf_len;
 };
-
 
 
 /*
@@ -475,103 +472,103 @@ Len: 0x0000008D
 */
 
 
-int encode41_newblk4(char *buf, int buf_limit_len){
-	struct blob_s blob;
-	int buf_len;
-	int blob_count;
+int encode41_newblk4(char *buf, int buf_limit_len) {
+  struct blob_s blob;
+  int buf_len;
+  int blob_count;
 
-	memset(buf,0,sizeof(buf));
-    buf_len=0;
+  memset(buf, 0, sizeof(buf));
+  buf_len = 0;
 
-	blob_count = 9;
+  blob_count = 9;
 
-    buf_len=make_41cmdencode_recurs(buf, buf_len, blob_count, 0);
+  buf_len = make_41cmdencode_recurs(buf, buf_len, blob_count, 0);
 
-    // seq id NEWBLK3 for sha-1 hashing -- blob1
-    blob.obj_type = 0;
-	blob.obj_index = 0;
-    blob.obj_data = 4;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // seq id NEWBLK3 for sha-1 hashing -- blob1
+  blob.obj_type = 0;
+  blob.obj_index = 0;
+  blob.obj_data = 4;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // LOCALNODE_VCARD -- blob2
-    blob.obj_type = 4;
-	blob.obj_index = 3;
-    blob.obj_data = 0;
-	blob.data_ptr = (int)LOCALNODE_VCARD;
-	blob.data_size = sizeof(LOCALNODE_VCARD);
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // LOCALNODE_VCARD -- blob2
+  blob.obj_type = 4;
+  blob.obj_index = 3;
+  blob.obj_data = 0;
+  blob.data_ptr = (int) LOCALNODE_VCARD;
+  blob.data_size = sizeof(LOCALNODE_VCARD);
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // unix timestamp in seconds -- blob3
-    blob.obj_type = 0;
-	blob.obj_index = 5;
-    //blob.obj_data = time(NULL);
-    blob.obj_data = global_unknown_cmd24_time_sec;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // unix timestamp in seconds -- blob3
+  blob.obj_type = 0;
+  blob.obj_index = 5;
+  //blob.obj_data = time(NULL);
+  blob.obj_data = global_unknown_cmd24_time_sec;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-    // unix timestamp in minutes -- blob4
-    blob.obj_type = 0;
-	blob.obj_index = 6;
-    //blob.obj_data = time(NULL) / 60;
-    blob.obj_data = global_unknown_cmd24_time;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // unix timestamp in minutes -- blob4
+  blob.obj_type = 0;
+  blob.obj_index = 6;
+  //blob.obj_data = time(NULL) / 60;
+  blob.obj_data = global_unknown_cmd24_time;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// START_HEADER_ID  -- blob5
-    blob.obj_type = 0;
-	blob.obj_index = 7;
-	//blob.obj_data = START_HEADER_ID + 1;
-	blob.obj_data = START_HEADER_ID;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // START_HEADER_ID  -- blob5
+  blob.obj_type = 0;
+  blob.obj_index = 7;
+  //blob.obj_data = START_HEADER_ID + 1;
+  blob.obj_data = START_HEADER_ID;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// clear chat text data -- blob6
-    blob.obj_type = 3;
-	blob.obj_index = 0x0E;
-    blob.obj_data = 0;
-	//blob.data_ptr = (int)MSG_TEXT;
-	//blob.data_size = strlen(MSG_TEXT)+1;
-	blob.data_ptr = (int)REMOTE_NAME;
-	blob.data_size = strlen(REMOTE_NAME)+1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // clear chat text data -- blob6
+  blob.obj_type = 3;
+  blob.obj_index = 0x0E;
+  blob.obj_data = 0;
+  //blob.data_ptr = (int)MSG_TEXT;
+  //blob.data_size = strlen(MSG_TEXT)+1;
+  blob.data_ptr = (int) REMOTE_NAME;
+  blob.data_size = strlen(REMOTE_NAME) + 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// some flag -- blob7
-    blob.obj_type = 0;
-	blob.obj_index = 0x0F;
-    //blob.obj_data = 0x0174;
-    blob.obj_data = global_unknown_cmd24_blob1b;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some flag -- blob7
+  blob.obj_type = 0;
+  blob.obj_index = 0x0F;
+  //blob.obj_data = 0x0174;
+  blob.obj_data = global_unknown_cmd24_blob1b;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// header from cmd24 -- blob8
-    blob.obj_type = 0;
-	blob.obj_index = 0x0A;
-    //blob.obj_data = 0xC598D521;
-	blob.obj_data = global_unknown_cmd24_signed_id;
-	blob.data_ptr = 0;
-	blob.data_size = 0;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // header from cmd24 -- blob8
+  blob.obj_type = 0;
+  blob.obj_index = 0x0A;
+  //blob.obj_data = 0xC598D521;
+  blob.obj_data = global_unknown_cmd24_signed_id;
+  blob.data_ptr = 0;
+  blob.data_size = 0;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	// some flag -- blob9
-    blob.obj_type = 6;
-	blob.obj_index = 0x1B;
-    blob.obj_data = 0x00;
-	blob.data_ptr = 0;
-	blob.data_size = 1;
-    buf_len=make_41encode(buf,buf_len,(char *)&blob, 0);
+  // some flag -- blob9
+  blob.obj_type = 6;
+  blob.obj_index = 0x1B;
+  blob.obj_data = 0x00;
+  blob.data_ptr = 0;
+  blob.data_size = 1;
+  buf_len = make_41encode(buf, buf_len, (char *) &blob, 0);
 
-	if ( buf_len > buf_limit_len ){
-		debuglog("buffer limit overrun\n");
-		return -1;
-	};
+  if (buf_len > buf_limit_len) {
+    debuglog("buffer limit overrun\n");
+    return -1;
+  };
 
-	return buf_len;
+  return buf_len;
 };
 
 

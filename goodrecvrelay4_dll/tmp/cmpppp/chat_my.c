@@ -35,7 +35,7 @@ extern unsigned int Calculate_CRC32(char *crc32, int bytes);
 
 // socket comm
 extern int udp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result);
-extern int tcp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result,int need_close);
+extern int tcp_talk(char *remoteip, unsigned short remoteport, char *buf, int len, char *result, int need_close);
 extern int tcp_talk_recv(char *remoteip, unsigned short remoteport, char *result, int need_close);
 extern int tcp_talk_send(char *buf, int len);
 
@@ -48,7 +48,7 @@ extern int _get_sign_data(char *buf, int len, char *outbuf);
 // utils
 extern int get_blkseq(char *data, int datalen);
 extern int show_memory(char *mem, int len, char *text);
-extern int get_packet_size(char *data,int len);
+extern int get_packet_size(char *data, int len);
 extern int decode41(char *data, int len, char *text);
 extern int set_packet_size(char *a1, int c);
 extern int process_aes(char *buf, int buf_len, int usekey, int blkseq, int need_xor);
@@ -151,222 +151,222 @@ extern int newchatinit_flag;
 extern int restorechat_flag;
 
 unsigned int chatrecv_restorechat_pkts() {
-	unsigned int cmd;
-	unsigned int tmp;
-	u8 buf[0x1000];
-	int buf_len;
-	int ret;
+  unsigned int cmd;
+  unsigned int tmp;
+  u8 buf[0x1000];
+  int buf_len;
+  int ret;
 
 
-    restorechat_flag = 1;
+  restorechat_flag = 1;
 
-	// Files from: "c:\\video\\parse_proto3\\"
-	// PROTO3 from 16.11.2015
+  // Files from: "c:\\video\\parse_proto3\\"
+  // PROTO3 from 16.11.2015
 
-	debuglog("\n\nStarting chatrecv_restorechat_pkts()\n\n\n");
+  debuglog("\n\nStarting chatrecv_restorechat_pkts()\n\n\n");
 
-	// some init variables
+  // some init variables
 
-	ret = load_localheaders_from_file(&HEADER_ID_LOCAL_FIRST, &tmp);
-	if (ret == -1) {
-		debuglog("Loading LASTSYNC data failed.\n");
-		return -1;
-	};
-    HEADER_ID_LOCAL_FIRST = HEADER_ID_LOCAL_FIRST + 1;
-    HEADER_ID_LOCAL_LAST = HEADER_ID_LOCAL_FIRST;
+  ret = load_localheaders_from_file(&HEADER_ID_LOCAL_FIRST, &tmp);
+  if (ret == -1) {
+    debuglog("Loading LASTSYNC data failed.\n");
+    return -1;
+  };
+  HEADER_ID_LOCAL_FIRST = HEADER_ID_LOCAL_FIRST + 1;
+  HEADER_ID_LOCAL_LAST = HEADER_ID_LOCAL_FIRST;
 
-	ret = load_lastsync_from_file(&HEADER_ID_CMD27_ID, &HEADER_ID_CMD27_CRC);
-	if (ret == -1) {
-		debuglog("Loading LASTSYNC data failed.\n");
-		return -1;
-	};
-    HEADER_ID_REMOTE_FIRST = HEADER_ID_CMD27_ID;
-    HEADER_ID_REMOTE_LAST = HEADER_ID_REMOTE_FIRST;
+  ret = load_lastsync_from_file(&HEADER_ID_CMD27_ID, &HEADER_ID_CMD27_CRC);
+  if (ret == -1) {
+    debuglog("Loading LASTSYNC data failed.\n");
+    return -1;
+  };
+  HEADER_ID_REMOTE_FIRST = HEADER_ID_CMD27_ID;
+  HEADER_ID_REMOTE_LAST = HEADER_ID_REMOTE_FIRST;
 
-	global_chatsync_streamid = 0x343EA702;
+  global_chatsync_streamid = 0x343EA702;
 
-	// end of init variables
+  // end of init variables
 
-	// PARAM send06
+  // PARAM send06
 
-    pkt_7D_BLOB_00_01 = 0x02;
-    pkt_7D_BLOB_00_19 = 0x15;
+  pkt_7D_BLOB_00_01 = 0x02;
+  pkt_7D_BLOB_00_19 = 0x15;
 
-	memset(buf,0,sizeof(buf));
-  	buf_len=encode41_sess1pkt_7D(buf, sizeof(buf));
-    do_proto_log(buf, buf_len, "send06");
-    make_tcp_client_cmdpkt_wrap(buf, buf_len, "sess1pkt_7D");
+  memset(buf, 0, sizeof(buf));
+  buf_len = encode41_sess1pkt_7D(buf, sizeof(buf));
+  do_proto_log(buf, buf_len, "send06");
+  make_tcp_client_cmdpkt_wrap(buf, buf_len, "sess1pkt_7D");
 
-	// PARAM send07
+  // PARAM send07
 
-	pkt_7A_BLOB_00_13 = 0x8CBC998D;
+  pkt_7A_BLOB_00_13 = 0x8CBC998D;
 
-	memset(buf,0,sizeof(buf));
-  	buf_len=encode41_sess1pkt_7A(buf, sizeof(buf));
-    do_proto_log(buf, buf_len, "send07");
-    make_tcp_client_cmdpkt_wrap(buf, buf_len, "sess1pkt_7A");
+  memset(buf, 0, sizeof(buf));
+  buf_len = encode41_sess1pkt_7A(buf, sizeof(buf));
+  do_proto_log(buf, buf_len, "send07");
+  make_tcp_client_cmdpkt_wrap(buf, buf_len, "sess1pkt_7A");
 
-	// PARAM recv07
+  // PARAM recv07
 
-	debuglog("Waiting for CHAT_STRING REQ cmd (0x0D)\n");
-    cmd = 0x0D;
-	while ( check_commands_array(cmd)==0 ){
-		ret = make_tcp_client_sess1_recv_loop();
-        if (ret < 0) { return -1; };
-		show_memory(RECV_CHAT_COMMANDS, RECV_CHAT_COMMANDS_LEN, "RECV_CHAT_COMMANDS:");
-	};
-	debuglog("Got CHAT_STRING REQ OK cmd\n");
-    
-    // if returning here, no messages?
-
-
-    // PARAM send11
-    
-	debuglog("Entering stage0...\n");
-	global_chatsync_stage = 0;
-
-	memset(buf,0,sizeof(buf));
-  	buf_len=encode41_sess1pkt_cmd0F_chatok(buf, sizeof(buf));
-    do_proto_log(buf, buf_len, "send11");
-    make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd0F_chatok");
-
-	// PARAM send12
-
-	debuglog("Entering stage1...\n");
-	global_chatsync_stage = 1;
-
-	HEADER_ID_SEND = HEADER_ID_REMOTE_FIRST;
-
-	memset(buf,0,sizeof(buf));
-    buf_len=encode41_sess1pkt_cmd10r_pos2(buf, sizeof(buf));
-    do_proto_log(buf, buf_len, "send12");
-    make_tcp_client_cmdpkt_wrap(buf, buf_len, "_cmd10r_pos2");
-
-	// PARAM recv13
-
-	debuglog("Waiting for SENDEND cmd (0x13)\n");
-    cmd = 0x13;
-	while ( check_commands_array(cmd)==0 ){
-		ret = make_tcp_client_sess1_recv_loop();
-        if (ret < 0) { return -1; };
-		show_memory(RECV_CHAT_COMMANDS, RECV_CHAT_COMMANDS_LEN, "RECV_CHAT_COMMANDS:");
-	};
-	debuglog("Got SENDEND OK cmd\n");
-
-	// PARAM send15
-
-	debuglog("Entering stage2...\n");
-	global_chatsync_stage = 2;
-
-    HEADER_ID_SEND = HEADER_ID_REMOTE_LAST;
-
-	debuglog("HEADER_ID_LOCAL_FIRST: 0x%08X\n", HEADER_ID_LOCAL_FIRST);
-	debuglog("HEADER_ID_LOCAL_LAST: 0x%08X\n", HEADER_ID_LOCAL_LAST);
-    debuglog("HEADER_ID_REMOTE_FIRST = %08X\n", HEADER_ID_REMOTE_FIRST);
-    debuglog("HEADER_ID_REMOTE_LAST = %08X\n", HEADER_ID_REMOTE_LAST);
-
-	memset(buf,0,sizeof(buf));
-    buf_len=encode41_sess1pkt_cmd15r_reqmsgbody(buf, sizeof(buf));
-    do_proto_log(buf, buf_len, "send15");
-    make_tcp_client_cmdpkt_wrap(buf, buf_len, "_cmd15r_reqmsgbody");
-
-	// PARAM send16
-
-	global_chatsync_stage = 1;
-	make_tcp_client_sess1_send_req();
-
-	// PARAM recv17
-	// msg body
-
-	debuglog("Waiting for REMOTE MSG cmd (0x2B)\n");
-    cmd = 0x2B;
-	while ( check_commands_array(cmd)==0 ){
-		ret = make_tcp_client_sess1_recv_loop();
-        if (ret < 0) { return -1; };
-		show_memory(RECV_CHAT_COMMANDS, RECV_CHAT_COMMANDS_LEN, "RECV_CHAT_COMMANDS:");
-	};
-	debuglog("Got REMOTE MSG OK cmd\n");
-
-	// PARAM send19
-
-	global_chatsync_stage = 2;
-	make_tcp_client_sess1_send_req();
-
-	// PARAM send21
-
-	debuglog("Entering stage3...\n");
-	global_chatsync_stage = 3;
-
-    HEADER_ID_SEND = HEADER_ID_REMOTE_LAST;
-
-    //
-    // my changes to recv proto
-    // _cmd10r_pos1 (with flag) to > _cmd10r_pos2 (no flag to sync)
-    //
-
-	memset(buf,0,sizeof(buf));
-    buf_len=encode41_sess1pkt_cmd10r_pos2(buf, sizeof(buf));
-    do_proto_log(buf, buf_len, "send21");
-    make_tcp_client_cmdpkt_wrap(buf, buf_len, "_cmd10r_pos2");
-
-	// PARAM recvXX
-
-    // here
-	// HEADER_ID_CMD27_ID and HEADER_ID_CMD27_CRC
-    // will be changed
-
-	debuglog("Waiting for SYNC FINISH (0x27)\n");
-    cmd = 0x27;
-	while ( check_commands_array(cmd)==0 ){
-		ret = make_tcp_client_sess1_recv_loop();
-        if (ret < 0) { return -1; };
-		show_memory(RECV_CHAT_COMMANDS, RECV_CHAT_COMMANDS_LEN, "RECV_CHAT_COMMANDS:");
-	};
-	debuglog("Got SYNC FINISH OK cmd\n");
-
-	// PARAM sendXX (proto2 sendproto recv24)
-
-	global_chatsync_stage = 3;
-	make_tcp_client_sess1_send_req();
-
-	// PARAM sendXX (proto2 sendproto recv26)
-
-	debuglog("Entering stage6...\n");
-	global_chatsync_stage = 4;
-
-	// HEADER_ID_CMD27_ID and HEADER_ID_CMD27_CRC
-	// //nope//we get it from lastsync loaded from file
-
-	memset(buf,0,sizeof(buf));
-    buf_len=encode41_sess1pkt_cmd27r(buf, sizeof(buf));
-    do_proto_log(buf, buf_len, "send31");
-    make_tcp_client_cmdpkt_wrap(buf, buf_len, "_cmd27r");
-
-    ///////////////// stop here and do some checks? //////
-
-    //
-    // wait while error and close?
-    // last recv for error_and_close pkt proto2 sendproto
-	// PARAM send29
-    //
+  debuglog("Waiting for CHAT_STRING REQ cmd (0x0D)\n");
+  cmd = 0x0D;
+  while (check_commands_array(cmd) == 0) {
     ret = make_tcp_client_sess1_recv_loop();
     if (ret < 0) { return -1; };
+    show_memory(RECV_CHAT_COMMANDS, RECV_CHAT_COMMANDS_LEN, "RECV_CHAT_COMMANDS:");
+  };
+  debuglog("Got CHAT_STRING REQ OK cmd\n");
 
-	// PARAM sendXX (proto2 sendproto recv28)
+  // if returning here, no messages?
 
-	global_chatsync_stage = 4;
-	make_tcp_client_sess1_send_req();
 
-    // last recv for error_and_close pkt proto2 sendproto
-	// PARAM send29
+  // PARAM send11
+
+  debuglog("Entering stage0...\n");
+  global_chatsync_stage = 0;
+
+  memset(buf, 0, sizeof(buf));
+  buf_len = encode41_sess1pkt_cmd0F_chatok(buf, sizeof(buf));
+  do_proto_log(buf, buf_len, "send11");
+  make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd0F_chatok");
+
+  // PARAM send12
+
+  debuglog("Entering stage1...\n");
+  global_chatsync_stage = 1;
+
+  HEADER_ID_SEND = HEADER_ID_REMOTE_FIRST;
+
+  memset(buf, 0, sizeof(buf));
+  buf_len = encode41_sess1pkt_cmd10r_pos2(buf, sizeof(buf));
+  do_proto_log(buf, buf_len, "send12");
+  make_tcp_client_cmdpkt_wrap(buf, buf_len, "_cmd10r_pos2");
+
+  // PARAM recv13
+
+  debuglog("Waiting for SENDEND cmd (0x13)\n");
+  cmd = 0x13;
+  while (check_commands_array(cmd) == 0) {
     ret = make_tcp_client_sess1_recv_loop();
     if (ret < 0) { return -1; };
+    show_memory(RECV_CHAT_COMMANDS, RECV_CHAT_COMMANDS_LEN, "RECV_CHAT_COMMANDS:");
+  };
+  debuglog("Got SENDEND OK cmd\n");
 
-    // all ok
+  // PARAM send15
 
-	save_good_lastsync(HEADER_ID_CMD27_ID, HEADER_ID_CMD27_CRC);
-    save_good_localheaders(HEADER_ID_LOCAL_LAST, 0x00000000);
+  debuglog("Entering stage2...\n");
+  global_chatsync_stage = 2;
 
-    return 1;
+  HEADER_ID_SEND = HEADER_ID_REMOTE_LAST;
+
+  debuglog("HEADER_ID_LOCAL_FIRST: 0x%08X\n", HEADER_ID_LOCAL_FIRST);
+  debuglog("HEADER_ID_LOCAL_LAST: 0x%08X\n", HEADER_ID_LOCAL_LAST);
+  debuglog("HEADER_ID_REMOTE_FIRST = %08X\n", HEADER_ID_REMOTE_FIRST);
+  debuglog("HEADER_ID_REMOTE_LAST = %08X\n", HEADER_ID_REMOTE_LAST);
+
+  memset(buf, 0, sizeof(buf));
+  buf_len = encode41_sess1pkt_cmd15r_reqmsgbody(buf, sizeof(buf));
+  do_proto_log(buf, buf_len, "send15");
+  make_tcp_client_cmdpkt_wrap(buf, buf_len, "_cmd15r_reqmsgbody");
+
+  // PARAM send16
+
+  global_chatsync_stage = 1;
+  make_tcp_client_sess1_send_req();
+
+  // PARAM recv17
+  // msg body
+
+  debuglog("Waiting for REMOTE MSG cmd (0x2B)\n");
+  cmd = 0x2B;
+  while (check_commands_array(cmd) == 0) {
+    ret = make_tcp_client_sess1_recv_loop();
+    if (ret < 0) { return -1; };
+    show_memory(RECV_CHAT_COMMANDS, RECV_CHAT_COMMANDS_LEN, "RECV_CHAT_COMMANDS:");
+  };
+  debuglog("Got REMOTE MSG OK cmd\n");
+
+  // PARAM send19
+
+  global_chatsync_stage = 2;
+  make_tcp_client_sess1_send_req();
+
+  // PARAM send21
+
+  debuglog("Entering stage3...\n");
+  global_chatsync_stage = 3;
+
+  HEADER_ID_SEND = HEADER_ID_REMOTE_LAST;
+
+  //
+  // my changes to recv proto
+  // _cmd10r_pos1 (with flag) to > _cmd10r_pos2 (no flag to sync)
+  //
+
+  memset(buf, 0, sizeof(buf));
+  buf_len = encode41_sess1pkt_cmd10r_pos2(buf, sizeof(buf));
+  do_proto_log(buf, buf_len, "send21");
+  make_tcp_client_cmdpkt_wrap(buf, buf_len, "_cmd10r_pos2");
+
+  // PARAM recvXX
+
+  // here
+  // HEADER_ID_CMD27_ID and HEADER_ID_CMD27_CRC
+  // will be changed
+
+  debuglog("Waiting for SYNC FINISH (0x27)\n");
+  cmd = 0x27;
+  while (check_commands_array(cmd) == 0) {
+    ret = make_tcp_client_sess1_recv_loop();
+    if (ret < 0) { return -1; };
+    show_memory(RECV_CHAT_COMMANDS, RECV_CHAT_COMMANDS_LEN, "RECV_CHAT_COMMANDS:");
+  };
+  debuglog("Got SYNC FINISH OK cmd\n");
+
+  // PARAM sendXX (proto2 sendproto recv24)
+
+  global_chatsync_stage = 3;
+  make_tcp_client_sess1_send_req();
+
+  // PARAM sendXX (proto2 sendproto recv26)
+
+  debuglog("Entering stage6...\n");
+  global_chatsync_stage = 4;
+
+  // HEADER_ID_CMD27_ID and HEADER_ID_CMD27_CRC
+  // //nope//we get it from lastsync loaded from file
+
+  memset(buf, 0, sizeof(buf));
+  buf_len = encode41_sess1pkt_cmd27r(buf, sizeof(buf));
+  do_proto_log(buf, buf_len, "send31");
+  make_tcp_client_cmdpkt_wrap(buf, buf_len, "_cmd27r");
+
+  ///////////////// stop here and do some checks? //////
+
+  //
+  // wait while error and close?
+  // last recv for error_and_close pkt proto2 sendproto
+  // PARAM send29
+  //
+  ret = make_tcp_client_sess1_recv_loop();
+  if (ret < 0) { return -1; };
+
+  // PARAM sendXX (proto2 sendproto recv28)
+
+  global_chatsync_stage = 4;
+  make_tcp_client_sess1_send_req();
+
+  // last recv for error_and_close pkt proto2 sendproto
+  // PARAM send29
+  ret = make_tcp_client_sess1_recv_loop();
+  if (ret < 0) { return -1; };
+
+  // all ok
+
+  save_good_lastsync(HEADER_ID_CMD27_ID, HEADER_ID_CMD27_CRC);
+  save_good_localheaders(HEADER_ID_LOCAL_LAST, 0x00000000);
+
+  return 1;
 };
 

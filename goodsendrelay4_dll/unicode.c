@@ -13,28 +13,27 @@
 
 int UnicodeToUtf8(char *mbString, wchar_t *wcsString, int maxlen) {
 
-    WideCharToMultiByte(CP_UTF8, 0, wcsString, -1, mbString, maxlen,  NULL, NULL);
+  WideCharToMultiByte(CP_UTF8, 0, wcsString, -1, mbString, maxlen, NULL, NULL);
 
-    show_memory_with_ascii(mbString, 0x10, "mbString:");
+  show_memory_with_ascii(mbString, 0x10, "mbString:");
 
-    return 1;
+  return 1;
 };
 
 
-
 int UnicodeToAscii(char *szAscii, wchar_t *szUnicode) {
-    int len, i;
+  int len, i;
 
-    if((szUnicode == NULL) || (szAscii == NULL))
-    	return 0;
+  if ((szUnicode == NULL) || (szAscii == NULL))
+    return 0;
 
-    len = wcslen(szUnicode);
+  len = wcslen(szUnicode);
 
-    for(i=0;i<len+1;i++){ 
-        *szAscii++ = (char)(*szUnicode++);
-    };
+  for (i = 0; i < len + 1; i++) {
+    *szAscii++ = (char) (*szUnicode++);
+  };
 
-    return 1;
+  return 1;
 };
 
 

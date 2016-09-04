@@ -12,9 +12,9 @@
 
 // This class is exported from the skysearch4_dll.dll
 class SKYSEARCH4_DLL_API Cskysearch4_dll {
-public:
-	Cskysearch4_dll(void);
-	// TODO: add your methods here.
+ public:
+  Cskysearch4_dll(void);
+  // TODO: add your methods here.
 };
 
 extern SKYSEARCH4_DLL_API int nskysearch4_dll;

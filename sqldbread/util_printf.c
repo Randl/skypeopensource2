@@ -7,25 +7,25 @@
 
 
 int debuglog(const char *afmt, ...) {
-    FILE *log;
-	va_list args;
+  FILE *log;
+  va_list args;
 
-    log=fopen("_mylog.txt","a");
-    if (log == NULL){
-        printf("logfile creation error\n");
-        return -10;
-    };
+  log = fopen("_mylog.txt", "a");
+  if (log == NULL) {
+    printf("logfile creation error\n");
+    return -10;
+  };
 
-	va_start(args, afmt);
+  va_start(args, afmt);
 
-	vfprintf(log, afmt, args);
-	//fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
-	fclose(log);
+  vfprintf(log, afmt, args);
+  //fprintf(log, "File: \"%s\", Line: %d\n", __File__, __Line__);
+  fclose(log);
 
-    // to stdoout
-	vprintf(afmt, args);
+  // to stdoout
+  vprintf(afmt, args);
 
-	va_end(args);
+  va_end(args);
 
-    return 0;
+  return 0;
 };

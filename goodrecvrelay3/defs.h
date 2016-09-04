@@ -10,7 +10,7 @@
 
 #if defined(__GNUC__)
 #define FMT_64 "ll"
-typedef          long long ll;
+typedef long long ll;
 typedef unsigned long long ull;
 #elif defined(_MSC_VER)
 typedef          __int64 ll;

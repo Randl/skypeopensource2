@@ -2,7 +2,6 @@
 #include "rijndael.h"
 
 
-
 static const u32 Te0[256] = {
     0xc66363a5U, 0xf87c7c84U, 0xee777799U, 0xf67b7b8dU,
     0xfff2f20dU, 0xd66b6bbdU, 0xde6f6fb1U, 0x91c5c554U,
@@ -666,133 +665,130 @@ static const u32 Td4[256] = {
     0x55555555U, 0x21212121U, 0x0c0c0c0cU, 0x7d7d7d7dU,
 };
 static const u32 rcon[] = {
-	0x01000000, 0x02000000, 0x04000000, 0x08000000,
-	0x10000000, 0x20000000, 0x40000000, 0x80000000,
-	0x1B000000, 0x36000000, /* for 128-bit blocks, Rijndael never uses more than 10 rcon values */
+    0x01000000, 0x02000000, 0x04000000, 0x08000000,
+    0x10000000, 0x20000000, 0x40000000, 0x80000000,
+    0x1B000000, 0x36000000, /* for 128-bit blocks, Rijndael never uses more than 10 rcon values */
 };
 
-void aes_256_setkey (const void * const key, u32 * ks)
-{
-   	u32		i = 0;
-	u32		temp;
-	
-	memcpy (ks, key, 32);
-    for (;;)
-	{
-    	temp = ks[ 7];
-    	ks[ 8] = ks[ 0] ^
-    		(Te4[(temp >> 16) & 0xff] & 0xff000000) ^
-    		(Te4[(temp >>  8) & 0xff] & 0x00ff0000) ^
-    		(Te4[(temp      ) & 0xff] & 0x0000ff00) ^
-    		(Te4[(temp >> 24)       ] & 0x000000ff) ^ rcon[i];
-    	ks[ 9] = ks[ 1] ^ ks[ 8];
-    	ks[10] = ks[ 2] ^ ks[ 9];
-    	ks[11] = ks[ 3] ^ ks[10];
-		if (++i == 7) break;
-    	temp = ks[11];
-    	ks[12] = ks[ 4] ^
-    		(Te4[(temp >> 24)       ] & 0xff000000) ^
-    		(Te4[(temp >> 16) & 0xff] & 0x00ff0000) ^
-    		(Te4[(temp >>  8) & 0xff] & 0x0000ff00) ^
-    		(Te4[(temp      ) & 0xff] & 0x000000ff);
-    	ks[13] = ks[ 5] ^ ks[12];
-    	ks[14] = ks[ 6] ^ ks[13];
-    	ks[15] = ks[ 7] ^ ks[14];
-		ks += 8;
-    }
+void aes_256_setkey(const void *const key, u32 *ks) {
+  u32 i = 0;
+  u32 temp;
+
+  memcpy(ks, key, 32);
+  for (; ;) {
+    temp = ks[7];
+    ks[8] = ks[0] ^
+        (Te4[(temp >> 16) & 0xff] & 0xff000000) ^
+        (Te4[(temp >> 8) & 0xff] & 0x00ff0000) ^
+        (Te4[(temp) & 0xff] & 0x0000ff00) ^
+        (Te4[(temp >> 24)] & 0x000000ff) ^ rcon[i];
+    ks[9] = ks[1] ^ ks[8];
+    ks[10] = ks[2] ^ ks[9];
+    ks[11] = ks[3] ^ ks[10];
+    if (++i == 7) break;
+    temp = ks[11];
+    ks[12] = ks[4] ^
+        (Te4[(temp >> 24)] & 0xff000000) ^
+        (Te4[(temp >> 16) & 0xff] & 0x00ff0000) ^
+        (Te4[(temp >> 8) & 0xff] & 0x0000ff00) ^
+        (Te4[(temp) & 0xff] & 0x000000ff);
+    ks[13] = ks[5] ^ ks[12];
+    ks[14] = ks[6] ^ ks[13];
+    ks[15] = ks[7] ^ ks[14];
+    ks += 8;
+  }
 }
 
-void aes_256_encrypt (const u32 * const pt, u32 * const ct, const u32 * const ks)
-{
-	u32		s0, s1, s2, s3, t0, t1, t2, t3;
-	
-	s0 = pt[0] ^ ks[0];
-	s1 = pt[1] ^ ks[1];
-	s2 = pt[2] ^ ks[2];
-	s3 = pt[3] ^ ks[3];
-    /* round 1: */
-   	t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >>  8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[ 4];
-   	t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >>  8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[ 5];
-   	t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >>  8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[ 6];
-   	t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >>  8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[ 7];
-   	/* round 2: */
-   	s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >>  8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[ 8];
-   	s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >>  8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[ 9];
-   	s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >>  8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[10];
-   	s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >>  8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[11];
-    /* round 3: */
-   	t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >>  8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[12];
-   	t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >>  8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[13];
-   	t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >>  8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[14];
-   	t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >>  8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[15];
-   	/* round 4: */
-   	s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >>  8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[16];
-   	s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >>  8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[17];
-   	s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >>  8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[18];
-   	s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >>  8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[19];
-    /* round 5: */
-   	t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >>  8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[20];
-   	t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >>  8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[21];
-   	t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >>  8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[22];
-   	t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >>  8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[23];
-   	/* round 6: */
-   	s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >>  8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[24];
-   	s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >>  8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[25];
-   	s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >>  8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[26];
-   	s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >>  8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[27];
-    /* round 7: */
-   	t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >>  8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[28];
-   	t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >>  8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[29];
-   	t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >>  8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[30];
-   	t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >>  8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[31];
-   	/* round 8: */
-   	s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >>  8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[32];
-   	s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >>  8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[33];
-   	s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >>  8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[34];
-   	s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >>  8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[35];
-    /* round 9: */
-   	t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >>  8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[36];
-   	t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >>  8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[37];
-   	t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >>  8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[38];
-   	t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >>  8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[39];
-    /* round 10: */
-    s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >>  8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[40];
-    s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >>  8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[41];
-    s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >>  8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[42];
-    s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >>  8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[43];
-    /* round 11: */
-    t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >>  8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[44];
-    t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >>  8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[45];
-    t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >>  8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[46];
-    t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >>  8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[47];
-    /* round 12: */
-    s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >>  8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[48];
-    s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >>  8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[49];
-    s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >>  8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[50];
-    s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >>  8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[51];
-    /* round 13: */
-    t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >>  8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[52];
-    t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >>  8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[53];
-    t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >>  8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[54];
-    t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >>  8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[55];
-	ct[0] =
-		(Te4[(t0 >> 24)       ] & 0xff000000) ^
-		(Te4[(t1 >> 16) & 0xff] & 0x00ff0000) ^
-		(Te4[(t2 >>  8) & 0xff] & 0x0000ff00) ^
-		(Te4[(t3      ) & 0xff] & 0x000000ff) ^ ks[56];
-	ct[1] =
-		(Te4[(t1 >> 24)       ] & 0xff000000) ^
-		(Te4[(t2 >> 16) & 0xff] & 0x00ff0000) ^
-		(Te4[(t3 >>  8) & 0xff] & 0x0000ff00) ^
-		(Te4[(t0      ) & 0xff] & 0x000000ff) ^ ks[57];
-	ct[2] =
-		(Te4[(t2 >> 24)       ] & 0xff000000) ^
-		(Te4[(t3 >> 16) & 0xff] & 0x00ff0000) ^
-		(Te4[(t0 >>  8) & 0xff] & 0x0000ff00) ^
-		(Te4[(t1      ) & 0xff] & 0x000000ff) ^ ks[58];
-	ct[3] =
-		(Te4[(t3 >> 24)       ] & 0xff000000) ^
-		(Te4[(t0 >> 16) & 0xff] & 0x00ff0000) ^
-		(Te4[(t1 >>  8) & 0xff] & 0x0000ff00) ^
-		(Te4[(t2      ) & 0xff] & 0x000000ff) ^ ks[59];
+void aes_256_encrypt(const u32 *const pt, u32 *const ct, const u32 *const ks) {
+  u32 s0, s1, s2, s3, t0, t1, t2, t3;
+
+  s0 = pt[0] ^ ks[0];
+  s1 = pt[1] ^ ks[1];
+  s2 = pt[2] ^ ks[2];
+  s3 = pt[3] ^ ks[3];
+  /* round 1: */
+  t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >> 8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[4];
+  t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >> 8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[5];
+  t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >> 8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[6];
+  t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >> 8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[7];
+  /* round 2: */
+  s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >> 8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[8];
+  s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >> 8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[9];
+  s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >> 8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[10];
+  s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >> 8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[11];
+  /* round 3: */
+  t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >> 8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[12];
+  t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >> 8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[13];
+  t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >> 8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[14];
+  t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >> 8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[15];
+  /* round 4: */
+  s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >> 8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[16];
+  s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >> 8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[17];
+  s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >> 8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[18];
+  s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >> 8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[19];
+  /* round 5: */
+  t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >> 8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[20];
+  t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >> 8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[21];
+  t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >> 8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[22];
+  t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >> 8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[23];
+  /* round 6: */
+  s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >> 8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[24];
+  s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >> 8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[25];
+  s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >> 8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[26];
+  s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >> 8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[27];
+  /* round 7: */
+  t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >> 8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[28];
+  t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >> 8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[29];
+  t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >> 8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[30];
+  t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >> 8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[31];
+  /* round 8: */
+  s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >> 8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[32];
+  s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >> 8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[33];
+  s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >> 8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[34];
+  s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >> 8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[35];
+  /* round 9: */
+  t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >> 8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[36];
+  t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >> 8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[37];
+  t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >> 8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[38];
+  t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >> 8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[39];
+  /* round 10: */
+  s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >> 8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[40];
+  s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >> 8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[41];
+  s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >> 8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[42];
+  s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >> 8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[43];
+  /* round 11: */
+  t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >> 8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[44];
+  t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >> 8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[45];
+  t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >> 8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[46];
+  t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >> 8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[47];
+  /* round 12: */
+  s0 = Te0[t0 >> 24] ^ Te1[(t1 >> 16) & 0xff] ^ Te2[(t2 >> 8) & 0xff] ^ Te3[t3 & 0xff] ^ ks[48];
+  s1 = Te0[t1 >> 24] ^ Te1[(t2 >> 16) & 0xff] ^ Te2[(t3 >> 8) & 0xff] ^ Te3[t0 & 0xff] ^ ks[49];
+  s2 = Te0[t2 >> 24] ^ Te1[(t3 >> 16) & 0xff] ^ Te2[(t0 >> 8) & 0xff] ^ Te3[t1 & 0xff] ^ ks[50];
+  s3 = Te0[t3 >> 24] ^ Te1[(t0 >> 16) & 0xff] ^ Te2[(t1 >> 8) & 0xff] ^ Te3[t2 & 0xff] ^ ks[51];
+  /* round 13: */
+  t0 = Te0[s0 >> 24] ^ Te1[(s1 >> 16) & 0xff] ^ Te2[(s2 >> 8) & 0xff] ^ Te3[s3 & 0xff] ^ ks[52];
+  t1 = Te0[s1 >> 24] ^ Te1[(s2 >> 16) & 0xff] ^ Te2[(s3 >> 8) & 0xff] ^ Te3[s0 & 0xff] ^ ks[53];
+  t2 = Te0[s2 >> 24] ^ Te1[(s3 >> 16) & 0xff] ^ Te2[(s0 >> 8) & 0xff] ^ Te3[s1 & 0xff] ^ ks[54];
+  t3 = Te0[s3 >> 24] ^ Te1[(s0 >> 16) & 0xff] ^ Te2[(s1 >> 8) & 0xff] ^ Te3[s2 & 0xff] ^ ks[55];
+  ct[0] =
+      (Te4[(t0 >> 24)] & 0xff000000) ^
+          (Te4[(t1 >> 16) & 0xff] & 0x00ff0000) ^
+          (Te4[(t2 >> 8) & 0xff] & 0x0000ff00) ^
+          (Te4[(t3) & 0xff] & 0x000000ff) ^ ks[56];
+  ct[1] =
+      (Te4[(t1 >> 24)] & 0xff000000) ^
+          (Te4[(t2 >> 16) & 0xff] & 0x00ff0000) ^
+          (Te4[(t3 >> 8) & 0xff] & 0x0000ff00) ^
+          (Te4[(t0) & 0xff] & 0x000000ff) ^ ks[57];
+  ct[2] =
+      (Te4[(t2 >> 24)] & 0xff000000) ^
+          (Te4[(t3 >> 16) & 0xff] & 0x00ff0000) ^
+          (Te4[(t0 >> 8) & 0xff] & 0x0000ff00) ^
+          (Te4[(t1) & 0xff] & 0x000000ff) ^ ks[58];
+  ct[3] =
+      (Te4[(t3 >> 24)] & 0xff000000) ^
+          (Te4[(t0 >> 16) & 0xff] & 0x00ff0000) ^
+          (Te4[(t1 >> 8) & 0xff] & 0x0000ff00) ^
+          (Te4[(t2) & 0xff] & 0x000000ff) ^ ks[59];
 }

@@ -62,137 +62,136 @@ extern unsigned short global_destport;
 
 
 miracl *mip;
-	
+
 
 int parse_cmd_lines_lib(char *argv1_cred, char *argv2_userip) {
-	int ret;
-	int len;
-	u32 secret_p[17], secret_q[17];
-	char public_key[0x81];
-	char secret_key[0x81];
+  int ret;
+  int len;
+  u32 secret_p[17], secret_q[17];
+  char public_key[0x81];
+  char secret_key[0x81];
 
-	char str_skypename[0x1000];
-	char user_cred[0x101];
+  char str_skypename[0x1000];
+  char user_cred[0x101];
 
-	char str_remote_skype[1024];
-	char destip[1024];
-	char destport[1024];
+  char str_remote_skype[1024];
+  char destip[1024];
+  char destport[1024];
 
-	int fd;
+  int fd;
 
-	memset(public_key,0,sizeof(public_key));
-	memset(secret_key,0,sizeof(secret_key));
+  memset(public_key, 0, sizeof(public_key));
+  memset(secret_key, 0, sizeof(secret_key));
 
-	mip=mirsys (100, 0);
-
-
-	if ((argv1_cred!=NULL) && (strlen(argv1_cred)>0)){
-		ret = parse_input_line(argv1_cred, secret_p, secret_q, (char*)&str_skypename, (char*)&user_cred);
-        if (ret < 0) { return -1; };
-	}else{
-		debuglog("please specify inputs parameters\n");
-		return -1;
-	};
-	debuglog("skypename=%s\n",str_skypename);
-	show_memory(user_cred,0x100,"cred:");
-
-	memcpy(CREDENTIALS+4,user_cred,0x100);
+  mip = mirsys(100, 0);
 
 
+  if ((argv1_cred != NULL) && (strlen(argv1_cred) > 0)) {
+    ret = parse_input_line(argv1_cred, secret_p, secret_q, (char *) &str_skypename, (char *) &user_cred);
+    if (ret < 0) { return -1; };
+  } else {
+    debuglog("please specify inputs parameters\n");
+    return -1;
+  };
+  debuglog("skypename=%s\n", str_skypename);
+  show_memory(user_cred, 0x100, "cred:");
 
-	if ((argv2_userip!=NULL) && (strlen(argv2_userip)>0)){
-		ret = parse_input_line2(argv2_userip, (char *)&str_remote_skype, (char *)&destip, (char *)&destport);
-        if (ret < 0) { return -1; };
-	}else{
-		debuglog("please specify inputs parameters\n");
-		return -1;
-	};
-	debuglog("remote_skypename=%s\n",str_remote_skype);
-	debuglog("destip=%s\n",destip);
-	debuglog("destport=%s\n",destport);
-
-	strcpy(global_destip,destip);
-	global_destport=atoi(destport);
+  memcpy(CREDENTIALS + 4, user_cred, 0x100);
 
 
-	restore_user_keypair(secret_p, secret_q, public_key, secret_key);
+  if ((argv2_userip != NULL) && (strlen(argv2_userip) > 0)) {
+    ret = parse_input_line2(argv2_userip, (char *) &str_remote_skype, (char *) &destip, (char *) &destport);
+    if (ret < 0) { return -1; };
+  } else {
+    debuglog("please specify inputs parameters\n");
+    return -1;
+  };
+  debuglog("remote_skypename=%s\n", str_remote_skype);
+  debuglog("destip=%s\n", destip);
+  debuglog("destport=%s\n", destport);
+
+  strcpy(global_destip, destip);
+  global_destport = atoi(destport);
 
 
-	memcpy(xoteg_pub,public_key,0x80);
-	memcpy(xoteg_sec,secret_key,0x80);
-
-	show_memory(xoteg_pub,0x80,"xoteg_pubkey:");
-	show_memory(xoteg_sec,0x80,"xoteg_seckey:");
-
-	show_memory(CREDENTIALS,0x104,"CREDENTIALS:");
-
-    //remote_credentials, 0x100
-    //remote_pubkey, 0x80
-    add_cert(8, CREDENTIALS+4, xoteg_pub);
-
-    ret = decode_profile_for_time_check(CREDENTIALS, 0x104);
-    if (ret<0) { return -101; };
-	
-	strcpy(REMOTE_NAME,str_remote_skype);
-	strcpy(LOCAL_NAME,str_skypename);
-
-	// hmmm? some changes in new proto?
-	strcat(CHAT_STRING,"#");
-	strcat(CHAT_STRING,str_skypename);
-	strcat(CHAT_STRING,"/$");
-	strcat(CHAT_STRING,REMOTE_NAME);
-	strcat(CHAT_STRING,";");
-	strcat(CHAT_STRING,CHAR_RND_ID);
+  restore_user_keypair(secret_p, secret_q, public_key, secret_key);
 
 
-    memset(CHAT_PEERS, 0, sizeof(CHAT_PEERS));
+  memcpy(xoteg_pub, public_key, 0x80);
+  memcpy(xoteg_sec, secret_key, 0x80);
 
-	strcat(CHAT_PEERS, str_skypename);
-	strcat(CHAT_PEERS, " ");
-	strcat(CHAT_PEERS, REMOTE_NAME);
+  show_memory(xoteg_pub, 0x80, "xoteg_pubkey:");
+  show_memory(xoteg_sec, 0x80, "xoteg_seckey:");
+
+  show_memory(CREDENTIALS, 0x104, "CREDENTIALS:");
+
+  //remote_credentials, 0x100
+  //remote_pubkey, 0x80
+  add_cert(8, CREDENTIALS + 4, xoteg_pub);
+
+  ret = decode_profile_for_time_check(CREDENTIALS, 0x104);
+  if (ret < 0) { return -101; };
+
+  strcpy(REMOTE_NAME, str_remote_skype);
+  strcpy(LOCAL_NAME, str_skypename);
+
+  // hmmm? some changes in new proto?
+  strcat(CHAT_STRING, "#");
+  strcat(CHAT_STRING, str_skypename);
+  strcat(CHAT_STRING, "/$");
+  strcat(CHAT_STRING, REMOTE_NAME);
+  strcat(CHAT_STRING, ";");
+  strcat(CHAT_STRING, CHAR_RND_ID);
 
 
-    memset(CHAT_PEERS_REVERSED, 0, sizeof(CHAT_PEERS_REVERSED));
+  memset(CHAT_PEERS, 0, sizeof(CHAT_PEERS));
 
-	strcat(CHAT_PEERS_REVERSED, REMOTE_NAME);
-	strcat(CHAT_PEERS_REVERSED, " ");
-	strcat(CHAT_PEERS_REVERSED, str_skypename);
+  strcat(CHAT_PEERS, str_skypename);
+  strcat(CHAT_PEERS, " ");
+  strcat(CHAT_PEERS, REMOTE_NAME);
 
 
-	debuglog("CHAT_STRING: %s\n",CHAT_STRING);
-    debuglog("REMOTE_NAME: %s\n",REMOTE_NAME);
-    debuglog("CHAT_PEERS: %s\n",CHAT_PEERS);
+  memset(CHAT_PEERS_REVERSED, 0, sizeof(CHAT_PEERS_REVERSED));
 
- 	debuglog("\nMSG_TEXT: %s\n",MSG_TEXT);
+  strcat(CHAT_PEERS_REVERSED, REMOTE_NAME);
+  strcat(CHAT_PEERS_REVERSED, " ");
+  strcat(CHAT_PEERS_REVERSED, str_skypename);
 
-	return 0;
+
+  debuglog("CHAT_STRING: %s\n", CHAT_STRING);
+  debuglog("REMOTE_NAME: %s\n", REMOTE_NAME);
+  debuglog("CHAT_PEERS: %s\n", CHAT_PEERS);
+
+  debuglog("\nMSG_TEXT: %s\n", MSG_TEXT);
+
+  return 0;
 }
 
-char *read_cred_from_file(char *cred, int cred_max_len){
-	int fd;
-	int len;
+char *read_cred_from_file(char *cred, int cred_max_len) {
+  int fd;
+  int len;
 
-	fd=open("a_cred.txt",O_RDONLY);
-	if (fd<=0){
-		debuglog("file open error, not exist \"a_cred.txt\" file\n");
-		return 0;
-	};
+  fd = open("a_cred.txt", O_RDONLY);
+  if (fd <= 0) {
+    debuglog("file open error, not exist \"a_cred.txt\" file\n");
+    return 0;
+  };
 
-	len=read(fd, cred, cred_max_len);
-	close(fd);
-    
-	if (len<=0){
-		debuglog("file read error\n");
-		return 0;
-	};
-	if (len>=cred_max_len){
-		debuglog("file too big\n");
-		return 0;
-	};
+  len = read(fd, cred, cred_max_len);
+  close(fd);
 
-	cred[len]=0;
+  if (len <= 0) {
+    debuglog("file read error\n");
+    return 0;
+  };
+  if (len >= cred_max_len) {
+    debuglog("file too big\n");
+    return 0;
+  };
 
-	return cred;
+  cred[len] = 0;
+
+  return cred;
 };
 
 /*
@@ -204,90 +203,89 @@ int main(int argc, char* argv[]){
 */
 
 
-int multysend_main(char* static_userip, char* static_msg) {
-	int ret;
-	char *argv1_cred;
-	char *argv1_userip;
-	char cred[0x1000];
-	char userip[0x1000];
+int multysend_main(char *static_userip, char *static_msg) {
+  int ret;
+  char *argv1_cred;
+  char *argv1_userip;
+  char cred[0x1000];
+  char userip[0x1000];
 
-    do_init_logfiles();
+  do_init_logfiles();
 
-    make_setup_global_init();
+  make_setup_global_init();
 
-	argv1_cred = read_cred_from_file(cred, sizeof(cred));
-	argv1_userip = strcpy(userip, static_userip);
+  argv1_cred = read_cred_from_file(cred, sizeof(cred));
+  argv1_userip = strcpy(userip, static_userip);
 
-	strcpy(MSG_TEXT, static_msg);
+  strcpy(MSG_TEXT, static_msg);
 
-    //
-    // CREDENTIALS must be setuped before parse_cmd
-    // for uic check and decode_profile
-    //
+  //
+  // CREDENTIALS must be setuped before parse_cmd
+  // for uic check and decode_profile
+  //
 
-	ret = parse_cmd_lines_lib(argv1_cred, argv1_userip);
+  ret = parse_cmd_lines_lib(argv1_cred, argv1_userip);
 
-	if (ret < 0){
-		debuglog_err("Input data parsing failed.\n");
-		return ret;
-	}
+  if (ret < 0) {
+    debuglog_err("Input data parsing failed.\n");
+    return ret;
+  }
 
-	// ret = 1 -- succeed
-	// ret = 0 -- some error occurred
-	ret = main_skypeclient_tcpconnect_sess1();
+  // ret = 1 -- succeed
+  // ret = 0 -- some error occurred
+  ret = main_skypeclient_tcpconnect_sess1();
 
-	return ret;
+  return ret;
 };
 
 
+int main_skypeclient_tcpconnect_sess1() {
+  char *ip;
+  unsigned short port;
+  unsigned int rnd;
+  int ret;
 
-int main_skypeclient_tcpconnect_sess1(){
-	char *ip;
-	unsigned short port;
-	unsigned int rnd;
-	int ret;
+  srand(time(NULL));
 
-	srand( time(NULL) );
-		
-	ip=global_destip;
-	port=global_destport;
+  ip = global_destip;
+  port = global_destport;
 
-    tcp_talk_init();
+  tcp_talk_init();
 
-    init_headers();
+  init_headers();
 
-    make_setup_prepare();
+  make_setup_prepare();
 
-	ret = make_dh384_handshake(ip, port);
-    if (ret < 0) { 
-        tcp_talk_deinit();
-        return -1; 
-    };
-
-	ret = make_tcp_client_sess1_pkt1(ip, port);
-    if (ret < 0) { 
-        tcp_talk_deinit();
-        return -1; 
-    };
-
-	ret = make_tcp_client_sess1_pkt2(ip, port);
-    debuglog_info("pkt2 ret: %d\n", ret);
-    if (ret <= 0) { 
-        tcp_talk_deinit();
-        return -1; 
-    };
-    debuglog_info("pkt2 OK\n");
-
-	ret = make_tcp_client_sess1_pkt4();
-    debuglog_info("pkt4 ret: %d\n", ret);
-    if (ret < 0) {
-        remove_messages_from_db();
-    };
-
-    clear_headers();
-
+  ret = make_dh384_handshake(ip, port);
+  if (ret < 0) {
     tcp_talk_deinit();
+    return -1;
+  };
 
-	return ret;
+  ret = make_tcp_client_sess1_pkt1(ip, port);
+  if (ret < 0) {
+    tcp_talk_deinit();
+    return -1;
+  };
+
+  ret = make_tcp_client_sess1_pkt2(ip, port);
+  debuglog_info("pkt2 ret: %d\n", ret);
+  if (ret <= 0) {
+    tcp_talk_deinit();
+    return -1;
+  };
+  debuglog_info("pkt2 OK\n");
+
+  ret = make_tcp_client_sess1_pkt4();
+  debuglog_info("pkt4 ret: %d\n", ret);
+  if (ret < 0) {
+    remove_messages_from_db();
+  };
+
+  clear_headers();
+
+  tcp_talk_deinit();
+
+  return ret;
 };
 
