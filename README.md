@@ -11,7 +11,7 @@ LGPL 3.0
 
 A commercial license is also avaiable on request.
 
-## Statements
+## Issue Statements (added 2016-09-04)
 The README should clearly state:
 * whether or not this client is a complete **re-implementation**
 * whether or not it includes **disassembled** code from the other Skype clients
