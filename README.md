@@ -18,7 +18,7 @@ A commercial license is also avaiable on request.
 Microsoft-Skype do something very weird with contact-list event servers. 
 Like disable it for all users.
 I try to login using latests 7.27.66.101 skype version for windows with empty profile and dont get back my contact list at all. Hm...
-But, anyway, its okay. This is format for contact-list file used in my app, just put it in same dir and add yours skypeusers manually:
+But, anyway, its okay. This is format for contact list file (contacts.txt) used in my app, just put it in same dir and add yours skypeusers manually:
 
 u/skypeuser1
 
