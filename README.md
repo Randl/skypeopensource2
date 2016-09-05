@@ -11,7 +11,17 @@ LGPL 3.0
 
 A commercial license is also avaiable on request.
 
-## Known problems (added 2016-09-05)
+
+## Updated 2016-09-05 15:00
+
+* Contact list function working again
+
+Just check my program today. All functions working, for now.
+
+I guess, they decide to enable contact-list event servers for users. Good decision.
+
+
+## Updated 2016-09-05 01:00
 
 * Load contact list function stop working
 
