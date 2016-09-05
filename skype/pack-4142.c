@@ -103,9 +103,8 @@ u16 pack_42_word_E3B7BC[] = {0, 0x123, 0x266, 0x2B4, 0x8A2, 0x9F5, 0x0CFC, 0x0F7
 u16 pack_42_word_E3B7D0[] =
     {0, 0x14D, 0x34C, 0x42B, 0x4A3, 0x6CA, 0x953, 0x9C6, 0x0A6C, 0x0ABB, 0x0BAE, 0x0C43, 0x0C9B, 0x0CDD, 0x0D31, 0x0D93,
      0x0DB5, 0x1000};
-u32 pack_42_thing1_E3B7F4[4] = {7, 2, 1, 0};
-//(u32) pack_42_word_E3B7BC}; //TODO: u32 is not good for 64-bit
-u32 pack_42_thing2_E3B804[4] = {16, 1, 0, 0};//(u32) pack_42_word_E3B7D0}; //TODO: fix
+u32 pack_42_thing1_E3B7F4[4] = {7, 2, 1, (u32) pack_42_word_E3B7BC}; //TODO: u32 is not good for 64-bit
+u32 pack_42_thing2_E3B804[4] = {16, 1, 0, (u32) pack_42_word_E3B7D0}; //TODO: fix
 
 void *malloc_719490(void **the_ptr, u32 bytes) {
   void *result = *the_ptr ? realloc(*the_ptr, bytes) : malloc(bytes); // eax@2

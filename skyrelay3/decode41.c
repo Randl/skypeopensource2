@@ -12,7 +12,7 @@
 
 #include "decode41.h"
 
-int DEBUG = 0;
+#define DEBUG 0
 
 
 int mysub_SessionManager_CMD_RECV_Process_00788E80(char *buf1, uint buflen1, char *selfptr);
