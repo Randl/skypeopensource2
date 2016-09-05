@@ -1422,7 +1422,7 @@ int on_recv_A6_6D(char *pktbuf, int pktlen) {
       };
 
       if (data_int == 0x27) {
-        u8 rnd64bit[0x8];
+        u8 rnd64bit[0x8]; //FIXME: hides previous declaration
 
         debuglog("::::::::::::::Session SYNC FINISH HEADER_ID OK!\n");
 

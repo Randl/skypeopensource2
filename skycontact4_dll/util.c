@@ -145,7 +145,7 @@ int process_aes_crypt2(char *data, int datalen, int usekey, int blkseq, int encr
   // process aes crypt
   for (j = 0; j + 16 < datalen; j += 16) {
     aes_256_encrypt(blk, blk + 4, ks);
-    dword(data + j + 0) ^= _bswap32(blk[4]);
+    dword(data + j + 0) ^= _bswap32(blk[4]); //FIXME: too few arguments for a macro call
     dword(data + j + 4) ^= _bswap32(blk[5]);
     dword(data + j + 8) ^= _bswap32(blk[6]);
     dword(data + j + 12) ^= _bswap32(blk[7]);

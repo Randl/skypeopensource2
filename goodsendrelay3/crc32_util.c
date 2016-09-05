@@ -180,7 +180,7 @@ int Calculate_CRC32_For41(char *data, int len) {
 
 
       eax = esi & 0xffff;
-      ebx = 0;
+      //ebx = 0;
 
       //debuglog("\nNEW eax=0x%08X\n",eax);
 
@@ -199,7 +199,7 @@ int Calculate_CRC32_For41(char *data, int len) {
 
       //debuglog("ecx=0x%08X\n",ecx);
 
-      ebx = 0;
+      //ebx = 0;
 
       //mov bh,al
       ebx = (eax & 0xff) * 0x100;

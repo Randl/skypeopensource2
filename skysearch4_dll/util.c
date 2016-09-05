@@ -362,7 +362,7 @@ int get_packet_size(char *data, int len, int *size_bytes) {
 
   // len - 1
   ecx = eax - 1;
-  ebx = ecx;
+  //ebx = ecx;
 
   //ptr on data buffer
   ebp = (int) data;

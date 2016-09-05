@@ -504,7 +504,7 @@ unsigned int make_tcp_client_sess1_pkt2(char *ip, unsigned short port) {
   /////////////////////////////////
   pkt = (char *) malloc(0x1000);
   memset(pkt, 0, 0x1000);
-  len = 0;
+  //len = 0;
 
   memcpy(pkt, buf1, buf1_len);
   len = buf1_len;

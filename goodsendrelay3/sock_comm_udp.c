@@ -197,7 +197,7 @@ int udp_recv(char *remoteip, unsigned short remoteport, char *result, int result
     };
 
   } else {
-    ret = 0;
+    //ret = 0;
     //shutdown(s,2);
     //closesocket(s);
     //timeout

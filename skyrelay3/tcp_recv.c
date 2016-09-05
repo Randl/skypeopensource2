@@ -46,7 +46,7 @@ int process_recv_data(char *recvbuf, int recvlen) {
     int AES_DATA_len;
     u8 membuf[0x1000];
     int membuf_len;
-    int ret;
+    int ret; //FIXME: hides previous declaration
 
     i++;
 

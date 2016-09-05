@@ -41,9 +41,7 @@ int main(int argc, char *argv[]) {
 
 
 int main_direct(int argc, char *argv[]) {
-  int i;
-
-  i = 1;
+  //int i = 1;
 
 
   //multysend_main("themagicforyou:192.168.1.75:57608", "test111");

@@ -30,7 +30,7 @@ struct blob_s {
   uint obj_data;
   uint data_ptr;
   uint data_size;
-};
+}; //FIXME: struct never used
 
 
 //
