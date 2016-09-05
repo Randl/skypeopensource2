@@ -46,7 +46,7 @@ int extconn_rc4_crypto_genkey(char *inbuf) {
 #define _DWORD long
 
 // arg0:inbuf, arg4:inlen, ecx = rc4 keybuf:100h
-int rc4_key_generate(int buf, int a_key, unsigned int a_len) {
+int rc4_key_generate(int buf, int a_key, unsigned int a_len) { //TODO: MinGW bug?
   int ret; // eax@1
   unsigned int v4; // edx@1
   unsigned int v5; // edi@3
