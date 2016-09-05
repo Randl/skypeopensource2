@@ -16,7 +16,7 @@ A commercial license is also avaiable on request.
 
 * Contact list function working again
 
-Just check my program today. All functions working nicely, for now.
+Just check my program today. All functions working well, for now.
 
 I guess, they decide to enable contact-list event servers for users. Good decision.
 
