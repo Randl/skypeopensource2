@@ -20,6 +20,7 @@ int init_file() {
 
   fp = fopen("contacts.txt", "w");
   fclose(fp);
+  //FIXME: missing return
 };
 
 
@@ -29,6 +30,7 @@ int write_to_file(char *user) {
   fp = fopen("contacts.txt", "a");
   fprintf(fp, "%s\n", user);
   fclose(fp);
+  //FIXME: missing return
 
 };
 

@@ -5,7 +5,8 @@
  */
 #include "miracl.h"
 #define ASM _asm
-#ifndef __GNUC__
+#ifdef INLINE_ASM
+#if INLINE_ASM == 1
 int muldiv(a,b,c,m,rp)
 int a,b,c,m,*rp;
 {
@@ -54,6 +55,9 @@ int a,b,*c,*rp;
         ASM mov   [esi],eax              
         ASM mov   [ebx],edx
 }
+#else
+//TODO: asm for other platforms
+#endif
 #else
 
 mr_small muldiv(mr_small a, mr_small b, mr_small c, mr_small m, mr_small *rp) {

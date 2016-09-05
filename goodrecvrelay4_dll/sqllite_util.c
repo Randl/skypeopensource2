@@ -73,7 +73,7 @@ int callback_exist(struct test_s *gptr, int argc, char **argv, char **azColName)
   int sql_select_debug;
 
   sql_select_debug = 1;
-  if (sql_select_debug) {
+  if (sql_select_debug) { //FIXME: condition is always true
     for (i = 0; i < argc; i++) {
       debuglog("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
     }
