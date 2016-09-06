@@ -2,8 +2,7 @@
 // tcp_recv.c -- receive data process module
 //
 
-#include
- <stdio.h>
+#include <stdio.h>
 #include "short_types.h"
 
 extern int flag_auth_fail;
