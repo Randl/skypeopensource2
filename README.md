@@ -12,6 +12,36 @@ LGPL 3.0
 A commercial license is also avaiable on request.
 
 
+## Updated 2016-09-06 15:00
+
+Program still working OK.
+
+Some additional info on usage:
+
+If you got this error on black console:
+
+```
+UIC_CRC = 5E8EBAE5
+pkt block crc32=00009C54
+relay_connect_mode = 1
+LOCAL_SESSION_ID_RELAY = 0x00002619
+total=0x00004C32
+last2b=0x0000D066
+encode len: 0x0000044A
+```
+
+And this error in "Debug Data" area:
+
+```
+Message send failed. Ret code:-1
+```
+
+Screenshot: http://epycs.ru/pics/cred_err.png
+
+Then try to remove **a_cred.txt** file, close program and **run again**. 
+Its some bug with bugged credentials. Which happens from time to time.
+
+
 ## Updated 2016-09-05 15:00
 
 * Contact list function working again
