@@ -78,7 +78,12 @@ static __inline__ u32 __min (u32 a, u32 b) { return a<b?a:b; }
 #define					rotl64(x,r) _rotl64(x,r)
 #define					rotr64(x,r) _rotr64(x,r)
 static __inline__ u32	popcnt32 (u32 x) {register u32 n=0;while(x)n++,x&=x-1;return n;}
+#ifndef _WIN64
 static __inline__ u32	_bswap32 (u32 x) {__asm{mov eax,x}__asm{bswap eax}}
+#else
+static __inline__ u32	_bswap32(u32 x) { return 0; }
+//TODO: C version for VC x64
+#endif
 #define rdtsc()			__rdtsc()
 #define LL				"I64"
 #endif

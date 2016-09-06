@@ -738,6 +738,7 @@ void pack_42_76A690(u32 ctx, u32 *list_ptr, u32 a3) {
         while (v9 < context[33]);
         v88 = v9;
       }
+      pack_42_thing1_E3B7F4[3] = (u32) pack_42_word_E3B7BC; // HACK: instead of assignment which is broken
       pack_42_dword_76A380(ctx, pack_42_thing1_E3B7F4, v9);
     }
   }
@@ -781,11 +782,13 @@ void pack_42_76A690(u32 ctx, u32 *list_ptr, u32 a3) {
       if (v21 >= 5) {
         v22 = v21 - 5;
         LABEL_39:
+        pack_42_thing1_E3B7F4[3] = (u32) pack_42_word_E3B7BC; // HACK: instead of assignment which is broken
         pack_42_dword_76A380(ctx, pack_42_thing1_E3B7F4, v22);
       }
       LABEL_40:
       switch (list[0]) {
         case 0:
+          pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
           pack_42_dword_76A380(ctx, pack_42_thing2_E3B804, list[2]);
           break;
         case 5:
@@ -830,16 +833,20 @@ void pack_42_76A690(u32 ctx, u32 *list_ptr, u32 a3) {
         case 6:
           v37 = list[3] >> 2;
           v91 = list[2];
+          pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
           pack_42_dword_76A380(ctx, pack_42_thing2_E3B804, v37);
           v36 = 0;
           if (v37) {
-            do pack_42_dword_76A380(ctx, pack_42_thing2_E3B804, *(u32 *) (v91 + 4 * v36++));
-            while (v36 < v37);
+            do {
+              pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
+              pack_42_dword_76A380(ctx, pack_42_thing2_E3B804, *(u32 *) (v91 + 4 * v36++));
+            } while (v36 < v37);
           }
           break;
         case 4:
           case_4_bytes = list[3];
           v39 = list[2];
+          pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
           pack_42_dword_76A380(ctx, pack_42_thing2_E3B804, case_4_bytes);
           v38 = *(u32 *) (ctx + 0x3F6);
           if (v38 >= *(u32 *) (ctx + 0x3FA)) pack_42_expand_ctx_87F0F0(v38, v11);
@@ -855,6 +862,7 @@ void pack_42_76A690(u32 ctx, u32 *list_ptr, u32 a3) {
           break;
         case 1:
           for (bytes_to_pack = 8; bytes_to_pack; bytes_to_pack--) if (((u8 *) (list + 2))[bytes_to_pack - 1]) break;
+          pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
           pack_42_dword_76A380(ctx, pack_42_thing2_E3B804, bytes_to_pack);
           if (*(u32 *) (ctx + 0x3F6) >= *(u32 *) (ctx + 0x3FA)) {
             pack_42_expand_ctx_87F0F0(ctx, ctx + 0x1F2);

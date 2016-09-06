@@ -8,8 +8,31 @@
  *   ... but change __int64 to long long
  *   Copyright (c) 1988-2006 Shamus Software Ltd.
  */
+// TODO: move to common utils
+// Check windows
+#if _WIN32 || _WIN64
+#if _WIN64
+#define ENVIRONMENT64
+#else
+#define ENVIRONMENT32
+#endif
+#endif
 
+// Check GCC
+#if __GNUC__
+#if __x86_64__ || __ppc64__
+#define ENVIRONMENT64
+#else
+#define ENVIRONMENT32
+#endif
+#endif
+
+#ifdef ENVIRONMENT32
 #define MIRACL 32
+#else
+#define MIRACL 64
+#endif
+
 #define MR_LITTLE_ENDIAN    /* This may need to be changed        */
 #define mr_utype int
 /* the underlying type is usually int *

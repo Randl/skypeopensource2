@@ -3675,7 +3675,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           eax1 = eax;
           ecx1 = ecx;
           //shld    edx, eax, cl
-#ifndef MS_ASM
+#ifdef MS_ASM
           __asm {
           mov edx, edx1;
           mov eax, eax1;

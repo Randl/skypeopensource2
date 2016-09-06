@@ -19,6 +19,9 @@ extern u16 pack_42_word_E3B7A0[];
 extern u32 pack_42_thing2_E3B804[];
 extern u16 *pack_42_word_off_E3B748[];
 
+extern u16 pack_42_word_E3B7BC[];
+extern u16 pack_42_word_E3B7D0[];
+
 u8 *unpack_42_off_E3B054[11] =
     {
         "",
@@ -444,6 +447,7 @@ void unpack_42_list_76B1B0(u32 ctx, u32 *into_list, u32 a3) {
   v52 = 0;
   if (a3) {
     if (v5[39]) {
+      pack_42_thing1_E3B7F4[3] = (u32) pack_42_word_E3B7BC; // HACK: instead of assignment which is broken
       v26 = unpack_42_dword_76ADE0(ctx, pack_42_thing1_E3B7F4, 0);
       v52 = v26;
       if (v26 > v5[39]) {
@@ -462,6 +466,7 @@ void unpack_42_list_76B1B0(u32 ctx, u32 *into_list, u32 a3) {
         if (!v8) return;
         if ((u32) v8 > 6) {
           v10 = v8 - 6;
+          pack_42_thing1_E3B7F4[3] = (u32) pack_42_word_E3B7BC; // HACK: instead of assignment which is broken
           v9 = unpack_42_dword_76ADE0(ctx, pack_42_thing1_E3B7F4, 0);
           if (v10) {
             v33 = v5[v10];
@@ -471,7 +476,10 @@ void unpack_42_list_76B1B0(u32 ctx, u32 *into_list, u32 a3) {
         }
         else {
           if (v8 != 6) v9 = v8 - 1;
-          else v9 = unpack_42_dword_76ADE0(ctx, pack_42_thing1_E3B7F4, 0) + 5;
+          else {
+            pack_42_thing1_E3B7F4[3] = (u32) pack_42_word_E3B7BC; // HACK: instead of assignment which is broken
+            v9 = unpack_42_dword_76ADE0(ctx, pack_42_thing1_E3B7F4, 0) + 5;
+          }
         }
         v7 = v5[0];
         *(u32 *) (skype_id + 1) += v9;
@@ -492,6 +500,7 @@ void unpack_42_list_76B1B0(u32 ctx, u32 *into_list, u32 a3) {
       *(u32 *) v12 -= 16;
       switch (v7) {
         case 0:
+          pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
           v34 = unpack_42_dword_76ADE0(ctx, pack_42_thing2_E3B804, 0);
           unpack_42_dword_714540(into_list, *(u32 *) (skype_id + 1), v34);
           goto LABEL_50;
@@ -534,6 +543,7 @@ void unpack_42_list_76B1B0(u32 ctx, u32 *into_list, u32 a3) {
                                0x7FFFFFFF);
           goto LABEL_49;
         case 6:
+          pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
           v20 = unpack_42_dword_76ADE0(ctx, pack_42_thing2_E3B804, 0);
           v21 = v20;
           if ((u32) v20 > 0x3FFFFFFF) goto LABEL_39;
@@ -546,11 +556,13 @@ void unpack_42_list_76B1B0(u32 ctx, u32 *into_list, u32 a3) {
           if (!v21) goto LABEL_44;
           break;
         case 4:
+          pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
           v41 = unpack_42_dword_76ADE0(ctx, pack_42_thing2_E3B804, 0);
           increment = v41;
           unpack_42_76AEA0(v41, ctx);
           goto LABEL_46;
         case 1:
+          pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
           v46 = unpack_42_dword_76ADE0(ctx, pack_42_thing2_E3B804, 0);
           increment = v46;
           if (v46 > 8) *(u32 *) (ctx + 0x202) = 1;
@@ -582,6 +594,7 @@ void unpack_42_list_76B1B0(u32 ctx, u32 *into_list, u32 a3) {
           return;
         }
         v40 = context[32] + 4 * v22++;
+        pack_42_thing2_E3B804[3] = (u32) pack_42_word_E3B7D0;  // HACK: instead of assignment which is broken
         *(u32 *) v40 = unpack_42_dword_76ADE0(ctx, pack_42_thing2_E3B804, 0);
       }
       while (v22 < v21);
