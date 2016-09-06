@@ -951,7 +951,7 @@ static int dump_41_list_checkblob (const skype_list *list, int type, int id) {
 }
 
 
-
+/*
 
 int main_unpack_checkblob (u8 *indata, u32 inlen, int type, int id) {
   u32             list_size;
@@ -998,7 +998,7 @@ int main_unpack_checkblob (u8 *indata, u32 inlen, int type, int id) {
   return ret;
 };
 
-
+*/
 
 ///////////////////////
 ///////////////////////
@@ -1037,53 +1037,6 @@ static int dump_41_list_getobj00 (const skype_list *list, u32 *data_int, int typ
 
   return 0;
 }
-
-
-
-int main_unpack_getobj00 (u8 *indata, u32 inlen, u32 *data_int, int type, int id) {
-  u32             list_size;
-  u8              *blob_pos = indata;
-  skype_list      new_list = {&new_list, 0, 0, 0};
-  u32             packed_bytes;
-  int             ret;
-
-  // stack mess
-  int             myvar1=1;
-  int             myvar2=1;
-  int             myvar3=1;
-  int             myvar4=1;
-  int             myvar5=1;
-  int             myvar6=1;
-  int             myvar7=1;
-  int             myvar8=0;
-
-
-  packed_bytes=inlen;
-
-  list_size = 0x5000;
-
-  while ((packed_bytes>0) && (blob_pos[0]!=0x41)){
-    packed_bytes--;
-    blob_pos++;
-  };
-
-
-  ret=1;
-  while( (packed_bytes>0) && (ret==1) ){
-
-    ret=unpack_4142 ((u32*)&new_list, &blob_pos, &packed_bytes, 0, 8, &list_size);
-
-    while ((packed_bytes>0) && (blob_pos[0]!=0x41)){
-      packed_bytes--;
-      blob_pos++;
-    };
-
-  };
-
-  dump_41_list_getobj00 (&new_list, data_int, type, id);
-
-  return 0;
-};
 
 
 

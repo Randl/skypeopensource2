@@ -6,7 +6,7 @@
 #include "miracl.h"
 #define ASM _asm
 #ifdef INLINE_ASM
-#if INLINE_ASM == 1
+#if INLINE_ASM == 3
 int muldiv(a,b,c,m,rp)
 int a,b,c,m,*rp;
 {

@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.3)
 project(skypeopensource2)
 
 if (MSVC)
-    set(CMAKE_CXX_FLAGS_RELEASE "/w /O3")
-    set(CMAKE_C_FLAGS_RELEASE "/w /O3")
+    set(CMAKE_CXX_FLAGS_RELEASE "/w /Ox")
+    set(CMAKE_C_FLAGS_RELEASE "/w /Ox")
 
-    set(CMAKE_CXX_FLAGS_DEBUG "/Wall /O0")
-    set(CMAKE_C_FLAGS_DEBUG "/Wall /O0")
+    set(CMAKE_CXX_FLAGS_DEBUG "/Wall /Od")
+    set(CMAKE_C_FLAGS_DEBUG "/Wall /Od")
     #TODO: flags
 else ()
     set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11")
