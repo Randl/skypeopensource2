@@ -21,13 +21,6 @@
 
 miracl *mip;
 
-
-char *gnu_basename(char *path) {
-  char *base = strrchr(path, '\\');
-  return base ? base + 1 : path;
-};
-
-
 int main(int argc, char *argv[]) {
   char *ip;
   unsigned short port;

@@ -15,10 +15,10 @@ else ()
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DSKYAUTH4_DLL_EXPORTS")
 endif ()
 
-set(SOURCE_FILES blob_enc.c blob_login.c dump.c dh_384.c dllmain.cpp for_dll.c miramax.c skype_login.c sock_comm.c stdafx.cpp tcp_setup.c skyauth4_dll.cpp util.c util_printf.c)
+set(SOURCE_FILES blob_enc.c blob_login.c dump.c dh_384.c dllmain.cpp skyauth4.c miramax.c skype_login.c sock_comm.c stdafx.cpp tcp_setup.c skyauth4_dll.cpp util.c util_printf.c)
 set(HEADER_FILES decode41.h short_types.h skyauth4_dll.h stdafx.h targetver.h)
 
-add_library(skyauth SHARED ${SOURCE_FILES} skyauth4.c)
+add_library(skyauth SHARED ${SOURCE_FILES} for_dll.c)
 target_link_libraries(skyauth crypto miracl skype)
 if (WIN32)
     target_link_libraries(skyauth ws2_32)

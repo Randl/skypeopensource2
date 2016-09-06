@@ -846,6 +846,7 @@ extern mr_small muldvm(mr_small, mr_small, mr_small, mr_small *);
 extern mr_small muldvd(mr_small, mr_small, mr_small, mr_small *);
 extern void muldvd2(mr_small, mr_small, mr_small *, mr_small *);
 
+
 extern flash mirvar_mem_variable(char *, int, int);
 extern epoint *epoint_init_mem_variable(_MIPT_ char *, int, int);
 
@@ -1362,8 +1363,8 @@ first two of the above.
 /* Win64 - inline the time critical function */
 #ifndef MR_NO_INTRINSICS
 #ifdef MR_WIN64
-#define muldvd(a,b,c,rp) (*(rp)=_umul128((a),(b),&(tm)),*(rp)+=(c),tm+=(*(rp)<(c)),tm)
-#define muldvd2(a,b,c,rp) (tr=_umul128((a),(b),&(tm)),tr+=(*(c)),tm+=(tr<(*(c))),tr+=(*(rp)),tm+=(tr<(*(rp))),*(rp)=tr,*(c)=tm)
+#define muldvd(a, b, c, rp) (*(rp)=_umul128((a),(b),&(tm)),*(rp)+=(c),tm+=(*(rp)<(c)),tm)
+#define muldvd2(a, b, c, rp) (tr=_umul128((a),(b),&(tm)),tr+=(*(c)),tm+=(tr<(*(c))),tr+=(*(rp)),tm+=(tr<(*(rp))),*(rp)=tr,*(c)=tm)
 #endif
 
 /* Itanium - inline the time-critical functions */

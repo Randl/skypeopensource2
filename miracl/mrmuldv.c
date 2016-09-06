@@ -3,10 +3,12 @@
  *  Uses inline assembly feature. Suitable for Win32 Apps
  *  Also compatible with Microsoft Visual C++ 32-bit compiler
  */
+#include <stdio.h>
 #include "miracl.h"
-#define ASM _asm
+
 #ifdef INLINE_ASM
 #if INLINE_ASM == 3
+#define ASM _asm
 int muldiv(a,b,c,m,rp)
 int a,b,c,m,*rp;
 {
@@ -131,7 +133,6 @@ void muldvd2(mr_small a,mr_small b,mr_small *c,mr_small *rp)
 }
 #endif
 #else
-#include <stdio.h>
 
 mr_small muldiv(mr_small a, mr_small b, mr_small c, mr_small m, mr_small *rp) {
   mr_small q;
@@ -167,19 +168,22 @@ mr_small muldvm(mr_small a, mr_small c, mr_small m, mr_small *rp) {
   return q;
 }
 
+#ifndef muldvd
+
 mr_small muldvd(mr_small a, mr_small b, mr_small c, mr_small *rp) {
   union doubleword dble;
   dble.d = (mr_large) a * b + c;
   *rp = dble.h[MR_BOT];
   return dble.h[MR_TOP];
 }
-
+#endif
+#ifndef muldvd2
 void muldvd2(mr_small a, mr_small b, mr_small *c, mr_small *rp) {
   union doubleword dble;
   dble.d = (mr_large) a * b + *c + *rp;
   *rp = dble.h[MR_BOT];
   *c = dble.h[MR_TOP];
 }
-
+#endif
 #endif
 #endif

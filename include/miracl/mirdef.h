@@ -29,10 +29,6 @@
 
 #ifdef ENVIRONMENT32
 #define MIRACL 32
-#else
-#define MIRACL 64
-#endif
-
 #define MR_LITTLE_ENDIAN    /* This may need to be changed        */
 #define mr_utype int
 /* the underlying type is usually int *
@@ -50,5 +46,22 @@
 #define mr_unsign64 unsigned __int64
 
 #define MAXBASE ((mr_small)1<<(MIRACL-1))
+#else
+#define MR_LITTLE_ENDIAN
+#define MIRACL 64
+#define mr_utype long
+#define mr_unsign64 unsigned long
+#define MR_IBITS 32
+#define MR_LBITS 64
+#define mr_unsign32 unsigned int
+#define MR_FLASH 52
+#define MAXBASE ((mr_small)1<<(MIRACL-1))
+#define MR_BITSINCHAR 8
+
+//TODO
+#define mr_dltype __int64   /* ... or long long for Unix/Linux */
+#endif
+
+
 
 
