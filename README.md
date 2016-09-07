@@ -12,6 +12,11 @@ LGPL 3.0
 A commercial license is also avaiable on request.
 
 
+## Updated 2016-09-07 19:00
+
+Program tested, all function still working OK.
+
+
 ## Updated 2016-09-06 15:00
 
 Program still working OK.
