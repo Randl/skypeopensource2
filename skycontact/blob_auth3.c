@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "decode41.h"
+#include <relay/decode41.h>
 
 extern int show_memory(char *mem, int len, char *text);
 extern int set_packet_size(char *a1, int c);
@@ -31,7 +31,7 @@ int encode41_auth3pkt(char *buf, int buf_limit_len,
 
   blob_count = 4;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = 0;
   buf_len = make_41cmdencode_auth(buf, buf_len, blob_count, 0);
 

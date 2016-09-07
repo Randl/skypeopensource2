@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "decode41.h"
+#include <relay/decode41.h>
 
 extern int show_memory(char *mem, int len, char *text);
 extern int set_packet_size(char *a1, int c);
@@ -294,7 +294,7 @@ int encode41_sesspkt_ack(char *buf, int buf_limit_len, uint cmd) {
   session_id = cmd;
   session_cmd = 0x47;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = 0;
   buf_len = make_41cmdencode(buf, buf_len, 0, session_id, session_cmd, 0);
 
@@ -320,7 +320,7 @@ int encode41_sesspkt_A6_ack(char *buf, int buf_limit_len, int A6_sessid) {
   session_id = 00;
   session_cmd = 0xA6;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = 0;
 
   blob_count = 2;

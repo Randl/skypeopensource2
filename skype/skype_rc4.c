@@ -290,7 +290,7 @@ u32 __fastcall Expand_IVa(u32 *const key, u32 iv) {
   if (k == 5) {
     Process_IV37();
     Process_IV27();
-    Recurse_IV2 (key, key[1]);
+    Recurse_IV2 (key, key[1]); //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   if (k == 2) {
     Process_IV23();
@@ -569,7 +569,7 @@ u32 __fastcall Expand_IV3(u32 *const key, u32 iv) {
   if (k == 1) {
     Process_IV33n (0x357B0AC2);
     Process_IV5();
-    Recurse_IV2 (key, key[1]);
+    Recurse_IV2 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   key[9] = rotr32 (key[9], u32sin(key[16]) ? 26 : key[12]);
   if (k == 4) {
@@ -685,7 +685,7 @@ u32 __fastcall Expand_IV4(u32 *const key, u32 iv) {
   if (k == 15) {
     Process_IV4();
     Process_IV55();
-    Recurse_IV17 (key, key[1]);
+    Recurse_IV17 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   if (k == 9) {
     Process_IV43();
@@ -849,7 +849,7 @@ u32 __fastcall Expand_IV6(u32 *const key, u32 iv) {
   if (k == 9) {
     Process_IV43();
     Process_IV58n (0x13BC76D5);
-    Recurse_IV20 (key, key[1]);
+    Recurse_IV20 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   iv &= u32sin(key[11]) ? 0xDA03B206 : key[15];
   if (k == 12) {
@@ -910,7 +910,7 @@ u32 __fastcall Expand_IV6(u32 *const key, u32 iv) {
   if (k == 4) {
     Process_IV50();
     Process_IV48();
-    Recurse_IV19 (key, key[1]);
+    Recurse_IV19 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   if (k == 1) {
     Process_IV47n (0x909F);
@@ -932,7 +932,7 @@ u32 __fastcall Expand_IV6(u32 *const key, u32 iv) {
   if (k == 5) {
     Process_IV4();
     Process_IV28();
-    Recurse_IV23 (key, key[1]);
+    Recurse_IV23 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   key[4] = rotl32 (key[4], u32sin(key[12]) ? 13 : key[14]);
   if (k == 2) {
@@ -1048,7 +1048,7 @@ u32 __fastcall Expand_IV7(u32 *const key, u32 iv) {
   if (k == 1) {
     Process_IV39n (0x30A63C23);
     Process_IV12();
-    Recurse_IV23 (key, key[1]);
+    Recurse_IV23 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   if (k == 14) {
     Process_IV18n (0x98A2A62E);
@@ -1436,7 +1436,7 @@ u32 __fastcall Expand_IV10(u32 *const key, u32 iv) {
   if (k == 3) {
     Process_IV33n (0x351E5020);
     Process_IV40();
-    Recurse_IV3 (key, key[1]);
+    Recurse_IV3 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   key[14] ^= u32cos(key[5]) ? 0x579B4B85 : key[6];
   if (k == 2) {
@@ -2292,7 +2292,7 @@ u32 __fastcall Expand_IV22(u32 *const key, u32 iv) {
   if (k == 5) {
     Process_IV35();
     Process_IV16n (0xD0D19C61);
-    Recurse_IV20 (key, key[1]);
+    Recurse_IV20 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   iv *= 0xB1DB36B2 * key[0];
   if (!k) {
@@ -2452,7 +2452,7 @@ u32 __fastcall Expand_IV24(u32 *const key, u32 iv) {
   if (k == 4) {
     Process_IV44();
     Process_IV48();
-    Recurse_IV21 (key, key[1]);
+    Recurse_IV21 (key, key[1]);  //FIXME: macro expands to bare 1; makes no sense. return 1; meant?
   }
   key[10] ^= key[12] ^ 0x17E47765;
   if (k == 3) {

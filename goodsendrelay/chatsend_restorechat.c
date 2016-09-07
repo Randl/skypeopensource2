@@ -157,21 +157,21 @@ unsigned int send_chatrestore_pkts() {
 
   // PARAM send06
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_7D(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send06");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "sess1pkt_7D");
 
   // PARAM send07
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_7A(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send07");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "sess1pkt_7A");
 
   // PARAM send08
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd0D(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send08");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd0D_chatinit");
@@ -247,7 +247,7 @@ unsigned int send_chatrestore_pkts() {
   // but need use sqllite db for fill it
   //
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd13one(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send15");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd13one");
@@ -286,7 +286,7 @@ unsigned int send_chatrestore_pkts() {
   ret = make_tcp_client_prepare_newblk_msg();
   if (ret < 0) { return -1; };
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd2B(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send19");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd2B_send_msgbody");
@@ -332,7 +332,7 @@ unsigned int send_chatrestore_pkts() {
   debuglog("Entering stage3...\n");
   global_chatsync_stage = 3;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd46(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send24");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd46");
@@ -347,7 +347,7 @@ unsigned int send_chatrestore_pkts() {
   debuglog("HEADER_ID_SEND: 0x%08X\n", HEADER_ID_SEND);
   debuglog("HEADER_ID_SEND_CRC: 0x%08X\n", HEADER_ID_SEND_CRC);
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd27(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send25");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd27_finish");
@@ -370,7 +370,7 @@ unsigned int send_chatrestore_pkts() {
 
   // PARAM send29
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_error(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send29");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "_error_and_close");
@@ -384,7 +384,7 @@ unsigned int send_chatrestore_pkts() {
   //global_chatsync_stage = 5;
   global_chatsync_stage = 0;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd1B(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "sendXXX");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd1B_closeconnection");

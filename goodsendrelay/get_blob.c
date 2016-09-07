@@ -22,7 +22,7 @@ int get_04_04_blob(u8 *buf, int len, u8 *membuf, int *membuf_len) {
   if (ret == 1) {
     debuglog("BLOB found!\n");
     main_unpack_getbuf(buf, len, membuf, membuf_len, 0x04, 0x04);
-    if (membuf_len <= 0) {
+    if (membuf_len <= 0) { //FIXME: no sense to compare ponter with <=0
       debuglog("unpack_getbuf size error\n");
       return -1;
     };
@@ -49,7 +49,7 @@ int get_04_03_blob(u8 *buf, int len, u8 *membuf, int *membuf_len) {
   if (ret == 1) {
     debuglog("BLOB found!\n");
     main_unpack_getbuf(buf, len, membuf, membuf_len, 0x04, 0x03);
-    if (membuf_len <= 0) {
+    if (membuf_len <= 0) {  //FIXME: no sense to compare ponter with <=0
       debuglog("unpack_getbuf size error\n");
       return -1;
     };
@@ -322,7 +322,7 @@ int get_04_03_blob_one(u8 *buf, int len, u8 *membuf, int *membuf_len, int index)
 
   ret = main_unpack_getbuf_one(buf, len, membuf, membuf_len, index, 0x04, 0x03);
   if (ret == 1) {
-    if (membuf_len <= 0) {
+    if (membuf_len <= 0) {  //FIXME: no sense to compare ponter with <=0
       debuglog("unpack_getbuf size error\n");
       return -1;
     };

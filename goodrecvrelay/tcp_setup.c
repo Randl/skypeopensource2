@@ -11,7 +11,7 @@
 #include <crypto/rijndael.h>
 
 // for 41 
-#include "decode41.h"
+#include <relay/decode41.h>
 
 //#include "defs.h"
 

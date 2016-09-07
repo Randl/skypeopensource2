@@ -87,7 +87,7 @@ unsigned int do_alternative_restorechat_send_final_with_sync() {
   //in cmd13end we using START_HEADER_ID + 1
   START_HEADER_ID = HEADER_ID_REMOTE_LAST - 1;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd13end(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "new_send26");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "new_cmd13end");
@@ -105,7 +105,7 @@ unsigned int do_alternative_restorechat_send_final_with_sync() {
   // we know our lastsync before we added new msg for this actual send
   HEADER_ID_SEND = HEADER_ID_CMD27_ID;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd10(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "new_send27");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "new_cmd10");
@@ -137,7 +137,7 @@ unsigned int do_alternative_restorechat_send_final_with_sync() {
   //HEADER_ID_SEND = HEADER_ID_SEND + 1;
   // get automatically from prev cmd13recv
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd10(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "new_send31");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "new_cmd10_2");
@@ -186,7 +186,7 @@ unsigned int do_alternative_restorechat_send_final_with_sync() {
   debuglog("HEADER_ID_SEND: 0x%08X\n", HEADER_ID_SEND);
   debuglog("HEADER_ID_SEND_CRC: 0x%08X\n", HEADER_ID_SEND_CRC);
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd27(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send38");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "new_cmd27_finish");
@@ -215,7 +215,7 @@ unsigned int do_alternative_restorechat_send_final_with_sync() {
 
   global_chatsync_stage = 0;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd1B(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "sendXXX");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd1B_closeconnection");

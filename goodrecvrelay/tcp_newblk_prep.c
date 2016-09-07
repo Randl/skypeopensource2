@@ -14,7 +14,7 @@
 #include <crypto/rijndael.h>
 
 // for 41 
-#include "decode41.h"
+#include <relay/decode41.h>
 
 //#include "defs.h"
 
@@ -347,7 +347,7 @@ unsigned int make_tcp_client_prepare_newblk_chatsign() {
     show_memory(outbuf, 0x80, "newblk RSA SIGN output");
 
   };
-
+  //FIXME: no return
 };
 
 //
@@ -907,7 +907,7 @@ unsigned int make_tcp_client_prepare_newblk_msg() {
   //memset(buf3,0,sizeof(buf3));
   //buf3_len=encode41_sess4pkt3(buf3, sizeof(buf3));
   //show_memory(buf3, buf3_len, "sess4pkt3");
-
+  //FIXME: no return
 
 };
 
@@ -1180,5 +1180,5 @@ unsigned int make_tcp_client_prepare_newblk_msg2() {
   //buf3_len=encode41_sess4pkt3(buf3, sizeof(buf3));
   //show_memory(buf3, buf3_len, "sess4pkt4");
 
-
+  //FIXME: no return
 };

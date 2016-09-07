@@ -11,7 +11,7 @@
 #include <crypto/rijndael.h>
 
 // for 41 
-#include "decode41.h"
+#include <relay/decode41.h>
 
 extern char REMOTE_VERSION[0x100];
 extern int REMOTE_VERSION_LEN;

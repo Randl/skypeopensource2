@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.3)
+project(relay_blob)
+
+set(SOURCE_FILES blob1.c blob2.c blob5E.c blob6D_cmd0C_chatend.c blob6D_cmd0D_chatinit.c blob6D_cmd1B_closeconnect.c blob6D_cmd1D_requic.c blob6D_cmd2A_headerssign.c blob6D_cmd2B_msgbody.c blob6D_cmd10_unkheader.c blob6D_cmd13_sendend.c blob6D_cmd13_sendheaders.c blob6D_cmd13_sendheaders2.c blob6D_cmd15_reqmsgbody.c blob6D_cmd24_chatsign.c blob6D_cmd27_finish.c blob6D_cmd46_chatend.c blob6Dreq.c blob7A.c blob7B.c blob7D.c blob53.c blob58.c blob_enc.c blob_newblk.c recv_blob6D_cmd0F_chatok.c recv_blob6D_cmd0Fsmall_chatok.c recv_blob6D_cmd1E_uicreply.c recv_blob6D_cmd2B_msgbody.c recv_blob6D_cmd10_lastmyheader.c recv_blob6D_cmd10_pos1.c recv_blob6D_cmd10_pos2.c recv_blob6D_cmd13_sendheaders.c recv_blob6D_cmd13_sendheaders2.c recv_blob6D_cmd13_sendheaders3.c recv_blob6D_cmd13_sendheaders4.c recv_blob6D_cmd13_sendheaders5.c recv_blob6D_cmd15.c recv_blob6D_cmd15_reqmsgbody.c recv_blob6D_cmd23_initreq.c recv_blob6D_cmd27_finish.c recv_blob6D_cmd29_sign2req.c recv_blob6D_cmd46_chatend.c recv_blob6D_error.c recv_blob6D_error2.c tcp_recv.c)
+set(HEADER_FILES)
+
+add_library(relay_blob ${SOURCE_FILES})

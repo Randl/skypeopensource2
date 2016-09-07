@@ -69,7 +69,7 @@ unsigned int do_sync_session_close() {
 
   debuglog_info("Sending close session packet\n\n");
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_error(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send_error_and_close");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "_error_and_close");
@@ -179,21 +179,21 @@ unsigned int send_newchatinit_pkts() {
 
   // PARAM send06
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_7D(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send06");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "sess1pkt_7D");
 
   // PARAM send07
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_7A(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send07");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "sess1pkt_7A");
 
   // PARAM send08
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd0D(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send08");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd0D_chatinit");
@@ -224,7 +224,7 @@ unsigned int send_newchatinit_pkts() {
   ret = make_tcp_client_prepare_newblk_chatsign();
   if (ret < 0) { return -1; };
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd24(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send12");
   do_proto_log_cryptodecode(buf, buf_len, "send12_signed_decode");
@@ -282,7 +282,7 @@ unsigned int send_newchatinit_pkts() {
   ret = make_tcp_client_prepare_newblk_headsign();
   if (ret < 0) { return -1; };
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd2A(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send20");
   do_proto_log_cryptodecode(buf, buf_len, "send20_signed_decode");
@@ -296,7 +296,7 @@ unsigned int send_newchatinit_pkts() {
 
   global_chatsync_stage = 3;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd13(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send23");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd13_sendheaders");
@@ -324,7 +324,7 @@ unsigned int send_newchatinit_pkts() {
   ret = make_tcp_client_prepare_newblk_msg();
   if (ret < 0) { return -1; };
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd2B(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send27");
   do_proto_log_cryptodecode(buf, buf_len, "send27_signed_decode");
@@ -351,7 +351,7 @@ unsigned int send_newchatinit_pkts() {
   debuglog("Entering stage5...\n");
   global_chatsync_stage = 5;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd0C(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send31");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd0C_chatend");
@@ -360,7 +360,7 @@ unsigned int send_newchatinit_pkts() {
 
   global_chatsync_stage = 6;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd13end(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send32");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd13end_sendend");
@@ -376,7 +376,7 @@ unsigned int send_newchatinit_pkts() {
 
   HEADER_ID_SEND = 0xFFFFFFFF;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd10(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send33");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd10_send_unkheader");
@@ -407,7 +407,7 @@ unsigned int send_newchatinit_pkts() {
 
   global_chatsync_stage = 8;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd15(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send38");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd15");
@@ -438,7 +438,7 @@ unsigned int send_newchatinit_pkts() {
 
   global_chatsync_stage = 9;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd1D(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send44");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd1D_request_uic");
@@ -464,7 +464,7 @@ unsigned int send_newchatinit_pkts() {
   global_chatsync_stage = 0x0A;
   debuglog("HEADER_ID_SEND (remote): 0x%08X\n", HEADER_ID_SEND);
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd10(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send48");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd10_send_unkheader");
@@ -507,7 +507,7 @@ unsigned int send_newchatinit_pkts() {
 
   global_chatsync_stage = 0x0B;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd27(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "send52");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd27_finish");
@@ -541,7 +541,7 @@ unsigned int send_newchatinit_pkts() {
 
   global_chatsync_stage = 0;
 
-  memset(buf, 0, sizeof(buf));
+  memset(buf, 0, sizeof(buf));  //FIXME: wrong third parameter?
   buf_len = encode41_sess1pkt_cmd1B(buf, sizeof(buf));
   do_proto_log(buf, buf_len, "sendXXX");
   make_tcp_client_cmdpkt_wrap(buf, buf_len, "cmd1B_closeconnection");

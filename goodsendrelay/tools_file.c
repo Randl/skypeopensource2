@@ -142,5 +142,5 @@ int do_proto_log(u8 *pktbuf, u32 pktlen, char *header) {
 int do_proto_log_cryptodecode(u8 *pktbuf, u32 pktlen, char *header) {
 
   recovery_signed_data(pktbuf, pktlen);
-
+  //FIXME: no return
 };

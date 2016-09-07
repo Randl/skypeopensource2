@@ -10,7 +10,7 @@
 //hexrays sdk
 #include "defs.h"
 
-#include "decode41.h"
+#include <relay/decode41.h>
 #ifdef  _MSC_VER
 #if _WIN64
 #define NO_ASM

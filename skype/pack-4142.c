@@ -147,7 +147,7 @@ u32 mem_expand_76A270(u32 required_size, u32 dummy, u32 ctx) {
   return required_size;
 }
 
-u32 pack_42_init_769FB0(u32 ctx) {
+u32 pack_42_init_769FB0(u32 ctx) { //FIXME: ctx is pointer
   *(u32 *) (ctx + 174) = 0;
   *(u32 *) (ctx + 18) = 0;
   *(u32 *) (ctx + 22) = 4;
@@ -889,7 +889,7 @@ void pack_42_76A690(u32 ctx, u32 *list_ptr, u32 a3) {
         case 2:
           v74 = *(u32 *) (ctx + 0x3F6);
           v75 = v74 < *(u32 *) (ctx + 0x3FA);
-          if (!v75) pack_42_expand_ctx_87F0F0(v50, v11);
+          if (!v75) pack_42_expand_ctx_87F0F0(v50, v11); //FIXME: uninitialized variable v50
           v76 = *(u32 *) (ctx + 0x3F6);
           v77 = *(u32 *) (ctx + 0x3F2) + 16 * v76 == 0;
           v51 = *(u32 *) (ctx + 0x3F2) + 16 * v76;

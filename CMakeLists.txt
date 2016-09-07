@@ -31,6 +31,7 @@ add_subdirectory(sqlite)
 add_subdirectory(crypto)
 add_subdirectory(miracl)
 add_subdirectory(skype)
+add_subdirectory(relay_blob)
 
 
 add_subdirectory(goodrecvrelay)

@@ -20,7 +20,7 @@
 #include <crypto/rijndael.h>
 
 // for 41 
-#include "decode41.h"
+#include <relay/decode41.h>
 
 //#include "defs.h"
 
@@ -193,7 +193,7 @@ unsigned int make_tcp_client_sess1_pkt4() {
   unsigned int chatinit;
 
   chatinit = do_get_chatinit();
-  if (chatinit < 0) { return -1; };
+  if (chatinit < 0) { return -1; }; //FIXME: unsigned value is always >0
 
   // no previous session found in file, need to check remote side
   if (chatinit == 0) {

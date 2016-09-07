@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "decode41.h"
+#include <relay/decode41.h>
 
 extern int show_memory(char *mem, int len, char *text);
 extern int encode_to_7bit(char *buf, uint word, uint limit);

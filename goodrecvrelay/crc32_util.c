@@ -214,7 +214,7 @@ int Calculate_CRC32_For41(char *data, int len) {
 
       //debuglog("eax=0x%08X\n",eax);
 
-      edx = edx++;
+      edx = edx++; //FIXME: undefined behaviour
       edi--;
       esi = eax & 0xffff;
 
