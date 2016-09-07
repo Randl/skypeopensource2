@@ -67,7 +67,7 @@ extern int encode41_sess1pkt_cmd13(char *buf, int buf_limit_len);
 extern int encode41_newblk1(char *buf, int buf_limit_len);
 extern int encode41_newblk2(char *buf, int buf_limit_len);
 extern int encode41_newblk3(char *buf, int buf_limit_len);
-
+extern int encode41_newblk4(char *buf, int buf_limit_len);
 // global data
 
 extern RC4_context rc4_send;
