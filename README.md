@@ -80,6 +80,16 @@ Well, except some login pieces (```skyauth3/skype_login.c```) which are copyrigh
 
 For commercial usage and license send me an e-mail to skypeopensource@gmail.com
 
+## Modules
+
+* **goodrecvrelay** -- recv msg running flow
+* **goodsendrelay** -- send msg sequences flow
+* **skyauth** -- login process code
+* **skycontact** -- contact list load from the event-server
+* **skyrelay** -- some buggy version for "skype version check" its like send/recv msg but with handshake init packets only.
+* **skysearch** -- resolver for skypename to get parent-node of the user and his IPs.
+* **sqldbread** -- SQLite stuff for chat history and local_header_id and remote_header_id of message.
+
 ## Links
 
 Protocol brief overview: 

@@ -190,7 +190,13 @@ char *read_cred_from_file(char *cred, int cred_max_len) {
   return cred;
 };
 
-
+/*
+skypechat - прием сообщений, вместе с multysend (для посылки сообщений) также
+skypechat2 - рабочая версия
+skypechat3 - прием сообщений по одному, любое количество раз, финальная версия
+skypechat4 - прием сообщений по нескольку штук сразу
+skypechat5 - прием больших сообщений по 10+ и 20+ сразу
+*/
 int skypechat_main(char *static_userip) {
   int ret;
   char *argv1_cred;
