@@ -130,3 +130,10 @@ http://yadi.sk/d/xvKhmImdugThn
 Sources (same as on GitHub here):
 http://epycs.ru/files/EpycsMessenger2_20160901_src.zip
 http://yadi.sk/d/V_IWJT-fugvND
+
+
+## Donate
+
+Donate page: http://skype-open-source2.blogspot.ru/p/donate.html
+
+Bitcoin: 1CfpkVuxZbyVw6ndJdF7W5ZpJ78AdvQJqy
