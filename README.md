@@ -12,6 +12,30 @@ LGPL 3.0
 A commercial license is also avaiable on request.
 
 
+## Updated 2016-09-08 20:00
+
+Program tested, protocol still working OK.
+
+But due heavy testing during news headlines, function Skypename to IP fail because of static ip used.
+
+To workaround this problem, uncomment new ip address (the "good one") in this [code](https://github.com/skypeopensource/skypeopensource2/blob/master/skysearch3/skysearch3/skysearch3.c#L327):
+
+```
+    // main
+    ip=strdup("157.55.235.147");
+    port=40030;
+
+    // good one
+    //ip=strdup("65.55.223.14");
+    //port=40016;
+```
+
+And recompile it.
+
+You can also use this [project](https://github.com/skypeopensource/tool_linuxbuild/tree/master/skysearch2_linux) to do it on linux. And use result strings as vcard to Vcard area in program GUI (but do fail resolv at first, its need to get public ip).
+I just tested it, it work good.
+
+
 ## Updated 2016-09-07 19:00
 
 Program tested, all function still working OK.
