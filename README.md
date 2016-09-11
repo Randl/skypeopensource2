@@ -12,6 +12,15 @@ LGPL 3.0
 A commercial license is also avaiable on request.
 
 
+## Updated 2016-09-12 02:00
+
+Program tested, protocol still working OK.
+
+But due to heavy testing during news headlines, function Skypename to IP fail because of static ip. 
+
+Need change it and recompile as mention before.
+
+
 ## Updated 2016-09-11 02:30
 
 Still working OK without any modifications.
