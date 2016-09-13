@@ -12,6 +12,79 @@ LGPL 3.0
 A commercial license is also avaiable on request.
 
 
+## Updated 2016-09-12 02:00
+
+Program tested, protocol still working OK.
+
+But due to heavy testing during news headlines, function Skypename to IP fail because of static ip. 
+
+Need change it and recompile as mention before.
+
+
+## Updated 2016-09-11 02:30
+
+Still working OK without any modifications.
+
+
+## Updated 2016-09-08 20:00
+
+Program tested, protocol still working OK.
+
+But due heavy testing during news headlines, function Skypename to IP fail because of static ip used.
+
+To workaround this problem, uncomment new ip address (the "good one") in this [code](https://github.com/skypeopensource/skypeopensource2/blob/master/skysearch3/skysearch3/skysearch3.c#L327):
+
+```
+    // main
+    ip=strdup("157.55.235.147");
+    port=40030;
+
+    // good one
+    //ip=strdup("65.55.223.14");
+    //port=40016;
+```
+
+And recompile it.
+
+You can also use this [project](https://github.com/skypeopensource/tool_linuxbuild/tree/master/skysearch2_linux) to do it on linux. And use result strings as vcard to Vcard area in program GUI (but do fail resolv at first, its need to get public ip).
+I just tested it, it work good.
+
+
+## Updated 2016-09-07 19:00
+
+Program tested, all function still working OK.
+
+
+## Updated 2016-09-06 15:00
+
+Program still working OK.
+
+Some additional info on usage:
+
+If you got this error on black console:
+
+```
+UIC_CRC = 5E8EBAE5
+pkt block crc32=00009C54
+relay_connect_mode = 1
+LOCAL_SESSION_ID_RELAY = 0x00002619
+total=0x00004C32
+last2b=0x0000D066
+encode len: 0x0000044A
+```
+
+And this error in "Debug Data" area:
+
+```
+Message send failed. Ret code:-1
+```
+
+Screenshot: http://epycs.ru/pics/cred_err.png
+
+Then try to remove **a_cred.txt** file, close program and **run again**. 
+Its some bug with bugged credentials. Which happens from time to time.
+
+
 ## Updated 2016-09-05 15:00
 
 * Contact list function working again
@@ -105,3 +178,10 @@ http://yadi.sk/d/xvKhmImdugThn
 Sources (same as on GitHub here):
 http://epycs.ru/files/EpycsMessenger2_20160901_src.zip
 http://yadi.sk/d/V_IWJT-fugvND
+
+
+## Donate
+
+Donate page: http://skype-open-source2.blogspot.ru/p/donate.html
+
+Bitcoin: 1CfpkVuxZbyVw6ndJdF7W5ZpJ78AdvQJqy
