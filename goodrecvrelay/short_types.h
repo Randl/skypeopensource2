@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-//#ifndef uint
-//#define uint uint_fast32_t  //TODO
-//#endif
+#ifndef uint
+#define uint uint_fast32_t  //TODO
+#endif
 
 #ifndef u8
 #define u8   uint_fast8_t

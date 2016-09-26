@@ -133,7 +133,7 @@ unsigned int Calculate_CRC32(char *crc32, int bytes) {
   if (bytes) {
     do {
       eax = esi_var;
-      ebx = 0;
+      ebx = 0; //FIXME: two consequtive assignment 
       ebx = crc32[0] & 0xff;
       ecx = eax;
       ecx = ecx & 0xff;

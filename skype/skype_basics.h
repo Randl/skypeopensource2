@@ -39,19 +39,19 @@ typedef unsigned long long u64;
 #include <string.h>
 
 #ifdef __GNUC__
-#ifndef __MINGW32__
-#define __FAVOR_BSD
-#include <stdint.h>
-#include <unistd.h>
-#include <sys/signal.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <netinet/in_systm.h>
-#include <netinet/ip.h>
-#include <netinet/tcp.h>
-#include <netinet/udp.h>
-#include <arpa/inet.h>
+  #ifndef __MINGW32__
+    #define __FAVOR_BSD
+    #include <stdint.h>
+    #include <unistd.h>
+    #include <sys/signal.h>
+    #include <sys/socket.h>
+    #include <sys/time.h>
+    #include <netinet/in.h>
+    #include <netinet/in_systm.h>
+    #include <netinet/ip.h>
+    #include <netinet/tcp.h>
+    #include <netinet/udp.h>
+    #include <arpa/inet.h>
 typedef int				SOCKET;
 #else
 #include <intrin.h>
