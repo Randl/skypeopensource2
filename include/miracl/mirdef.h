@@ -10,8 +10,15 @@
  */
 // TODO: move to common utils
 // Check windows
-#if _WIN32 || _WIN64
-#if _WIN64
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
+#define SOS_WIN
+#else
+#define SOS_NOTWIN
+#endif
+
+
+#ifdef SOS_WIN
+#ifdef _WIN64
 #define ENVIRONMENT64
 #else
 #define ENVIRONMENT32
@@ -19,8 +26,8 @@
 #endif
 
 // Check GCC
-#if __GNUC__
-#if __x86_64__ || __ppc64__
+#ifdef __GNUC__
+#if defined(__x86_64__) || defined(__ppc64__)
 #define ENVIRONMENT64
 #else
 #define ENVIRONMENT32
@@ -42,7 +49,11 @@
  * only version of MIRACL required    */
 /* Number of bits per double mantissa */
 
+#ifdef SOS_WIN
 #define mr_dltype __int64   /* ... or long long for Unix/Linux */
+#else
+#define mr_dltype long long  
+#endif
 #define mr_unsign64 unsigned __int64
 
 #define MAXBASE ((mr_small)1<<(MIRACL-1))
@@ -58,8 +69,12 @@
 #define MAXBASE ((mr_small)1<<(MIRACL-1))
 #define MR_BITSINCHAR 8
 
-//TODO
+#ifdef SOS_WIN
 #define mr_dltype __int64   /* ... or long long for Unix/Linux */
+#else
+#define mr_dltype long long  
+#endif
+
 #endif
 
 
