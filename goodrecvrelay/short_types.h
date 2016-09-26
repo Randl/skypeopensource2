@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 #ifndef uint
-#define uint uint_fast32_t  //TODO
+typedef unsigned uint;  //TODO
 #endif
 
 #ifndef u8
