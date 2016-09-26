@@ -25,6 +25,15 @@ typedef unsigned long u32;
 typedef unsigned long long u64;
 #endif
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
+#define SOS_WIN
+#else
+#define SOS_NOTWIN
+#endif
+
+#ifdef SOS_NOTWIN
+#define __stdcall 
+#endif
 
 #include <stdlib.h>
 #include <string.h>
