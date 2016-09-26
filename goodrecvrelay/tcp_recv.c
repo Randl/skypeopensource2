@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 #include <fcntl.h>
-#include <io.h>
+//#include <io.h>
 
 
 #include <skype/skype_rc4.h>

@@ -2,10 +2,10 @@
 #include <stdlib.h>
 
 #include <string.h>  
-#include <time.h>
+//#include <time.h>
 
-#include <fcntl.h>
-#include <io.h>
+//#include <fcntl.h>
+//#include <io.h>
 
 
 char *gnu_basename(char *path) {

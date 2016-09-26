@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+/*
 #include <fcntl.h>
 #include <io.h>
 
@@ -9,7 +9,7 @@
 
 // for aes
 #include <crypto/rijndael.h>
-
+*/
 // for 41 
 #include <relay/decode41.h>
 

@@ -8,8 +8,8 @@
 #include <string.h>  
 #include <time.h>
 
-#include <fcntl.h>
-#include <io.h>
+//#include <fcntl.h>
+//#include <io.h>
 
 #include <miracl/miracl.h>
 #include "short_types.h"

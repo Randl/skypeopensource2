@@ -6,12 +6,12 @@
 #include <stdlib.h>
 
 #include <fcntl.h>
-#include <io.h>
+/*#include <io.h>
 
 #include <string.h>
 #include <windows.h>
 
-
+*/
 #include "short_types.h"
 
 extern u8 CHAT_STRING[0x100];
