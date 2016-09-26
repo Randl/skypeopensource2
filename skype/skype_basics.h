@@ -59,7 +59,7 @@ typedef int				SOCKET;
 #define                    rotr64(x, r) (((x)>>((r)&63))|((x)<<((0-(r))&63)))
 #pragma GCC				option(popcnt)
 #define popcnt32(x)        __builtin_popcount(x)
-static __inline__ u32 _bswap32(u32 x) { __asm__ ("bswapl %0" : "=r" (x) : "0" (x)); return x; }
+static __inline__ u32 _bswap32(u32 x) { __asm__ ("bswapl %k0" : "=r" (x) : "0" (x)); return x; } 
 static __inline__ u64 rdtsc(void) { register u64 x; __asm__ volatile (".byte 0x0F, 0x31" : "=A" (x)); return x; }
 #define LL                "ll"
 #ifndef __min
