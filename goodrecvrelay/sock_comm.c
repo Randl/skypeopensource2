@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <winsock.h>  
+#include <winsock.h>
 
 int sock = 0;
 int connected = 0;
