@@ -59,7 +59,11 @@
 #define MR_BITSINCHAR 8
 
 //TODO
+#if _WIN32 || _WIN64
 #define mr_dltype __int64   /* ... or long long for Unix/Linux */
+#else
+#define mr_dltype long long  
+#endif
 #endif
 
 
