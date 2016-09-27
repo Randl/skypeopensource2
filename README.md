@@ -107,6 +107,7 @@ Yes. It's a complete re-implementation of proprietary Skype Network protocol.
 
 Well, maybe a little :) ```unpack-4142.c``` and ```pack-4142.c``` are HexRays decompiled code and should be rewritten but I don't have time for this now.
 
+Additionally, check [this comment](https://github.com/skypeopensource/skypeopensource2/issues/2#issuecomment-244626692) by @marcan
 > whether or not it is a clean-room reverse-engineered code, like Wine/ReactOS
 
 No. Not clean room, not Chinese wall.
@@ -123,8 +124,6 @@ Well, except some login pieces (```skyauth3/skype_login.c```) which are copyrigh
 2. Also, it contains MIRACL for RSA and big numbers multiply arithmetics. 
 
 > MIRACL Cryptographic SDK: Multiprecision Integer and Rational Arithmetic Cryptographic Library is a C software library that is widely regarded by developers as the gold standard open source SDK for elliptic curve cryptography (ECC). http://miracl.com https://github.com/miracl/MIRACL
-
-For commercial usage and license send me an e-mail to skypeopensource@gmail.com
 
 ## Modules
 
