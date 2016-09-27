@@ -1,4 +1,8 @@
+#if defined(_MSC_VER)
 #define EXTERN_DLL_EXPORT __declspec(dllexport)
+#elif defined(__GNUC__)
+#define EXTERN_DLL_EXPORT  __attribute__((visibility("default")))
+#endif
 #if !defined(WIN32) && !defined(_WIN32) && !defined(__WIN32) && !defined(_WIN64)
 #define __stdcall
 #endif
