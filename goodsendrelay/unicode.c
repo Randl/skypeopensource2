@@ -3,6 +3,8 @@
 // for get russian symbols in utf8
 //
 
+#include <wchar.h>
+
 #include <stdio.h>
 
 #include <string.h>

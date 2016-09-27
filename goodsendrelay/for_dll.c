@@ -1,4 +1,5 @@
 #include <tchar.h>
+#include <wchar.h>
 
 #define EXTERN_DLL_EXPORT __declspec(dllexport)
 

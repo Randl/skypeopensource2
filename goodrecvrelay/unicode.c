@@ -6,6 +6,8 @@
 #include <stdio.h>
 
 #include <string.h>
+#include <wchar.h>
+
 // windows specific
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
 #include <windows.h>
