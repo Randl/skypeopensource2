@@ -1,7 +1,7 @@
 // get_blob.c
 //
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern int flag_auth_fail;
 extern int flag_blob_04_35;

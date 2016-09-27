@@ -6,7 +6,7 @@
 
 #include <time.h>
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern int show_memory(char *mem, int len, char *text);
 

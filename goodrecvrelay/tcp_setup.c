@@ -15,7 +15,7 @@
 
 //#include "defs.h"
 
-//#include "short_types.h"
+//#include <util/short_types.h>
 
 // rc4 obfuscation
 //extern void Skype_RC4_Expand_IV (RC4_context * const rc4, const u32 iv, const u32 flags);

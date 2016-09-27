@@ -2,7 +2,7 @@
 // get blob data
 //
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern int main_unpack_checkblob(u8 *indata, u32 inlen, int type, int id);
 extern int main_unpack_getbuf(u8 *indata, u32 inlen, u8 *membuf, int *membuf_len, int type, int id);

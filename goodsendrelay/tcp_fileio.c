@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #include <fcntl.h>
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern u8 CHAT_STRING[0x100];
 extern u8 REMOTE_NAME[0x100];

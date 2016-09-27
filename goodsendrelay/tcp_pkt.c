@@ -9,7 +9,7 @@
 #include <skype/skype_basics.h>
 #include <skype/skype_rc4.h>
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern RC4_context rc4_send;
 extern RC4_context rc4_recv;

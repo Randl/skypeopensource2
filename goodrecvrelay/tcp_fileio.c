@@ -4,7 +4,7 @@
 #include <fcntl.h>
 //#include <io.h>
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern u8 CHAT_STRING[0x100];
 extern u8 REMOTE_CHAT_STRING[0x100];

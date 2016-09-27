@@ -13,7 +13,7 @@
 
 #include <miracl/miracl.h>
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 #include "slots_util.h"
 

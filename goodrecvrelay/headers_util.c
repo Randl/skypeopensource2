@@ -2,7 +2,7 @@
 // file for slots utilities
 //
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 #include <skype/skype_rc4.h>
 

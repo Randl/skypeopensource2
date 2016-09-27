@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 // for uint
-#include "short_types.h"
+#include <util/short_types.h>
 
 
 int encode_to_7bit(char *buf, uint word, int limit);

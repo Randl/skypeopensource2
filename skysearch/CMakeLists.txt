@@ -16,7 +16,7 @@ else ()
 endif ()
 
 set(SOURCE_FILES blob_snode1.c decode_profile.c decode_profile2.c dh_384.c get_blob.c global_ptr.c miramax.c skysearch3.c skysearch4_dll.cpp slots_util.c sock_comm.c sock_comm_udp.c tcp_setup.c udp_pkt.c util.c util_printf.c vcard_save.c)
-set(HEADER_FILES short_types.h skysearch4_dll.h slots_util.h stdafx.h targetver.h)
+set(HEADER_FILES skysearch4_dll.h slots_util.h stdafx.h targetver.h)
 
 add_library(skysearch_lib ${SOURCE_FILES})
 target_link_libraries(skysearch_lib crypto miracl skype)

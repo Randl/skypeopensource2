@@ -16,7 +16,7 @@
 #include <crypto/rijndael.h>
 
 // for uint
-#include "short_types.h"
+#include <util/short_types.h>
 
 
 extern unsigned int Calculate_CRC32(char *crc32, int bytes);

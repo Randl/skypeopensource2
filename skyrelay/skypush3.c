@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include <string.h>
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern int main_unpack(u8 *indata, u32 inlen);
 extern int main_unpack_get(u8 *indata, u32 inlen, u8 *ipinfo, u32 *ipinfo_len);

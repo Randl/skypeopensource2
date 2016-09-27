@@ -2,7 +2,7 @@
 // restore chat session pkts (alternative send final)
 //
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern u8 MSG_TEXT[0x1000];
 

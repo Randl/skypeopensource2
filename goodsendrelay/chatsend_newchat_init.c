@@ -3,7 +3,7 @@
 //
 #include <stdio.h>
 
-#include "short_types.h"
+#include <util/short_types.h>
 
 extern unsigned int get_header_id_crc_cmd24();
 

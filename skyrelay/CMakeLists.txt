@@ -16,7 +16,7 @@ else ()
 endif ()
 
 set(SOURCE_FILES ../util/crc32_util.c decode41.c dh384.c dh384_setup.c get_blob.c miramax.c relays_util.c skypush3.c skyrel3.c skyrelay3.c skyrelay4_dll.cpp sock_comm.c sock_comm_udp.c tcp_pkt.c tcp_recv.c udp_pkt.c util.c util_printf.c)
-set(HEADER_FILES decode41.h defs.h relays_util.h short_types.h skyrelay4_dll.h)
+set(HEADER_FILES decode41.h defs.h relays_util.h skyrelay4_dll.h)
 
 add_library(skyrelay_lib ${SOURCE_FILES})
 target_link_libraries(skyrelay_lib crypto miracl skype)

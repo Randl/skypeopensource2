@@ -12,7 +12,7 @@
 #include <io.h>
 */
 #include <miracl/miracl.h>
-#include "short_types.h"
+#include <util/short_types.h>
 
 //#include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")

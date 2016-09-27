@@ -1,7 +1,7 @@
 // prepare 0x42 slot requests from supernodes
 //
 
-//#include "short_types.h"
+//#include <util/short_types.h>
 
 #include <skype/skype_basics.h>
 
