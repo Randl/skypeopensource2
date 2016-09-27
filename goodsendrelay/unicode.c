@@ -8,7 +8,7 @@
 
 #include <string.h>
 #include <windows.h>
-#include <wchar.h>
+//#include <wchar.h>
 
 extern int show_memory(char *mem, int len, char *text);
 
