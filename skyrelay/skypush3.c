@@ -4,13 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <string.h>  
-/*#include <winsock.h>
-#include <windows.h>  
-#include <sys/types.h>  
-#include <time.h>
-#include <errno.h>  */
-
+#include <string.h>
 #include "short_types.h"
 
 extern int main_unpack(u8 *indata, u32 inlen);

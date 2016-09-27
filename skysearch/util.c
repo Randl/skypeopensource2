@@ -4,8 +4,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+// windows specific
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
 #include <windows.h>
+#else
+  #define DWORD u32
+#endif
 
 #include <skype/skype_basics.h>
 #include <skype/skype_rc4.h>

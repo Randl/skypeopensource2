@@ -6,10 +6,6 @@
 #include <stdlib.h>
 
 #include <string.h>
-/*#include <time.h>
-#include <windows.h>
-
-#include <tchar.h>*/
 
 extern int multysend_main(char *static_userip, char *static_msg);
 

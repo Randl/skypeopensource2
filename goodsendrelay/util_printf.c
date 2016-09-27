@@ -7,7 +7,11 @@
 #include <time.h>
 
 // windows specific
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
 #include <windows.h>
+#else
+  #define DWORD u32
+#endif
 
 
 int debuglog(const char *afmt, ...) {
