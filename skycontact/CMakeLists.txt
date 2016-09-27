@@ -15,7 +15,7 @@ else ()
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DSKYCONTACT4_DLL_EXPORTS")
 endif ()
 
-set(SOURCE_FILES blob_auth2.c blob_auth3.c blob_auth4.c blob_auth7.c blob_enc.c crc32_util.c dh_384.c get_blob.c miramax.c skycontact3.c skycontact4_dll.cpp skype_login.c sock_comm.c tcp_recv.c tcp_setup.c util.c util_printf.c)
+set(SOURCE_FILES blob_auth2.c blob_auth3.c blob_auth4.c blob_auth7.c blob_enc.c ../util/crc32_util.c dh_384.c get_blob.c miramax.c skycontact3.c skycontact4_dll.cpp skype_login.c sock_comm.c tcp_recv.c tcp_setup.c util.c util_printf.c)
 set(HEADER_FILES decode41.h short_types.h skycontact4_dll.h)
 
 add_library(skycontact_lib ${SOURCE_FILES})
