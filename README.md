@@ -84,7 +84,9 @@ And this error in "Debug Data" area:
 Message send failed. Ret code:-1
 ```
 
-Screenshot: http://epycs.ru/pics/cred_err.png
+Screenshot: 
+
+![Screenshot](http://epycs.ru/pics/cred_err.png)
 
 Then try to remove **a_cred.txt** file, close program and **run again**. 
 Its some bug with bugged credentials. Which happens from time to time.
@@ -137,12 +139,6 @@ Well, except some login pieces (```skyauth3/skype_login.c```) which are copyrigh
 
 ## Links
 
-Protocol brief overview: 
-http://skype-open-source2.blogspot.ru/2016/06/skype-protocol-dumps.html
-
-Release post: 
-http://skype-open-source2.blogspot.ru/2016/09/first-in-world-skype-network-compatible.html
-
-Binaries:
-http://epycs.ru/files/EpycsMessenger2_20160901.zip
-http://yadi.sk/d/xvKhmImdugThn
+* [Protocol brief overview](http://skype-open-source2.blogspot.ru/2016/06/skype-protocol-dumps.html) 
+* [Release post](http://skype-open-source2.blogspot.ru/2016/09/first-in-world-skype-network-compatible.html)
+* [Binaries](http://epycs.ru/files/EpycsMessenger2_20160901.zip) ([mirror](http://yadi.sk/d/xvKhmImdugThn))
