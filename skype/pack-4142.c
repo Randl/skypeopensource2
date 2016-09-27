@@ -7,6 +7,11 @@
 \*/
 
 #include "skype_basics.h"
+
+#if !defined(WIN32) && !defined(_WIN32) && !defined(__WIN32) && !defined(_WIN64)
+#define __stdcall
+#endif
+
 #pragma warning(disable:4311 4312)
 
 u8 pack_42_byte_E3B220[256] =

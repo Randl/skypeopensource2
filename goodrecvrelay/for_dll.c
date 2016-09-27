@@ -1,5 +1,7 @@
 #define EXTERN_DLL_EXPORT __declspec(dllexport)
-
+#if !defined(WIN32) && !defined(_WIN32) && !defined(__WIN32) && !defined(_WIN64)
+#define __stdcall
+#endif
 EXTERN_DLL_EXPORT int __stdcall relayrecv(char *static_myip,
                                           char *static_username,
                                           char *static_uservcard,
