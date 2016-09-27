@@ -661,7 +661,7 @@ int mysub_crc32_from_table_no_call_00853B40(unsigned int *ret_data, unsigned int
   //printf("3: 0x%08X\n",v6);
 
   t_data = 0;
-  t_index = (_BYTE) v6 ^ (unsigned __int16) ((_WORD) v3 >> 8);
+  t_index = (_BYTE) v6 ^ (u16) ((_WORD) v3 >> 8);
   memcpy((char *) &t_data, (char *) CRC_32_Table + t_index * 4, 4);
   result = ((unsigned int) v6 >> 8) ^ t_data;
   //result = ((unsigned int)v6 >> 8) ^ CRC_32_Table[(_BYTE)v6 ^ (unsigned __int16)((_WORD)v3 >> 8)];
