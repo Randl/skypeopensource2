@@ -10,9 +10,9 @@
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
 #include <windows.h>
 #else
+  #include <util/short_types.h>
   #define DWORD u32
 #endif
-
 
 int debuglog(const char *afmt, ...) {
   FILE *log;

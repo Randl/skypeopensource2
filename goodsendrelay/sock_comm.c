@@ -4,7 +4,11 @@
 
 #include <stdio.h>
 
-#include <winsock.h>  
+// windows specific
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
+#include <winsock.h>
+#else
+#endif
 
 int sock = 0;
 int connected = 0;

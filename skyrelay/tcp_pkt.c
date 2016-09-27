@@ -4,8 +4,6 @@
 //TODO: repeating file
 #include<stdio.h>
 
-//#include <winsock.h>
-
 #include <skype/skype_basics.h>
 #include <skype/skype_rc4.h>
 
