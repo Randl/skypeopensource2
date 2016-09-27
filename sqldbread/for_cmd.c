@@ -1,8 +1,6 @@
 //
 // main.c code for sqllite3 testing
 //
-#include <stdio.h>
-#include <stdlib.h>
 
 
 // some standart defs

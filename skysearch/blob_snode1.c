@@ -4,7 +4,6 @@
 //#include "short_types.h"
 
 #include <skype/skype_basics.h>
-#include <skype/skype_rc4.h>
 
 extern int show_memory(char *mem, int len, char *text);
 

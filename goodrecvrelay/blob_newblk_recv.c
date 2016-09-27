@@ -2,7 +2,6 @@
 // Created by eabes on 07.09.2016.
 //
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include <relay/decode41.h>

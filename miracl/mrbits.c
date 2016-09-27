@@ -5,7 +5,6 @@
  *   Copyright (c) 1988-2006 Shamus Software Ltd.
  */
 
-#include <stdlib.h> 
 #include "miracl.h"
 
 #ifdef MR_FP

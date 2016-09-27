@@ -2,7 +2,6 @@
 // pkt cmd24 chatsign
 //
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include <relay/decode41.h>

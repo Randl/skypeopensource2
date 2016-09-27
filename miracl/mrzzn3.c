@@ -10,7 +10,6 @@
  *   Copyright (c) 2008 Shamus Software Ltd.
  */
 
-#include <stdlib.h> 
 #include "miracl.h"
 
 BOOL zzn3_iszero(zzn3 *x) {

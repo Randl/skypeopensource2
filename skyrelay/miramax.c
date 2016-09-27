@@ -13,12 +13,9 @@
 #include <stdio.h>
 
 #include <miracl/miracl.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include <crypto/md5.h>
-
-#include <skype/skype_basics.h>
 
 extern int show_memory(char *mem, int len, char *text);
 

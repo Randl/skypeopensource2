@@ -2,7 +2,6 @@
 //
 
 #include "skype_basics.h"
-#include "skype_rc4.h"
 #pragma warning(disable:4311 4312)
 
 #define error printf

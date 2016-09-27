@@ -5,8 +5,6 @@
 
 #include "relays_util.h"
 
-#include "short_types.h"
-
 extern struct _relays relays;
 
 

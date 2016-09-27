@@ -3,7 +3,6 @@
  *  Uses inline assembly feature. Suitable for Win32 Apps
  *  Also compatible with Microsoft Visual C++ 32-bit compiler
  */
-#include <stdio.h>
 #include "miracl.h"
 
 #ifdef INLINE_ASM

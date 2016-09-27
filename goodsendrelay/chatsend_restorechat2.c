@@ -1,8 +1,6 @@
 //
 // restore chat session pkts (alternative send final)
 //
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "short_types.h"
 

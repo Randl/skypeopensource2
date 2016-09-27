@@ -4,7 +4,6 @@
 //
 
 #include <stdio.h>
-#include <stdlib.h>
 
 #include <string.h>// windows specific
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)

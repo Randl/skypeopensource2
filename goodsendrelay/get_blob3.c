@@ -2,9 +2,6 @@
 // parse returned data
 //
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "short_types.h"
 
 #include "relays_util.h"

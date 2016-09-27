@@ -8,13 +8,8 @@
 #include <string.h>  
 
 #include <time.h>
-#include <errno.h>  
-
-#include <miracl/miracl.h>
 
 #include "short_types.h"
-
-#include "slots_util.h"
 
 
 int main_test() {

@@ -13,7 +13,6 @@
 #include <stdio.h>
 
 #include <miracl/miracl.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include <crypto/md5.h>

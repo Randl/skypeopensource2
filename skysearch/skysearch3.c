@@ -8,7 +8,6 @@
 #include <string.h>  
 
 #include <time.h>
-#include <errno.h>  
 
 #pragma comment(lib, "ws2_32.lib")
 

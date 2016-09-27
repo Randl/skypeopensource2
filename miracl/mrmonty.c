@@ -27,7 +27,6 @@
 #endif
 
 #ifdef MR_WIN64
-#include <intrin.h>
 #endif
 
 #ifdef MR_COUNT_OPS

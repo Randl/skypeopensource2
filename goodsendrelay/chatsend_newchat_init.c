@@ -2,7 +2,6 @@
 // new chat init session pkts
 //
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "short_types.h"
 

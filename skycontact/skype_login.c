@@ -13,7 +13,6 @@
 #include <string.h>
 
 #include <skype/skype_rc4.h>
-#include <skype/skype_basics.h>
 
 #include <crypto/md5.h>
 #include <crypto/sha1.h>

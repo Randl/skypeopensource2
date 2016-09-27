@@ -9,7 +9,6 @@
  *   Copyright (c) 2006 Shamus Software Ltd.
  */
 
-#include <stdlib.h> 
 #include "miracl.h"
 
 #ifdef MR_COUNT_OPS

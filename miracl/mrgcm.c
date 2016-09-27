@@ -20,7 +20,6 @@
  * Copyright (c) Shamus Software 2010
  */
 
-#include <stdlib.h> 
 #include "miracl.h"
 
 #define NB 4

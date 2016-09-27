@@ -7,7 +7,6 @@
  *
  *   Copyright (c) 2008 Shamus Software Ltd.
  */
-#include <stdlib.h>
 #include "miracl.h"
 
 int jack(_MIPD_ big a, big n) { /* find jacobi symbol (a/n), for positive odd n */

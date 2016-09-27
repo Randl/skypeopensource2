@@ -3,7 +3,6 @@
 //
 
 #include "skype_basics.h"
-#include "skype_rc4.h"
 
 
 ///////////////////////

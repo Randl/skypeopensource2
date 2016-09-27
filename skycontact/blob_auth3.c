@@ -2,7 +2,6 @@
 // auth pkt 3
 //
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include <relay/decode41.h>
