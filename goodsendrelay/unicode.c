@@ -5,13 +5,13 @@
 
 #include <stdio.h>
 
-#include <string.h>// windows specific
+#include <string.h>
+// windows specific
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
 #include <windows.h>
 #else
   #define DWORD u32
 #endif
-//#include <wchar.h>
 
 extern int show_memory(char *mem, int len, char *text);
 
