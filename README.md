@@ -4,12 +4,29 @@ First in world self-made client to Skype Network based on reversing original Sky
 
 For now, only receiving and sending messages are supported.
 
-Try to compile it with Visual Studio 2010 and test by youself or use already compiled binaries.
+As for now it compiles with Visual Studio (can't confirm if still working after changes done by me. You probably can get working copy from original repository) and MinGW (this one doesn't work for sure) on Windows 
 
+## Disclaimer
+
+Due to disagreements with @skypeopensource after which I was banned by him, his (in my opinion) poor infrastructure decisions and rejection of this project, it is now independent fork (i.e. no PRs to main repo). Yet all the credit for the reverse engeneering goes to @skypeopensource
+
+## Goals and TODO
+* Make a project compile on Linux
+    + main part of which is to get rid of `winsock.h`, `windows.h`, etc.
+* Make project work on MinGw and gcc on Linux 
+    + rewrite inline assembly code in plain C
+* Make code 64-bit compatible
+* Rewrite reverse engineered code to human-readable one
+* Create simple usable API
+* Create CLI client
+* Create cross-platform GUI client (Qt)
+* Add tests
+* Add documentation
+
+
+This is **very ambitious** plan and would require many hours of pretty big team to finish. I'm not hoping to do that alone since I don't have enough time and experience for that and pretty sceptical about whether that will be ever done at all. I only listed things that I believe **should be done** to make this project useful to others. As for now I'm focusing on a first goal, but welcome any contribution from anyone, both for anything listed above or not. Feel free to contact me in any way you find convenient.
 ## License
 LGPL 3.0
-
-A commercial license is also avaiable on request.
 
 
 ## Updated 2016-09-12 02:00
@@ -19,12 +36,6 @@ Program tested, protocol still working OK.
 But due to heavy testing during news headlines, function Skypename to IP fail because of static ip. 
 
 Need change it and recompile as mention before.
-
-
-## Updated 2016-09-11 02:30
-
-Still working OK without any modifications.
-
 
 ## Updated 2016-09-08 20:00
 
@@ -48,12 +59,6 @@ And recompile it.
 
 You can also use this [project](https://github.com/skypeopensource/tool_linuxbuild/tree/master/skysearch2_linux) to do it on linux. And use result strings as vcard to Vcard area in program GUI (but do fail resolv at first, its need to get public ip).
 I just tested it, it work good.
-
-
-## Updated 2016-09-07 19:00
-
-Program tested, all function still working OK.
-
 
 ## Updated 2016-09-06 15:00
 
@@ -83,38 +88,6 @@ Screenshot: http://epycs.ru/pics/cred_err.png
 
 Then try to remove **a_cred.txt** file, close program and **run again**. 
 Its some bug with bugged credentials. Which happens from time to time.
-
-
-## Updated 2016-09-05 15:00
-
-* Contact list function working again
-
-Just check my program today. All functions working well, for now.
-
-I guess, they decide to enable contact-list event servers for users. Good decision.
-
-
-## Updated 2016-09-05 01:00
-
-* Load contact list function stop working
-
-Microsoft-Skype do something very weird with contact-list event servers. 
-Like disable it for all users.
-I try to login using latests 7.27.66.101 skype version for windows with empty profile and dont get back my contact list at all. Hm...
-But, anyway, its okay. This is format for contact list file (contacts.txt) used in my app, just put it in same dir and add yours skypeusers manually:
-
-u/skypeuser1
-
-u/skypeuser2
-
-u/skypeuser3
-
-u/skypeuser4
-
-u/skypeuser5
-
-And so one.
-
 
 ## Issue Statements (added 2016-09-04)
 The README should clearly state:
@@ -174,14 +147,3 @@ http://skype-open-source2.blogspot.ru/2016/09/first-in-world-skype-network-compa
 Binaries:
 http://epycs.ru/files/EpycsMessenger2_20160901.zip
 http://yadi.sk/d/xvKhmImdugThn
-
-Sources (same as on GitHub here):
-http://epycs.ru/files/EpycsMessenger2_20160901_src.zip
-http://yadi.sk/d/V_IWJT-fugvND
-
-
-## Donate
-
-Donate page: http://skype-open-source2.blogspot.ru/p/donate.html
-
-Bitcoin: 1CfpkVuxZbyVw6ndJdF7W5ZpJ78AdvQJqy
