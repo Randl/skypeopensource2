@@ -12,7 +12,7 @@ Due to disagreements with @skypeopensource after which I was banned by him, his 
 
 ## Goals and TODO
 * Make a project compile on Linux
-    + main part of which is to get rid of `winsock.h`, `windows.h`, etc.
+    + mainly to rewrite `winsock.h`-specific code
 * Make project work on MinGw and gcc on Linux 
     + rewrite inline assembly code in plain C
 * Make code 64-bit compatible
