@@ -4,7 +4,11 @@
 //TODO: repeating file
 #include <stdio.h>
 
-#include <winsock.h>  
+// windows specific
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(_WIN64)
+#include <winsock.h>
+#else
+#endif
 
 int sock;
 int connected = 0;
