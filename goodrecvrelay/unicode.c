@@ -15,6 +15,10 @@
   #define DWORD u32
 #endif
 
+#ifndef CP_UTF8
+  #define CP_UTF8 65001
+#endif
+
 
 extern int show_memory(char *mem, int len, char *text);
 
