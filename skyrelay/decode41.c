@@ -19,6 +19,7 @@
 #endif
 #else
 #define GCC_ASM
+#define __cdecl __attribute((__cdecl__))
 #endif
 #define DEBUG 0
 
@@ -38,7 +39,7 @@ int print_buffer(char *str, unsigned int size, char *selfptr);
 int print_buffer2(char *str, unsigned int size, char *selfptr);
 int mygen_no_call_00927FF0(uint eax, uint ecx, uint edx, uint *eax11, uint *ecx11, uint *edx11, char *selfptr);
 
-int mysub_some_vars_set_math_009278B0(int var1, unsigned __int8 var2, int var3, char *selfptr);
+int mysub_some_vars_set_math_009278B0(int var1, u8 var2, int var3, char *selfptr);
 int mysub_local_alloc_memerr_exception_00714790(uint var1);
 
 
@@ -2455,7 +2456,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
         };
 
 
-        int __cdecl mysub_some_vars_set_math_009278B0(int a1, unsigned __int8 a2, int a3, char *selfptr) {
+        int __cdecl mysub_some_vars_set_math_009278B0(int a1, u8 a2, int a3, char *selfptr) {
           int result; // eax@1
           int v4; // edx@2
           int v5; // ebx@2
@@ -2465,7 +2466,7 @@ int mysub_unpack_7_bit_encoded(uint var1, uint var2, uint var3, uint var4, uint 
           char v9; // cl@3
           char v10; // cf@6
           char v11; // zf@8
-          unsigned __int8 v12; // cl@9
+          u8 v12; // cl@9
           char v13; // cf@12
           int v14; // ecx@13
 
