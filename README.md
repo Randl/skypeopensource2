@@ -29,6 +29,16 @@ This is **very ambitious** plan and would require many hours of pretty big team 
 LGPL 3.0
 
 
+## Updated 2016-10-05 20:00
+
+Program still working OK.
+
+
+## Updated 2016-09-21 20:00
+
+Still working OK without any modifications.
+
+
 ## Updated 2016-09-12 02:00
 
 Program tested, protocol still working OK.
